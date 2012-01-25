@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\raid2\c++\devil1.6.8-rc2\include&quot;;&quot;C:\Imagination Technologies\PowerVR SDK\OGLES-1.1\Builds\OGLES\Include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="C:\opt\cygwin\home\SanglardFa\devIL\include;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\Include;&quot;C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\include&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -61,12 +61,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgles_cm.lib DevIL.lib ILU.lib ILUT.lib"
-				OutputFile="C:\dEngine\win32\build\dEngine.exe"
+				AdditionalDependencies="Winmm.lib libgles_cm.lib DevIL.lib ILU.lib ILUT.lib OpenAL32.lib"
+				OutputFile="..\..\..\..\ShmupDebug.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\raid2\c++\DevIL-SDK-1.7.2\lib\&quot;;&quot;C:\Imagination Technologies\PowerVR SDK\OGLES-1.1\Builds\OGLES\WindowsPC\Lib\&quot;"
+				AdditionalLibraryDirectories="C:\opt\cygwin\home\SanglardFa\devIL\lib\;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\WindowsX86\Lib;&quot;C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\libs\Win32&quot;"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -118,7 +118,8 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="C:\opt\cygwin\home\SanglardFa\devIL\include;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\Include;&quot;C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\include&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
@@ -136,9 +137,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="Winmm.lib libgles_cm.lib DevIL.lib ILU.lib ILUT.lib OpenAL32.lib"
+				OutputFile="..\..\..\..\ShmupRelease.exe"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="C:\opt\cygwin\home\SanglardFa\devIL\lib\;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\WindowsX86\Lib;&quot;C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\libs\Win32&quot;"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
@@ -195,10 +199,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\main.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\math.c"
 				>
 			</File>
@@ -246,6 +246,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\enemy_particules.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\entities.c"
 					>
 				</File>
@@ -290,11 +294,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\font.c"
+					RelativePath="..\..\..\src\lexer.c"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\lexer.c"
+					RelativePath="..\..\..\src\menu.c"
 					>
 				</File>
 				<File
@@ -302,15 +306,19 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\sound.c"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\src\stats.c"
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\text.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\timer.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\titles.c"
 					>
 				</File>
 			</Filter>
@@ -318,7 +326,59 @@
 				Name="win32"
 				>
 				<File
+					RelativePath="..\..\main.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\native.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\win32EGL.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="net"
+				>
+				<File
+					RelativePath="..\..\..\src\netchannel.c"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="enemies_ia"
+				>
+				<File
+					RelativePath="..\..\..\src\fht.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\lee.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\lofb.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\shab.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\tha.c"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="audio"
+				>
+				<File
+					RelativePath="..\..\..\src\sounds.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\wavfile.c"
 					>
 				</File>
 			</Filter>
@@ -400,10 +460,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\font.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\..\src\globals.h"
 					>
 				</File>
@@ -416,11 +472,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\preproc.h"
+					RelativePath="..\..\..\src\menu.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\src\sound.h"
+					RelativePath="..\..\..\src\preproc.h"
 					>
 				</File>
 				<File
@@ -428,7 +484,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\text.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\timer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\titles.h"
 					>
 				</File>
 			</Filter>
@@ -449,6 +513,10 @@
 				>
 				<File
 					RelativePath="..\..\..\src\enemy.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\enemy_particules.h"
 					>
 				</File>
 				<File
@@ -473,6 +541,58 @@
 				>
 				<File
 					RelativePath="..\..\win32EGL.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="net"
+				>
+				<File
+					RelativePath="..\..\..\src\netchannel.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="enemies_ia"
+				>
+				<File
+					RelativePath="..\..\..\src\fht.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\lee.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\lofb.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\shab.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\tha.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="audio"
+				>
+				<File
+					RelativePath="..\..\..\src\sounds.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\wavfile.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="native"
+				>
+				<File
+					RelativePath="..\..\..\src\native_services.h"
 					>
 				</File>
 			</Filter>

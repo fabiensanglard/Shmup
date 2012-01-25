@@ -497,19 +497,20 @@ void EV_CleanAllRemainingEvents(void)
 
 void EV_ReadEnemiesEvents(void)
 {
-	event_t* event;
-	event_spawnEnemy_payload_t* eventPayload;
-	nextEvent = &events;
-	int at;
-	int numEnemies;
-	int enemyType;
-	int i;
-	int time=0;
-	float ttl;
-	float percentageInvulnerable;
-	float angleoffset;
-	uchar defaultSubType;
+	event_t*                     event;
+	event_spawnEnemy_payload_t*  eventPayload;
+	int                          at;
+	int                          numEnemies;
+	int                          enemyType;
+	int                          i;
+	int                          time=0;
+	float                        ttl;
+	float                        percentageInvulnerable;
+	float                        angleoffset;
+	uchar                        defaultSubType;
 	
+	nextEvent = &events;
+
 	LE_readToken() ; //{
 
 	LE_readToken(); 	//at or }

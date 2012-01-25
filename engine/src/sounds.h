@@ -28,7 +28,18 @@
 
 #include "wavfile.h"
 #include "globals.h"
-#include "OpenAL/al.h"
+
+//WIN32 debug
+#define USE_OPENAL
+#ifdef WIN32
+#undef USE_OPENAL
+#endif
+
+#ifdef WIN32
+	#include "al.h"
+#else
+	#include "OpenAL/al.h"
+#endif
 
 #define SND_PLASMA		0
 #define SND_EXPLOSION	1
@@ -44,9 +55,12 @@ typedef struct sound_t
 	uchar* data;
 	
 	int size;
+
+
 	ALenum format;
 	ALuint alBuffer;
-	
+
+
 	int lastTimePlayed ;
 	
 } sound_t;

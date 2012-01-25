@@ -28,16 +28,13 @@
 #ifndef DF_NETCHANNEL
 #define DF_NETCHANNEL
 
+
 #include "commands.h"
 #include "globals.h"
-#include <dns_sd.h>
-#include <netdb.h>		
-#include <net/if.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <ifaddrs.h>
+
+
+
 #include <stdio.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
 #include "menu.h"
@@ -46,10 +43,7 @@
 #include "dEngine.h"
 #include "player.h"
 
-#include <arpa/inet.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <ifaddrs.h>
+
 
 #define NET_OK		(-1)
 #define NET_NO_NETWORK 0
@@ -69,6 +63,19 @@ int NET_Init(void);
 
 #define BUFFER_SIZE 1024
 
+#ifndef WIN32
+#include <dns_sd.h>
+#include <netdb.h>		
+#include <net/if.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <ifaddrs.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <ifaddrs.h>
+
 typedef struct net_channel_t
 {
 	int						udpSocket;
@@ -76,18 +83,17 @@ typedef struct net_channel_t
 	char					serverAddResolved ;
 	char					setupRequested;
 	uchar					buffer[BUFFER_SIZE];
-	
-	
+
 #define NET_UNKNOWN 0
 #define NET_SERVER  1
 #define NET_CLIENT  2
-	int				type;
+int				type;
 	
 #define NET_UNDETERMINED	0
 #define NET_STARTED			1
 #define NET_PRELOADED		2
 #define NET_RUNNING			3
-	int				state;
+int				state;
 	
 	
 	unsigned int lastReceivedSequenceNumber;
@@ -96,6 +102,38 @@ typedef struct net_channel_t
 	uint numDropedPackets;
 	
 } net_channel_t;
+#else
+	
+typedef struct net_channel_t
+{
+	int						udpSocket;
+	//struct sockaddr_in		peerAddr; 
+	char					serverAddResolved ;
+	char					setupRequested;
+	uchar					buffer[BUFFER_SIZE];
+
+#define NET_UNKNOWN 0
+#define NET_SERVER  1
+#define NET_CLIENT  2
+int				type;
+	
+#define NET_UNDETERMINED	0
+#define NET_STARTED			1
+#define NET_PRELOADED		2
+#define NET_RUNNING			3
+int				state;
+	
+	
+	unsigned int lastReceivedSequenceNumber;
+	unsigned int lastSentSequenceNumber;
+	
+	uint numDropedPackets;
+	
+} net_channel_t;
+	
+#endif
+
+
 
 extern net_channel_t net;
 

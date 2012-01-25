@@ -31,7 +31,7 @@
 #define VERTTYPEENUM	GL_FLOAT
 GLuint	ui32Vbo = 0; // Vertex buffer object handle
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc2(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -49,7 +49,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-bool TestEGLError(HWND hWnd, char* pszLocation)
+bool TestEGLError2(HWND hWnd, char* pszLocation)
 {
 	
 	//	eglGetError returns the last error that has happened using egl,
@@ -74,11 +74,11 @@ EGLSurface			eglSurface	= 0;
 
 HWND				hWnd	= 0;
 
-void Create_NativeWindow(void)
+void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	HWND hwndC = GetConsoleWindow() ;	
-	HINSTANCE hInstance = (HINSTANCE)GetWindowLong( hwndC, GWL_HINSTANCE );
 
+	// Windows variables
+	HWND				hWnd	= 0;
 	HDC					hDC		= 0;
 	
 
@@ -91,7 +91,7 @@ void Create_NativeWindow(void)
 
 	WNDCLASS sWC;
 	sWC.style = CS_HREDRAW | CS_VREDRAW;
-	sWC.lpfnWndProc = WndProc;
+	sWC.lpfnWndProc = WndProc2;
     sWC.cbClsExtra = 0;
     sWC.cbWndExtra = 0;
     sWC.hInstance = hInstance;
@@ -100,8 +100,8 @@ void Create_NativeWindow(void)
     sWC.lpszMenuName = 0;
 	sWC.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
     sWC.lpszClassName = WINDOW_CLASS;
-	unsigned int nWidth = renderWidth;
-	unsigned int nHeight = renderHeight;
+	unsigned int nWidth = 320;
+	unsigned int nHeight = 480;
 
 	ATOM registerClass = RegisterClass(&sWC);
 	if (!registerClass)
@@ -185,7 +185,7 @@ void Create_NativeWindow(void)
         eglSurface = eglCreateWindowSurface(eglDisplay, eglConfig, NULL, NULL);
 	}
 
-	if (!TestEGLError(hWnd, "eglCreateWindowSurface"))
+	if (!TestEGLError2(hWnd, "eglCreateWindowSurface"))
 	{
 		exit(0);
 	}
@@ -197,7 +197,7 @@ void Create_NativeWindow(void)
 	//	(or shared contexts)
 	
 	eglContext = eglCreateContext(eglDisplay, eglConfig, NULL, NULL);
-	if (!TestEGLError(hWnd, "eglCreateContext"))
+	if (!TestEGLError2(hWnd, "eglCreateContext"))
 	{
 		exit(0);
 	}
@@ -214,7 +214,7 @@ void Create_NativeWindow(void)
 	//	of read operations. They can be the same surface.
 	
 	eglMakeCurrent(eglDisplay, eglSurface, eglSurface, eglContext);
-	if (!TestEGLError(hWnd, "eglMakeCurrent"))
+	if (!TestEGLError2(hWnd, "eglMakeCurrent"))
 	{
 
 		exit(0);

@@ -27,9 +27,14 @@
 #include <limits.h>
 #include "dEngine.h"
 #include "timer.h"
-#include "OpenAL/al.h"
-#include "OpenAL/alc.h"
 
+#ifdef WIN32
+	#include "al.h"
+	#include "alc.h"
+#else
+	#include "OpenAL/al.h"
+	#include "OpenAL/alc.h"
+#endif
 
 sound_t sounds[8];
 
@@ -421,3 +426,5 @@ void SND_FinalizeRecord(void)
 	//audioTrack=0;
 #endif
 }
+
+

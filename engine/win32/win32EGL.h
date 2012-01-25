@@ -21,12 +21,13 @@
 
 #include <GLES/egl.h>
 #include <GLES/gl.h>
+#include <windows.h>
 
  #ifdef __cplusplus
  extern "C" {
  #endif
 
-		void Create_NativeWindow(void);
+		void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 		void Destroy_NativeWindow(void);
 		void EGLSwapBuffers(void);
 		void FlushWindowsMessages(void);

@@ -168,7 +168,7 @@ void TITLE_Update(void)
 		
 		if (title_mode == MODE_EPILOG)
 		{
-			title_mode == MODE_UNKNOWN;
+			title_mode = MODE_UNKNOWN;
 			dEngine_GoToNextScene();
 		}
 	

@@ -39,7 +39,7 @@ void Timer_ForceTimeIncrement(int ms);
 int E_Sys_Milliseconds( void );
 
 extern int fps;
-extern unsigned int simulationTime;
+extern  int simulationTime;
 extern int timediff;
 
 #endif

@@ -175,7 +175,7 @@ void COM_Init(void)
 	for(i = 0 ; i < numPlayers ; i++)
 		commandsBuffers[i].numCommands = 0;
 	
-	bzero(&toSend, sizeof(command_t));
+	memset(&toSend,0, sizeof(command_t));
 	
 	
 	touches[BUTTON_FIRE].down = 0;

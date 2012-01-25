@@ -276,7 +276,7 @@ void TEX_LoadFromDiskAndUploadToGPU(texture_t* tmpTex)
 	//Upload to GPU
 	renderer.UpLoadTextureToGpu(tmpTex);
 	
-	tmpTex->memLocation == TEXT_MEM_LOC_VRAM ;
+	tmpTex->memLocation = TEXT_MEM_LOC_VRAM ;
 }
 
 void TEX_MakeAvailable(texture_t* tmpTex)

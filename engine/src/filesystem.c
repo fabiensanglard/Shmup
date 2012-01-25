@@ -71,7 +71,7 @@ filehandle_t* FS_OpenFile( const char *filename, char* mode  )
 	int		end;
 	
 	uchar   isWriting;
-	int i;
+	uint i;
 	
 	memset(netpath,0,MAX_OSPATH);
 	

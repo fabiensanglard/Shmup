@@ -75,6 +75,8 @@ void STATS_Render(void)
 	sprintf( polCnText, "Poly Count: %d",triCount );
 	sprintf(msText, "Time: %d",simulationTime);
 	sprintf(drPkText, "Dropped Packets: %u", NET_GetDropedPackets());
+
+
 	sprintf(netSentText,     "Net_Sent: %d", net.lastSentSequenceNumber);
 	sprintf(netReceivedText, "Net_Rcvd: %d", net.lastReceivedSequenceNumber);
 	

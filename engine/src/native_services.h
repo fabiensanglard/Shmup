@@ -26,6 +26,8 @@
 #ifndef DE_NATIVE_SERVICES
 #define DE_NATIVE_SERVICES
 
+#include "globals.h"
+
 int  Native_RetrieveListOf(char replayList[10][256]);
 void Native_UploadFileTo(char path[256]);
 void Action_ShowGameCenter(void* tag);

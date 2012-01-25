@@ -584,6 +584,9 @@ ushort  numSprIndices;
 
 void P_CreatePointerCoordinates(void)
 {
+	vec2short_t start,end;
+	vec2_t dir;
+
 	/*
 	 
 	 
@@ -637,8 +640,7 @@ void P_CreatePointerCoordinates(void)
 	//Underline part 1
 	//0  3
 	//1  2	
-	vec2short_t start,end;
-	vec2_t dir;
+	
 	start[X] = 0;
 	start[Y] = 0;
 	end[X] = 0.3 * SS_W;

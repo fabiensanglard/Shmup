@@ -68,7 +68,7 @@ int lastTime=0;
 int currentTime=0;
 int fpsAcc=0;
 int fpsTimeAcc=0;
-unsigned int simulationTime=0;
+int simulationTime=0;
 int timediff=0;
 
 void Timer_Pause(void)

@@ -200,7 +200,7 @@ void MENU_CreateButton(menu_screen_t* screen,char* text,float fontSize, buttonAc
 	MENU_CreateButtonWithTag(screen,text,fontSize,action,NULL,update,pos,dimensions);
 }
 
-void Action_GoToTutorial()
+void Action_GoToTutorial(void* tag)
 {
 	int i;
 	
