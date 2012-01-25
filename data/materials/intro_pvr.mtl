@@ -1,0 +1,4 @@
+newmtl hpp
+map_Kd data/texturesPVR/object/hpp1.pvr
+Ks 1 1 1
+illum 4

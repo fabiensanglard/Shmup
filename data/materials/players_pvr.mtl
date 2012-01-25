@@ -1,0 +1,8 @@
+newmtl p1
+map_Kd data/texturesPVR/object/p22.pvr
+illum 10
+
+newmtl p2
+map_Kd data/texturesPVR/object/p1.pvr
+illum 10
+

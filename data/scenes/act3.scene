@@ -1,0 +1,132 @@
+
+
+defaultMenu -1
+
+map	
+{
+	filename: data/map/act2.map
+}
+
+light
+{
+	enabled 0
+	position : 5000 200 -5000 1
+   lookAt   : 0 -200 -5000
+   upVector : 1 0 0
+   fov      : 70
+   #ambientColor  : 0.6 0.5 0.5
+   #diffuseColor  : 1 0.8 0.8
+   ambientColor  : 0.5 0.5 0.5
+   diffuseColor  : 1.0 1.0 1.0
+   
+   speculaColor  : 1 1 1
+   constantAttenuation: 1
+   linearAttenuation: 0
+   attachedToCamera: 0
+   
+}
+
+camera
+{
+	#path: data/cameraPath/act3.cp
+	path:  data/cameraPath/act3.cp.cp2b
+	
+	
+	
+	fov:	55
+	zNear:	2
+	zFar:	22000
+	
+	attachAt: 09000
+	detachAt: 28000
+}
+
+fog
+{
+	enabled 1
+	#density parameter is USELESS IF USING FOG_LINEAR (which I DO !!)
+	density 0.1
+	startAt 0.1
+	endAt   405.0
+	color:  0.0  0.0  0.05    
+}
+
+player
+{
+	id 0
+	matrix 1 0 0 0
+	       0 1 0 110
+		   0 0 1 -386
+		   0 0 0 1
+	
+
+}
+
+player
+{
+	id 1
+	matrix 1 0 0 7
+	       0 1 0 110
+		   0 0 1 -386
+		   0 0 0 1
+		   
+	
+}
+
+ 
+ 
+playback
+{
+	play 0
+	record 1
+	filename 03act3.scene.io
+}
+
+
+
+music
+{
+	startMusicAt 122
+	trackname data/music/UNREALPM.mp3
+}
+
+title
+{
+	titleName  data/titles/boss.png
+	prolog start 500 duration 8500
+		
+	at 27000 movePlayersToDefautlSSLocation
+	epilog start 28000 duration 7000
+	
+}
+
+
+enemies
+{
+	#enemy was xAxisRot -45
+	settime 000
+	at 000 spawnEnemy mouvement 1 enemyType 4 startPos 0 0 endPos 0 0 controlPoint -1 1 zAxisRot  0 xAxisRot 0 yAxisRot 0 subType 0
+	
+
+
+}
+
+texts_events
+{
+	settime 0
+	at 10000 display To_Be_Continued... size 2.5  for 5000 starting 0 -100 ending  0 -100
+}
+
+events
+{
+	at 17000 finishAct nextAct 0
+	
+	at 17000 setMenu 0
+	at 17000 uploadScore
+	
+}
+
+
+
+
+\

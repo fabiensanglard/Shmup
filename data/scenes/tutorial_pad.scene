@@ -1,0 +1,175 @@
+
+defaultMenu -1
+
+showFingers 1
+
+map	
+{
+	filename: data/map/tutorial.map
+}
+
+light
+{
+	enabled 0
+	
+	position : 5000 200 -5000 1
+   lookAt   : 0 -200 -5000
+   upVector : 1 0 0
+   fov      : 70
+   #ambientColor  : 0.6 0.5 0.5
+   #diffuseColor  : 1 0.8 0.8
+   ambientColor  : 0.5 0.5 0.5
+   diffuseColor  : 1.0 1.0 1.0
+   
+   speculaColor  : 1 1 1
+   constantAttenuation: 1
+   linearAttenuation: 0
+   attachedToCamera: 0
+   
+}
+
+camera
+{
+	#path: data/cameraPath/tutorial.cp
+	path:  data/cameraPath/tutorial.cp.cp2b
+
+	fov:	55
+	zNear:	10
+	zFar:	22000
+	
+	attachAt: 17
+}
+
+fog
+{
+	enabled 1
+	#density parameter is USELESS IF USING FOG_LINEAR (which I DO !!)
+	density 0.1
+	startAt 70
+	endAt   205.0
+	color:  0.0  0.0  0.15    
+}
+
+player
+{
+	id 0
+	matrix 1 0 0 0
+	       0 1 0 120
+		   0 0 1 11
+		   0 0 0 1
+}
+
+player
+{
+	id 1
+	matrix 1 0 0 7
+	       0 1 0 120
+		   0 0 1 11
+		   0 0 0 1	
+}
+
+ 
+ 
+playback
+{
+	play 1
+	record 0
+	filename tutorial_pad.scene.io
+}
+
+
+
+music
+{
+	startMusicAt 0
+	trackname data/music/UNREALTH.mp3
+}
+
+title
+{
+	titleName  data/titles/tutorialTitle.png
+	prolog start 0000 duration 2000
+	epilog start 90000 duration 5000
+}
+
+
+enemies
+{
+	
+	settime 0
+	
+	setttl 6000 
+	at 24000 spawnEnemyWave circle enemyNum 3 enemyType 1 percentageInvulnerable 0 angleoffset 0 defaultType 0
+	at 26500 spawnEnemyWave circle enemyNum 3 enemyType 1 percentageInvulnerable 0 angleoffset 0 defaultType 0
+	
+	at 36000 spawnEnemy  mouvement 1  enemyType 2 startPos -1 -1 endPos -0.4 0.25 controlPoint -1 1 zAxisRot  360 xAxisRot 0 yAxisRot 0 subType 0 2  bulletSpeed 1
+	at 43000 spawnEnemy  mouvement 1  enemyType 2 startPos -1 -1 endPos 0.5 0.25 controlPoint -1 1 zAxisRot  360 xAxisRot 0 yAxisRot 0 subType 0 2  bulletSpeed 1
+	
+	setttl 6000 
+	at 50000 spawnEnemyWave circle enemyNum 12 enemyType 1 percentageInvulnerable 0 angleoffset 0 defaultType 0
+}
+
+texts_events
+{
+	settime 3000
+	at 0 display Welcome_to_the		size 2.5 for 2000 starting 0   200 ending  0 200
+	at 0 display _"Shmup"_tutorial.	size 2.5 for 2000 starting 0   150 ending  0 150	
+	
+	settime 6000
+	at 0 display You_can_return_to_the_main		size 2.5 for 4000 starting 0   200 ending  0 200               	
+	at 0 display menu_at_any_time_by_pressing		size 2.5 for 4000 starting 0   150 ending  0 150				 
+	at 0 display five_fingers_on_the_screen.				size 2.5 for 4000 starting 0   100 ending  0 100
+				
+	
+	settime 11000
+	at 0 display The_big_button_on_the_lower		size	2.5 for 4000 starting 0   200 ending  0 200
+	at 0 display left_allows_you_to_move.			size	2.4 for 4000 starting 0  150 ending  0 150
+	
+	#Player move left, right up and down
+	
+	settime 20000
+	at 0 display For_greater_accuracy_keep			size 2.5 for 4000 starting 0   200 ending  0 200
+	at 0 display the_movement_button_pressed		size 2.5 for 4000 starting 0   150 ending  0 150
+	at 0 display at_all_time.						size 2.5 for 4000 starting 0   100 ending  0 100
+	
+	
+	#A formation of 3 FHT shows up, player slaloms them in and out this is over after 6000ms
+	
+	settime 32000
+	at 0 display The_one_at_the_lower_right         size 2.5 for 4000 starting 0   200 ending  0 200
+	at 0 display allows_you_to_fire.				size 2.5 for 4000 starting 0   150 ending  0 150
+	
+	#A LEE appears, to get blasted
+	
+	settime 39000
+	at 0 display _If_you_keep_pressing,_the			size 2.5 for 4000 starting 0   200 ending  0 200
+	at 0 display ship_will_fire_continuously.       size 2.5 for 4000 starting 0   150 ending  0 150
+	
+	#A LEE appears, to get blasted as well
+	
+	
+	
+	settime 46000
+	at 0 display The_one_in_between_triggers		 size 2.5 for 4000 starting 0   200 ending  0 200
+	at 0 display the_special_attack.				 size 2.5 for 4000 starting 0   150 ending  0 150
+	
+	#A A formation of 12 FHT appears to get destroyed by the special attack
+	
+	settime 56000
+	at 0 display However_it_can_only_be_used				size 2.5 for 4000 starting 0   200 ending  0 200
+	at 0 display every_five_seconds.				 size 2.5 for 4000 starting 0   150 ending  0 150
+	
+	settime 61000
+	at 0 display -_Enjoy_!_-							size 2.5 for 4000 starting 0   200 ending  0 200
+	
+	
+}
+
+events
+{
+	at 64000 finishAct nextAct 0
+	at 64000 stopPlayback
+	at 64000 setMenu 0
+}
+
+\

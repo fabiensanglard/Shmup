@@ -1,0 +1,68 @@
+
+defaultMenu 0
+
+map	
+{
+	filename: data/map/intro.map
+	
+}
+
+light
+{
+	enabled 0
+   position : 0 5 0 0
+   lookAt   : 0 -80 0
+   upVector : 1 0 0
+   fov      : 70
+   ambientColor  : 0.5 0.5 0.5
+   diffuseColor  : 0.5 0.5 0.5
+   speculaColor  : 1.0 1.0 1.0
+   constantAttenuation: 1
+   attachedToCamera: 0
+}
+
+camera
+{
+	#path: data/cameraPath/intro.cp
+	path: data/cameraPath/intro.cp.cp2b
+	fov:	70
+	zNear:	0.2
+	zFar:	50
+}
+
+fog
+{
+	enabled 0
+}
+
+player
+{
+	id 0
+	matrix 1 0 0 -10
+	       0 1 0 0
+		   0 0 1 120000
+		   0 0 0 1
+	
+	id 1
+	matrix 1 0 0 10
+	       0 1 0 0
+		   0 0 1 120000
+		   0 0 0 1
+}
+
+ 
+playback
+{
+	filename intro.scene.io
+	record 0
+	play 0
+}
+
+
+music
+{
+	startMusicAt 0
+	trackname data/music/UNREALTH.mp3
+}
+
+

@@ -1,0 +1,30 @@
+newmtl city
+map_Kd data/textures/act1/city.png
+hasAlpha 0
+
+illum 10
+
+newmtl city_beta
+map_Kd data/textures/act1/city_beta.png
+hasAlpha 0
+illum 10
+
+newmtl skydome 
+map_Kd data/textures/act1/skydome.png
+hasAlpha 0
+illum 10
+
+newmtl SkyDome_Evening
+map_Kd data/textures/act1/SkyDome_Evening.png
+hasAlpha 0
+illum 10
+
+newmtl SkyDome_Night 
+map_Kd data/textures/act1/SkyDome_Night.png
+hasAlpha 0
+illum 10
+
+newmtl cityBlue 
+map_Kd data/textures/act1/cityBlue.png
+hasAlpha 0
+illum 10

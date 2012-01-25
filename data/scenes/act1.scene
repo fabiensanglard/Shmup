@@ -1,0 +1,425 @@
+
+defaultMenu -1
+
+map	
+{
+	filename: data/map/act1.map
+}
+
+light
+{
+	enabled 0
+	position : 5000 200 -5000 1
+   lookAt   : 0 -200 -5000
+   upVector : 1 0 0
+   fov      : 70
+
+   ambientColor  : 0.0 0.0 0.0
+   diffuseColor  : 1.0 1.0 1.0
+   speculaColor  : 1 1 1
+   
+   constantAttenuation: 1
+   linearAttenuation: 0
+   attachedToCamera: 0
+   
+}
+
+
+
+camera
+{
+	#path: data/cameraPath/act1.cp
+	path:  data/cameraPath/act1.cp.cp2b
+	
+	
+	
+	fov:	55
+	zNear:	10
+	zFar:	22000
+	
+	attachAt: 8000
+	detachAt: 140000
+}
+
+fog
+{
+	enabled 1
+	#density parameter is USELESS IF USING FOG_LINEAR (which I DO !!)
+	density 0.1
+	startAt 70
+	endAt   405.0
+	color:  0.0  0.0  0.05    
+}
+
+player
+{
+	id 0
+	matrix 1 0 0 -7
+	       0 1 0 110
+		   0 0 1 -396
+		   0 0 0 1
+	
+
+}
+
+player
+{
+	id 1
+	matrix 1 0 0 7
+	       0 1 0 110
+		   0 0 1 -396
+		   0 0 0 1
+		   
+	
+}
+
+ 
+ 
+playback
+{
+	play 0
+	record 1
+	filename 01act1.scene.io
+}
+
+
+
+music
+{
+	startMusicAt 0
+	trackname data/music/UNREALPM.mp3
+}
+
+title
+{
+	titleName  data/titles/dawnTitle.png
+	prolog start 2000 duration 4000
+	
+	at 139000 movePlayersToDefautlSSLocation
+	epilog start 142000 duration 7000
+
+	#at 13900 movePlayersToDefautlSSLocation
+	#epilog start 14200 duration 7000
+		
+}
+
+
+enemies
+{
+	#HAB=0 FHT=1 LEE=2 SHAB=3
+	
+	settime 9000
+	setttl 6000  
+	
+	#FIRST EASY FHT 
+	at 0000 spawnEnemy mouvement 2 xOffset -0 xWidth 0.25 enemyType 1 startPos -0.5 1.2	 endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0					
+	at 0600 spawnEnemy mouvement 2 xOffset -0 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0				
+	at 1200 spawnEnemy mouvement 2 xOffset -0 xWidth 0.25  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0						
+	at 1800 spawnEnemy mouvement 2 xOffset -0 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0								
+	at 2400 spawnEnemy mouvement 2 xOffset -0 xWidth 0.25  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0					
+	at 3000 spawnEnemy mouvement 2 xOffset -0 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0
+	
+	at 3600 spawnEnemy mouvement 2 xOffset -0 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0
+	at 4200 spawnEnemy mouvement 2 xOffset -0 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0
+	at 4800 spawnEnemy mouvement 2 xOffset -0 xWidth 0.25  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0
+	at 5400 spawnEnemy mouvement 2 xOffset -0 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0
+	at 6000 spawnEnemy mouvement 2 xOffset -0 xWidth 0.25  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0
+	at 6600 spawnEnemy mouvement 2 xOffset -0 xWidth 0.15 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0
+
+	#DUAL EASY-HARD FHT
+	addtime 9000
+	setttl 4000
+	at 0000 spawnEnemy mouvement 2 xOffset -0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2	 endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1				
+	at 0400 spawnEnemy mouvement 2 xOffset -0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1				
+	at 0800 spawnEnemy mouvement 2 xOffset -0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1						
+	at 1200 spawnEnemy mouvement 2 xOffset -0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1								
+	at 1600 spawnEnemy mouvement 2 xOffset -0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1					
+	at 2000 spawnEnemy mouvement 2 xOffset -0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 2400 spawnEnemy mouvement 2 xOffset -0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 2800 spawnEnemy mouvement 2 xOffset -0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+
+	at 0000 spawnEnemy mouvement 2 xOffset 0.7 xWidth 0.15 enemyType 1 startPos -0.5 1.2	endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1				
+	at 0400 spawnEnemy mouvement 2 xOffset 0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1				
+	at 0800 spawnEnemy mouvement 2 xOffset 0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1						
+	at 1200 spawnEnemy mouvement 2 xOffset 0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1								
+	at 1600 spawnEnemy mouvement 2 xOffset 0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1					
+	at 2000 spawnEnemy mouvement 2 xOffset 0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 2400 spawnEnemy mouvement 2 xOffset 0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 2800 spawnEnemy mouvement 2 xOffset 0.7 xWidth 0.15  enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	
+	
+	#FIRST WAVE LEES
+	addtime 6000
+	setttl 5000
+	at 0 spawnEnemy mouvement 1 enemyType 2 startPos -1 1.5 endPos  0 0.5 controlPoint -1 1 zAxisRot  360 xAxisRot 0 yAxisRot 0  subType 0 1  bulletSpeed 1
+	
+	addtime 3000
+	at 0 spawnEnemy mouvement 1  enemyType 2 startPos -1 -1 endPos -0.5 0.5 controlPoint -1 1 zAxisRot  360 xAxisRot 0 yAxisRot 0    subType 0 1   bulletSpeed 1
+	at 100 spawnEnemy mouvement 1 enemyType 2 startPos  1 -1 endPos  0.5 0.5 controlPoint  1 1 zAxisRot -360 xAxisRot 0 yAxisRot 0    subType 0 1   bulletSpeed 1
+	
+	addtime 3000
+	at 0 spawnEnemy mouvement 1 enemyType 2 startPos -1 -1 endPos  0.7 0.5 controlPoint -1.5 1 zAxisRot  360 xAxisRot 0 yAxisRot 0    subType 0 1   bulletSpeed 1
+	at 100 spawnEnemy mouvement 1 enemyType 2 startPos  2  0 endPos  0.00 0.75 controlPoint  1   0 zAxisRot -360 xAxisRot 0 yAxisRot 0    subType 0 1   bulletSpeed 1
+	at 200 spawnEnemy mouvement 1 enemyType 2 startPos -1 -1 endPos -0.7 0.5 controlPoint -1.5 1 zAxisRot  360 xAxisRot 0 yAxisRot 0    subType 0 1   bulletSpeed 1
+	
+	
+	addtime 3000
+	at 0 spawnEnemy mouvement 1 enemyType 2 startPos -1 -1 endPos -00.7 0.50 controlPoint -1   1 zAxisRot  360 xAxisRot 0 yAxisRot 0    subType 0 1   bulletSpeed 1
+	at 100 spawnEnemy mouvement 1 enemyType 2 startPos -1 -1 endPos -0.4 0.75 controlPoint -1.5 1 zAxisRot  360 xAxisRot 0 yAxisRot 0 	subType 0 1   bulletSpeed 1
+	at 200 spawnEnemy mouvement 1 enemyType 2 startPos  1 -1 endPos  0.4 0.75 controlPoint  1.5 1 zAxisRot -360 xAxisRot 0 yAxisRot 0    subType 0 1   bulletSpeed 1
+	at 300 spawnEnemy mouvement 1 enemyType 2 startPos  1 -1 endPos  00.7 0.50 controlPoint  1.5 1 zAxisRot -360 xAxisRot 0 yAxisRot 0    subType 0 1   bulletSpeed 1
+	 
+	addtime 3000
+	at 0 spawnEnemy mouvement 1 enemyType 2 startPos -1 -1   endPos -0.75 0.75 controlPoint -1.5 1 zAxisRot  360 xAxisRot 0 yAxisRot 0 	subType 0 1   bulletSpeed 1
+	at 100 spawnEnemy mouvement 1 enemyType 2 startPos -1 -1   endPos  -0.4 0.5 controlPoint -1 1 zAxisRot  360 xAxisRot 0 yAxisRot 0    subType 0 1   bulletSpeed 1
+	at 200 spawnEnemy mouvement 1 enemyType 2 startPos  1 -1   endPos   0.4 0.5 controlPoint  1 1 zAxisRot -360	 xAxisRot 0 yAxisRot 0  subType 0 1   bulletSpeed 1
+	at 300 spawnEnemy mouvement 1 enemyType 2 startPos  1 -1   endPos  0.75 0.75 controlPoint  1.5 1 zAxisRot -360 xAxisRot 0 yAxisRot 0     subType 0 1   bulletSpeed 1
+ 	
+	
+	# NORMAL TUNNEL FHT
+	addtime 7000
+	setttl 1300 
+
+	at -760 spawnEnemy mouvement 1  enemyType 1 startPos -1 1.2   endPos  -1 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	    subType 0				
+	at -760 spawnEnemy mouvement 1  enemyType 1 startPos 1 1.2   endPos   1 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 0
+	
+	at -570 spawnEnemy mouvement 1   enemyType 1 startPos -0.95 1.2   endPos  -0.95 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		  subType 0				
+	at -570 spawnEnemy mouvement 1   enemyType 1 startPos 0.95 1.2   endPos   0.95 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		  subType 0
+	
+	at -380 spawnEnemy mouvement 1   enemyType 1 startPos -0.9 1.2   endPos  -0.9 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		  subType 0				
+	at -380 spawnEnemy mouvement 1   enemyType 1 startPos 0.9 1.2   endPos   0.9 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0
+	
+	at -190 spawnEnemy mouvement 1   enemyType 1 startPos -0.85 1.2   endPos  -0.85 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 0			
+	at -190 spawnEnemy mouvement 1   enemyType 1 startPos 0.85 1.2   endPos   0.85 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 0				
+			
+	at 0 spawnEnemy mouvement 1   enemyType 1 startPos -0.8 1.2   endPos  -0.8 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0			 subType 0		
+	at 0 spawnEnemy mouvement 1   enemyType 1 startPos 0.8 1.2   endPos   0.8 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0			 subType 0			
+	at 190 spawnEnemy mouvement 1   enemyType 1 startPos -0.75 1.2   endPos  -0.75 -1.2 controlPoint -0.75 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0	
+	at 190 spawnEnemy mouvement 1   enemyType 1 startPos 0.75 1.2   endPos   0.75 -1.2 controlPoint 0.75 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 380 spawnEnemy mouvement 1   enemyType 1 startPos 0.70 1.2   endPos  0.70 -1.2 controlPoint 0.70 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0		
+	at 380 spawnEnemy mouvement 1   enemyType 1 startPos -0.70 1.2   endPos  -0.70 -1.2 controlPoint -0.70 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0		
+	at 570 spawnEnemy mouvement 1   enemyType 1 startPos -0.65 1.2   endPos  -0.65 -1.2 controlPoint -0.65 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0		
+	at 570 spawnEnemy mouvement 1   enemyType 1 startPos 0.65 1.2   endPos   0.65 -1.2 controlPoint 0.65 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 760 spawnEnemy mouvement 1   enemyType 1 startPos 0.60 1.2   endPos  0.60 -1.2 controlPoint 0.60 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0		
+	at 760 spawnEnemy mouvement 1   enemyType 1 startPos -0.60 1.2   endPos  -0.60 -1.2 controlPoint -0.60 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 950 spawnEnemy mouvement 1   enemyType 1 startPos 0.55 1.2   endPos  0.55 -1.2 controlPoint 0.55 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0		
+	at 950 spawnEnemy mouvement 1   enemyType 1 startPos -0.55 1.2   endPos  -0.55 -1.2 controlPoint -0.55 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 1140 spawnEnemy mouvement 1   enemyType 1 startPos 0.5 1.2   endPos  0.5 -1.2 controlPoint 0.5 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0			
+	at 1140 spawnEnemy mouvement 1   enemyType 1 startPos -0.5 1.2   endPos  -0.5 -1.2 controlPoint -0.5 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 1330 spawnEnemy mouvement 1   enemyType 1 startPos 0.45 1.2   endPos  0.45 -1.2 controlPoint 0.45 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 1330 spawnEnemy mouvement 1   enemyType 1 startPos -0.45 1.2   endPos  -0.45 -1.2 controlPoint -0.45 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0		
+	at 1520 spawnEnemy mouvement 1   enemyType 1 startPos 0.4 1.2   endPos  0.4 -1.2 controlPoint 0.4 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0			
+	at 1520 spawnEnemy mouvement 1   enemyType 1 startPos -0.4 1.2   endPos  -0.4 -1.2 controlPoint -0.4 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 1710 spawnEnemy mouvement 1   enemyType 1 startPos 0.35 1.2   endPos  0.35 -1.2 controlPoint 0.35 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 1710 spawnEnemy mouvement 1   enemyType 1 startPos -0.35 1.2   endPos  -0.35 -1.2 controlPoint -0.35 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0					
+	at 1900 spawnEnemy mouvement 1   enemyType 1 startPos 0.3 1.2   endPos  0.3 -1.2 controlPoint 0.3 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0			
+	at 1900 spawnEnemy mouvement 1   enemyType 1 startPos -0.3 1.2   endPos  -0.3 -1.2 controlPoint -0.3 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0						
+	at 2090 spawnEnemy mouvement 1   enemyType 1 startPos 0.25 1.2   endPos  0.25 -1.2 controlPoint 0.25 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 2090 spawnEnemy mouvement 1   enemyType 1 startPos -0.25 1.2   endPos  -0.25 -1.2 controlPoint -0.25 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0					
+	at 2280 spawnEnemy mouvement 1   enemyType 1 startPos 0.2 1.2   endPos  0.2 -1.2 controlPoint 0.2 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0			
+	at 2280 spawnEnemy mouvement 1   enemyType 1 startPos -0.2 1.2   endPos  -0.2 -1.2 controlPoint -0.2 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0						
+	at 2470 spawnEnemy mouvement 1   enemyType 1 startPos 0.15 1.2   endPos  0.15 -1.2 controlPoint 0.15 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0			
+	at 2470 spawnEnemy mouvement 1   enemyType 1 startPos -0.15 1.2   endPos  -0.15 -1.2 controlPoint -0.15 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 0					
+	#at 2660 spawnEnemy mouvement 1   enemyType 1 startPos 0.1 1.2   endPos  0.1 -1.2 controlPoint 0.1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0			
+	#at 2660 spawnEnemy mouvement 1   enemyType 1 startPos -0.1 1.2   endPos  -0.1 -1.2 controlPoint -0.1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 0					
+
+
+	addtime 4000
+	setttl 6000
+	at  0 spawnEnemyWave circle enemyNum 16 enemyType 1  percentageInvulnerable 0 angleoffset 0 defaultType 1
+	
+	addtime 4000
+	setttl 5000
+	at  0 spawnEnemyWave circle enemyNum 16 enemyType 1  percentageInvulnerable 0 angleoffset 0 defaultType 1
+
+
+	#Rotate HAB
+	setttl 6500
+	addtime 5000
+	at 200 spawnEnemy mouvement 1 enemyType 3 startPos -2 0.5 endPos -0.5 0.65  controlPoint -1 1 zAxisRot  280 xAxisRot 0 yAxisRot 0   subType 0 firingAngle1 180 firingAngle2 0 numThread 3 rotAngle 180
+	at 300 spawnEnemy mouvement 1 enemyType 3 startPos  2 0.0 endPos 0.5 0.65  controlPoint 1 1 zAxisRot  280 xAxisRot 0 yAxisRot 0  subType 0 firingAngle1 0 firingAngle2 180 numThread 3 rotAngle -180
+	
+	
+	addtime 5000
+	setttl 5000
+	at  0 spawnEnemyWave circle enemyNum 16 enemyType 1  percentageInvulnerable 0 angleoffset 0 defaultType 1
+	
+	#First HAB 
+	setttl 9000
+	addtime 5500
+	at 0 spawnEnemy   mouvement 1 enemyType 3 startPos -2 0.5 endPos  0.0 0.4 controlPoint -1 1 zAxisRot  -280 xAxisRot 0 yAxisRot 0   subType 0 firingAngle1 -135 firingAngle2 -45 numThread 3 rotAngle 0
+	at 200 spawnEnemy mouvement 1 enemyType 3 startPos -2 0.5 endPos -0.5 0.70  controlPoint -1 1 zAxisRot  280 xAxisRot 0 yAxisRot 0   subType 0 firingAngle1 -135 firingAngle2 -45 numThread 3 rotAngle 0
+	at 300 spawnEnemy mouvement 1 enemyType 3 startPos  2 0.0 endPos 0.5 0.70  controlPoint 1 1 zAxisRot  280 xAxisRot 0 yAxisRot 0  subType 0 firingAngle1 -135 firingAngle2 -45 numThread 3 rotAngle 0
+	
+	
+	
+	# HARD  SINGLE X_SIN FHT
+	addtime 8000
+	setttl 6500
+	at 0 spawnEnemy   mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2	 endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1					
+	at 400 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1				
+	at 800 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1						
+	at 1200 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1								
+	at 1600 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1				
+	at 2000 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 2400 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 2800 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 3200 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 3600 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 0 spawnEnemy   mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2	 endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1				
+	at 400 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1				
+	at 800 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1						
+	at 1200 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1							
+	at 1600 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1				
+	at 2000 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1
+	at 2400 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1
+	at 2800 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1
+	at 3200 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1
+	at 3600 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1
+
+	# HARD DUAL X_SIN FHT
+	addtime 9000
+	setttl 5000
+	at -300 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2	 endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0  subType 1					
+	at 300 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1				
+	at 900 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 1					
+	at 1500 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1				
+	at 2100 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 0  spawnEnemy mouvement 2    xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2	  endPos  1 -1.2 controlPoint   1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1				
+	at 600 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2    endPos 1 -1.2 controlPoint    1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 1
+	at 1200 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2     endPos 1 -1.2 controlPoint	1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 1					
+	at 1800 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2     endPos 1 -1.2 controlPoint    1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1				
+	at 2400 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2     endPos 1 -1.2 controlPoint   1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 1						
+
+
+	# IMPOSSIBLE  SINGLE X_SIN FHT
+	
+	addtime 7000
+	setttl 6500
+	at 0 spawnEnemy   mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2	 endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2					
+	at 400 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2				
+	at 800 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2						
+	at 1200 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2								
+	at 1600 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2				
+	at 2000 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2
+	at 2400 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2
+	at 2800 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2
+	at 3200 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2
+	at 3600 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos -0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2
+	at 0 spawnEnemy   mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2	 endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2				
+	at 400 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2				
+	at 800 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2						
+	at 1200 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2							
+	at 1600 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2				
+	at 2000 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2
+	at 2400 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2
+	at 2800 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2
+	at 3200 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2
+	at 3600 spawnEnemy mouvement 2  xOffset 0 xWidth 1 enemyType 1 startPos 0.5 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2
+
+# IMPOSSIBLE TUNNLE FHT
+	addtime 8000
+	setttl 1300 
+
+	at -760 spawnEnemy mouvement 1  enemyType 1 startPos -1 1.2   endPos  -1 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	    subType 2			
+	at -760 spawnEnemy mouvement 1  enemyType 1 startPos 1 1.2   endPos   1 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 2
+	at -570 spawnEnemy mouvement 1   enemyType 1 startPos -0.95 1.2   endPos  -0.95 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		  subType 2				
+	at -570 spawnEnemy mouvement 1   enemyType 1 startPos 0.95 1.2   endPos   0.95 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		  subType 2
+	at -380 spawnEnemy mouvement 1   enemyType 1 startPos -0.9 1.2   endPos  -0.9 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		  subType 2				
+	at -380 spawnEnemy mouvement 1   enemyType 1 startPos 0.9 1.2   endPos   0.9 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2
+	at -190 spawnEnemy mouvement 1   enemyType 1 startPos -0.85 1.2   endPos  -0.85 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 2
+	at -190 spawnEnemy mouvement 1   enemyType 1 startPos 0.85 1.2   endPos   0.85 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 2						
+	at 0 spawnEnemy mouvement 1   enemyType 1 startPos -0.8 1.2   endPos  -0.8 -1.2 controlPoint -1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0			 subType 2		
+	at 0 spawnEnemy mouvement 1   enemyType 1 startPos 0.8 1.2   endPos   0.8 -1.2 controlPoint 1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0			 subType 2			
+	at 190 spawnEnemy mouvement 1   enemyType 1 startPos -0.75 1.2   endPos  -0.75 -1.2 controlPoint -0.75 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2
+	at 190 spawnEnemy mouvement 1   enemyType 1 startPos 0.75 1.2   endPos   0.75 -1.2 controlPoint 0.75 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2		
+	at 380 spawnEnemy mouvement 1   enemyType 1 startPos 0.70 1.2   endPos  0.70 -1.2 controlPoint 0.70 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2		
+	at 380 spawnEnemy mouvement 1   enemyType 1 startPos -0.70 1.2   endPos  -0.70 -1.2 controlPoint -0.70 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2		
+	at 570 spawnEnemy mouvement 1   enemyType 1 startPos -0.65 1.2   endPos  -0.65 -1.2 controlPoint -0.65 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2		
+	at 570 spawnEnemy mouvement 1   enemyType 1 startPos 0.65 1.2   endPos   0.65 -1.2 controlPoint 0.65 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2			
+	at 760 spawnEnemy mouvement 1   enemyType 1 startPos 0.60 1.2   endPos  0.60 -1.2 controlPoint 0.60 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2		
+	at 760 spawnEnemy mouvement 1   enemyType 1 startPos -0.60 1.2   endPos  -0.60 -1.2 controlPoint -0.60 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2			
+	at 950 spawnEnemy mouvement 1   enemyType 1 startPos 0.55 1.2   endPos  0.55 -1.2 controlPoint 0.55 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2		
+	at 950 spawnEnemy mouvement 1   enemyType 1 startPos -0.55 1.2   endPos  -0.55 -1.2 controlPoint -0.55 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2			
+	at 1140 spawnEnemy mouvement 1   enemyType 1 startPos 0.5 1.2   endPos  0.5 -1.2 controlPoint 0.5 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2			
+	at 1140 spawnEnemy mouvement 1   enemyType 1 startPos -0.5 1.2   endPos  -0.5 -1.2 controlPoint -0.5 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2			
+	at 1330 spawnEnemy mouvement 1   enemyType 1 startPos 0.45 1.2   endPos  0.45 -1.2 controlPoint 0.45 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2			
+	at 1330 spawnEnemy mouvement 1   enemyType 1 startPos -0.45 1.2   endPos  -0.45 -1.2 controlPoint -0.45 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2		
+	at 1520 spawnEnemy mouvement 1   enemyType 1 startPos 0.4 1.2   endPos  0.4 -1.2 controlPoint 0.4 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2			
+	at 1520 spawnEnemy mouvement 1   enemyType 1 startPos -0.4 1.2   endPos  -0.4 -1.2 controlPoint -0.4 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2			
+	at 1710 spawnEnemy mouvement 1   enemyType 1 startPos 0.35 1.2   endPos  0.35 -1.2 controlPoint 0.35 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2			
+	at 1710 spawnEnemy mouvement 1   enemyType 1 startPos -0.35 1.2   endPos  -0.35 -1.2 controlPoint -0.35 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2					
+	at 1900 spawnEnemy mouvement 1   enemyType 1 startPos 0.3 1.2   endPos  0.3 -1.2 controlPoint 0.3 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2			
+	at 1900 spawnEnemy mouvement 1   enemyType 1 startPos -0.3 1.2   endPos  -0.3 -1.2 controlPoint -0.3 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2						
+	#at 2090 spawnEnemy mouvement 1   enemyType 1 startPos 0.25 1.2   endPos  0.25 -1.2 controlPoint 0.25 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2			
+	#at 2090 spawnEnemy mouvement 1   enemyType 1 startPos -0.25 1.2   endPos  -0.25 -1.2 controlPoint -0.25 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2					
+	#at 2280 spawnEnemy mouvement 1   enemyType 1 startPos 0.2 1.2   endPos  0.2 -1.2 controlPoint 0.2 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2		
+	#at 2280 spawnEnemy mouvement 1   enemyType 1 startPos -0.2 1.2   endPos  -0.2 -1.2 controlPoint -0.2 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2						
+	#at 2470 spawnEnemy mouvement 1   enemyType 1 startPos 0.15 1.2   endPos  0.15 -1.2 controlPoint 0.15 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2			
+	#at 2470 spawnEnemy mouvement 1   enemyType 1 startPos -0.15 1.2   endPos  -0.15 -1.2 controlPoint -0.15 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2					
+	#at 2660 spawnEnemy mouvement 1   enemyType 1 startPos 0.1 1.2   endPos  0.1 -1.2 controlPoint 0.1 0  zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2		
+	#at 2660 spawnEnemy mouvement 1   enemyType 1 startPos -0.0 1.2   endPos  -0.0 -1.2 controlPoint -0.0 0  zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2					
+
+
+#LEE HARD
+	addtime 2500
+	setttl 5000
+	at 0 spawnEnemy mouvement 1 enemyType 2 startPos -1 -1 endPos  0.7 0.5 controlPoint -1.5 1 zAxisRot  360 xAxisRot 0 yAxisRot 0    subType 1 1  bulletSpeed 1
+	at 100 spawnEnemy mouvement 1 enemyType 2 startPos  2  0 endPos  0.00 0.75 controlPoint  1   0 zAxisRot -360 xAxisRot 0 yAxisRot 0    subType 1 1  bulletSpeed 1
+	at 200 spawnEnemy mouvement 1 enemyType 2 startPos -1 -1 endPos -0.7 0.5 controlPoint -1.5 1 zAxisRot  360 xAxisRot 0 yAxisRot 0    subType 1 1  bulletSpeed 1
+
+
+	# IMPOSSIBLE DUAL X_SIN FHT
+	addtime 5000
+	setttl 5000
+	at -300 spawnEnemy   mouvement 2 xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2	 endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0  subType 2					
+	at 300 spawnEnemy mouvement 2    xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2				
+	at 900 spawnEnemy mouvement 2    xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 2				
+	at 1500 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2			
+	at 2100 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos -1 1.2   endPos -1 -1.2 controlPoint  -1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2
+	at 0  spawnEnemy mouvement 2     xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2	  endPos  1 -1.2 controlPoint   1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2				
+	at 600 spawnEnemy mouvement 2    xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2    endPos 1 -1.2 controlPoint    1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0 subType 2
+	at 1200 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2     endPos 1 -1.2 controlPoint	1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0		 subType 2
+	at 1800 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2     endPos 1 -1.2 controlPoint    1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2			
+	at 2400 spawnEnemy mouvement 2   xOffset 0 xWidth 1 enemyType 1 startPos 1 1.2     endPos 1 -1.2 controlPoint   1 0   zAxisRot 0 xAxisRot 0 yAxisRot 0	 subType 2						
+
+
+
+
+	addtime 3000
+	setttl 5000
+	at  0 spawnEnemyWave circle enemyNum 6 enemyType 1  percentageInvulnerable 0 angleoffset 0 defaultType 1
+	at  1000 spawnEnemyWave circle enemyNum 7 enemyType 1  percentageInvulnerable 0 angleoffset 0 defaultType 0
+	at  2000 spawnEnemyWave circle enemyNum 8 enemyType 1  percentageInvulnerable 0 angleoffset 0 defaultType 1
+	
+	addtime 4000
+	setttl 6000
+	at  0000 spawnEnemyWave circle enemyNum 9 enemyType 1  percentageInvulnerable 00 angleoffset 0 defaultType 0
+	at  4000 spawnEnemyWave circle enemyNum 11 enemyType 1  percentageInvulnerable 40 angleoffset 0 defaultType 0
+	at  6000 spawnEnemyWave circle enemyNum 13 enemyType 1  percentageInvulnerable 40 angleoffset 180 defaultType 0
+
+	addtime 8000
+	at  0 spawnEnemyWave circle enemyNum 16 enemyType 1  percentageInvulnerable 30 angleoffset 0 defaultType 0
+	at  4000 spawnEnemyWave circle enemyNum 16 enemyType 1  percentageInvulnerable 30 angleoffset 0 defaultType 0
+	at  8000 spawnEnemyWave circle enemyNum 10 enemyType 1  percentageInvulnerable 40 angleoffset 0 defaultType 0
+	at  12000 spawnEnemyWave circle enemyNum 10 enemyType 1  percentageInvulnerable 50 angleoffset 0 defaultType 0
+
+}
+
+texts_events
+{
+	#at 2000 display Good_luck_!   size 2.5 for 5000 starting 0   0 ending  0 0
+	#at 2000 display Hello_this_is_an_other_string size 2.5 for 5000 starting 0 0 ending  -100 -100
+	
+}
+
+events
+{
+	at 142000 uploadScore
+
+}
+
+
+/
+
+

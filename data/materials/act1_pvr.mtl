@@ -1,0 +1,23 @@
+newmtl city
+map_Kd data/texturesPVR/act1/city.pvr
+illum 10
+
+newmtl city_beta
+map_Kd data/texturesPVR/act1/city_beta.pvr
+illum 10
+
+newmtl skydome
+map_Kd data/texturesPVR/act1/skydome.pvr
+illum 10
+
+newmtl SkyDome_Evening
+map_Kd data/texturesPVR/act1/SkyDome_Evening.pvr
+illum 10
+
+newmtl SkyDome_Night
+map_Kd data/texturesPVR/act1/SkyDome_Night.pvr
+illum 10
+
+newmtl cityBlue
+map_Kd data/texturesPVR/act1/cityBlue_4bbp.pvr
+illum 10

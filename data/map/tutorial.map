@@ -1,0 +1,111 @@
+numBackgroundEntities 0
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 0
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -800
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -1600
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -2400
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -3200
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -4000
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -4800
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -5600
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -6400
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -7200
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -8000
+	0  0 0 1
+}
+entities MD5 { model	data/models/tutorial/city_white.obj.md5mesh }
+
+
+
+
+
+
+
+
+
+

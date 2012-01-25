@@ -1,0 +1,19 @@
+highQuality
+{
+	data/materials/intro.mtl
+	data/materials/players.mtl
+	data/materials/enemies.mtl
+	data/materials/act1.mtl
+	data/materials/act2.mtl
+	data/materials/tutorial.mtl
+}
+
+lowQuality
+{
+	data/materials/intro_pvr.mtl
+	data/materials/players_pvr.mtl
+	data/materials/enemies_pvr.mtl
+	data/materials/act1_pvr.mtl
+	data/materials/act2_pvr.mtl
+	data/materials/tutorial_pvr.mtl
+}

@@ -1,0 +1,26 @@
+newmtl fht
+map_Kd data/texturesPVR/enemies/fht.pvr
+illum 10
+
+newmtl lee
+map_Kd data/texturesPVR/enemies/lee.pvr
+illum 10
+
+newmtl hab
+map_Kd data/texturesPVR/enemies/hab.pvr
+illum 10
+
+newmtl shab
+map_Kd data/texturesPVR/enemies/shab.pvr
+illum 10
+
+
+newmtl lofb
+map_Kd data/texturesPVR/enemies/lofb.pvr
+hasAlpha 0
+illum 10
+
+newmtl tha
+map_Kd data/texturesPVR/enemies/tha.pvr
+hasAlpha 0
+illum 10

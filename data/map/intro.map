@@ -1,0 +1,14 @@
+numBackgroundEntities 0
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 0
+	0  0 0 1
+}
+
+entities MD5 { model	data/models/players/hpp.obj.md5mesh }
+
+
+

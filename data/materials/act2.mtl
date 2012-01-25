@@ -1,0 +1,6 @@
+newmtl cityAkira
+map_Kd data/textures/act2/cityAkira.png
+hasAlpha 0
+illum 10
+
+

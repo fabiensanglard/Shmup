@@ -1,0 +1,30 @@
+MD5Version 10
+
+numJoints 1
+numMeshes 1
+
+joints { 
+	"origin" -1 ( 0 0 0 ) (0 0 0)
+}
+
+mesh {
+
+ shader "tutorial_background"
+ numverts 4 
+ vert 0 (0.000000 0.000000) 0 1 
+ vert 1 (0.000000 1.000000) 1 1 
+ vert 2 (1.000000 1.000000) 2 1 
+ vert 3 (1.000000 0.000000) 3 1 
+ 
+	numtris 2
+ tri 0 0 1 2 
+ tri 1 0 2 3 
+ 
+
+	numweights 4
+ weight 0 0 1.0 ( -75 0 -85 ) 
+ weight 1 0 1.0 ( -75 0  85 ) 
+ weight 2 0 1.0 (  75 0  85 ) 
+ weight 3 0 1.0 (  75 0 -85 ) 
+}
+

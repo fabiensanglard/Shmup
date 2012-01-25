@@ -1,0 +1,4 @@
+newmtl hpp
+map_Kd data/textures/object/hpp1.png
+Ks 1 1 1
+illum 4

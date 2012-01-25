@@ -1,0 +1,4 @@
+newmtl cityAkira
+map_Kd data/texturesPVR/act2/cityAkira.pvr
+illum 10
+

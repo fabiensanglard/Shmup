@@ -1,0 +1,463 @@
+numBackgroundEntities 3
+
+matrix
+{
+	1  0 0 0
+	0  1 0 500
+	0  0 1 0
+	0  0 0 1
+}
+entities MD5 { model	data/models/act1/SkyDome_Night.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 500
+	0  0 1 -20000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act1/SkyDome_Night.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 500
+	0  0 1 -40000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act1/SkyDome_Night.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 0
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -1600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -2400
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -3200
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -4000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -4800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -5600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -6400
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -7200
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -8000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -8800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -9600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -10400
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -11200
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -12000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -12800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -13600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -14400
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -15200
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -16000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -16800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -17600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -18400
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -19200
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -20000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -20800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -21600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -22400
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -23200
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -24000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -24800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -25600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -26400
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -27200
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -28000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -28800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -29600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -30400
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -31200
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -32000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -32800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -33600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -34400
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -35200
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -36000
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -36800
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+matrix
+{
+	1  0 0 0
+	0  1 0 0
+	0  0 1 -37600
+	0  0 0 1
+}
+entities MD5 { model	data/models/act2/cityAkira.obj.md5mesh }
+
+
+

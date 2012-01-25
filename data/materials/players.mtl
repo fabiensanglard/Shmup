@@ -1,0 +1,13 @@
+newmtl p1
+map_Kd data/textures/players/p1.png
+hasAlpha 0
+illum 10
+
+newmtl p2
+map_Kd data/textures/players/p2.png
+hasAlpha 0
+illum 10
+
+
+
+
