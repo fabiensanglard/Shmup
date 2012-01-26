@@ -99,8 +99,8 @@ void dEngine_ReadConfig(void)
 		}
 		else if (!strcmp("scenes", LE_getCurrentToken()))
 		{
-			LE_readToken(); //{
-			LE_readToken();
+			LE_readToken(); // {
+			LE_readToken(); // numScenes
 			while (strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("numScenes", LE_getCurrentToken()))

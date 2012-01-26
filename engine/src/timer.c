@@ -127,10 +127,11 @@ void Timer_tick(void)
 		timediff = currentTime - lastTime;
 	}
 
+	//timediff = currentTime - lastTime;
 		
 	simulationTime += timediff;
 	
-	
+	//printf("%d\n",timediff);
 	
 	
 	//Do not use the hard-coded 16fps timediff otherwise we measure time in the simulation.

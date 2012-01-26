@@ -69,7 +69,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	engineParameters |= GL_11_RENDERER ;
 	renderer.statsEnabled = 0;
-	renderer.materialQuality = 0;
+	renderer.materialQuality = MATERIAL_QUALITY_LOW;
+
+    renderer.resolution = 1;
+    renderer.glBuffersDimensions[WIDTH] = 320;
+	renderer.glBuffersDimensions[HEIGHT] = 480;
+	
 
 	gameOn = 1;
 

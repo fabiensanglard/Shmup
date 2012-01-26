@@ -12,6 +12,7 @@ void loadNativePNG(texture_t* tmpTex)
 {
 	ILuint texid;
 	ILenum error ;
+	char fullpath[256];
 
 	if (!devILinitialized)
 	{
@@ -20,9 +21,15 @@ void loadNativePNG(texture_t* tmpTex)
 		devILinitialized = 1;
 	}
 
+	//Shmup ask texture loading via relative path, we need to append the game directory.
+	fullpath[0] = '\0';
+	strcat(fullpath,FS_Gamedir());
+	strcat(fullpath,"/");
+	strcat(fullpath,tmpTex->path);
+
 	ilGenImages(1, &texid); // Generation of one image name 
 	ilBindImage(texid); // Binding of image name 
-	ilLoadImage((const wchar_t*)tmpTex->path);
+	ilLoadImage((const wchar_t*)fullpath);
 
 	tmpTex->bpp = ilGetInteger(IL_IMAGE_BPP);
 	tmpTex->width = ilGetInteger(IL_IMAGE_WIDTH) ; 

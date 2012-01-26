@@ -170,6 +170,7 @@ char* LE_readToken(void)
 	tokenChar = token;
 	*tokenChar = '\0';
 	
+	//String literal
 	if (*fileParsed.ptrCurrent == '"')
 	{
 		*tokenChar++ = *fileParsed.ptrCurrent++;
@@ -212,7 +213,7 @@ char* LE_getCurrentToken()
 
 int LE_hasMoreData(void)
 {
-	return (fileParsed.ptrCurrent <= fileParsed.ptrEnd);
+	return (fileParsed.ptrCurrent < fileParsed.ptrEnd);
 }
 
 
