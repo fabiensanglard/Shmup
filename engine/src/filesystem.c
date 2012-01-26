@@ -208,7 +208,7 @@ W32 FS_FileSeek( filehandle_t *fhandle, SW32 offset, W32 origin )
 			}
 			
 			// offset is negative 
-			if( (fhandle->filesize + offset) < 0  )
+			if( (int)(fhandle->filesize + offset) < 0  )
 			{
 				return 1;
 			}
