@@ -71,31 +71,34 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	renderer.statsEnabled = 0;
 	renderer.materialQuality = MATERIAL_QUALITY_LOW;
 
-    renderer.resolution = 1;
-    renderer.glBuffersDimensions[WIDTH] = 320;
-	renderer.glBuffersDimensions[HEIGHT] = 480;
+    renderer.resolution = WIN32_WINDOWS_SCALE;
+    renderer.glBuffersDimensions[WIDTH] = WIN32_WINDOWS_WIDTH;
+	renderer.glBuffersDimensions[HEIGHT] = WIN32_WINDOWS_HEIGHT;
 	
 
 	gameOn = 1;
 
 	
 	dEngine_Init();
-	renderer.statsEnabled = 0;
+	renderer.statsEnabled = 1;
 
 	
 
 	dEngine_InitDisplaySystem(engineParameters);
 
-	
-	
+
 
 	while(gameOn)
 	{
 		//commands[0].time = simulationTime;
 		dEngine_HostFrame();
 
-
+		
 		WIN_SwapRenderBuffers();
+
+		// Game is clocked at 60Hz (timediff will be either 16 or 17, this value
+		// comes from timer.c).
+		Sleep(timediff);
 	}
 
 

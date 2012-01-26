@@ -38,7 +38,9 @@
  }
  #endif
 
-
+#define WIN32_WINDOWS_WIDTH 320
+#define WIN32_WINDOWS_HEIGHT 480
+#define WIN32_WINDOWS_SCALE 1
 
 
 

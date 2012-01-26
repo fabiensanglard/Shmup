@@ -100,8 +100,8 @@ void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpC
     sWC.lpszMenuName = 0;
 	sWC.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
     sWC.lpszClassName = WINDOW_CLASS;
-	unsigned int nWidth = 320;
-	unsigned int nHeight = 480;
+	unsigned int nWidth =  WIN32_WINDOWS_WIDTH * WIN32_WINDOWS_SCALE;
+	unsigned int nHeight = WIN32_WINDOWS_HEIGHT* WIN32_WINDOWS_SCALE;
 
 	ATOM registerClass = RegisterClass(&sWC);
 	if (!registerClass)
@@ -114,7 +114,7 @@ void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpC
 	RECT	sRect;
 	SetRect(&sRect, 0, 0, nWidth, nHeight);
 	AdjustWindowRectEx(&sRect, WS_CAPTION | WS_SYSMENU, false, 0);
-	hWnd = CreateWindow( WINDOW_CLASS, _T("Initialization"), WS_VISIBLE | WS_SYSMENU,0+100, 0+100, nWidth, nHeight, NULL, NULL, hInstance, NULL);
+	hWnd = CreateWindow( WINDOW_CLASS, _T("Shmup"), WS_VISIBLE | WS_SYSMENU,0+100, 0+100, nWidth, nHeight, NULL, NULL, hInstance, NULL);
 
 	eglWindow = hWnd;
 
@@ -154,13 +154,13 @@ void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpC
 
 	int i = 0;
 	pi32ConfigAttribs[i++] = EGL_RED_SIZE;
-	pi32ConfigAttribs[i++] = 5;
+	pi32ConfigAttribs[i++] = 8;
 	pi32ConfigAttribs[i++] = EGL_GREEN_SIZE;
-	pi32ConfigAttribs[i++] = 6;
+	pi32ConfigAttribs[i++] = 8;
 	pi32ConfigAttribs[i++] = EGL_BLUE_SIZE;
-	pi32ConfigAttribs[i++] = 5;
+	pi32ConfigAttribs[i++] = 8;
 	pi32ConfigAttribs[i++] = EGL_ALPHA_SIZE;
-	pi32ConfigAttribs[i++] = 0;
+	pi32ConfigAttribs[i++] = 8;
 	pi32ConfigAttribs[i++] = EGL_SURFACE_TYPE;
 	pi32ConfigAttribs[i++] = EGL_WINDOW_BIT;
 	pi32ConfigAttribs[i++] = EGL_DEPTH_SIZE;
