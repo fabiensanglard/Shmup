@@ -118,11 +118,11 @@ void LE_skipWhiteSpace(void)
 	
 	
 	
-	while(LE_hasMoreData() && prtCurrentIsWhiteChar())
+	while(LE_hasMoreData())
 	{
-		previousChar = *fileParsed.ptrCurrent;
-		fileParsed.ptrCurrent++;
 		
+
+		//SQL comment style (just because I wanted those too :P !
 		if (*fileParsed.ptrCurrent == '#')
 		{
 			LE_SkipRestOfLine();
@@ -130,6 +130,7 @@ void LE_skipWhiteSpace(void)
 			//return;
 		}
 		
+		//Legacy C comment style //
 		if (*fileParsed.ptrCurrent == '/')
 		{
 			if((fileParsed.ptrCurrent+1) != fileParsed.ptrEnd &&  *(fileParsed.ptrCurrent+1) == '/')
@@ -140,25 +141,37 @@ void LE_skipWhiteSpace(void)
 			
 		}
 		
-		if (*fileParsed.ptrCurrent == '*')
+		//C++ comment style /* */
+		if (*fileParsed.ptrCurrent == '/')
 		{
-			if(previousChar == '/')
+			if((fileParsed.ptrCurrent+1) != fileParsed.ptrEnd &&  *(fileParsed.ptrCurrent+1) == '*')
 			{
+				fileParsed.ptrCurrent++;
+				
+
 				//Skip until */ is found
 				while (LE_hasMoreData())
 				{
 					previousChar = *fileParsed.ptrCurrent++;
 					if ((*fileParsed.ptrCurrent == '/') && (previousChar == '*'))
+					{
+						fileParsed.ptrCurrent++;
 						break;
-				}
-				
-				if ( LE_hasMoreData())
-				{
-					previousChar = *fileParsed.ptrCurrent;
-					fileParsed.ptrCurrent++;
-					LE_skipWhiteSpace();
+					}
 				}
 			}
+		}
+
+		if (prtCurrentIsWhiteChar())
+		{
+			previousChar = *fileParsed.ptrCurrent;
+			fileParsed.ptrCurrent++;
+			continue;
+		}
+		else{
+			// We are currently pointing to a non whitespace character. This probably needs to be 
+			// turned into a token.
+			return;
 		}
 	}
 }

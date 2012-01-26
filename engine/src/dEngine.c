@@ -652,7 +652,7 @@ void dEngine_HostFrame(void)
 	DYN_TEXT_Update();
 	//NET_Update();
 	
-	
+	//Check collisions.
 	COLL_CheckEnemies();
 	COLL_CheckPlayers();
 	
@@ -664,7 +664,9 @@ void dEngine_HostFrame(void)
 	FX_UpdateExplosions();
 	FX_UpdateParticules();
 	FX_UpdateSmoke();
+
 	
+
 	//Rendition
 	P_PrepareBulletSprites();
 	P_PrepareGhostSprites();
