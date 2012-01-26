@@ -45,7 +45,7 @@ void CFG_Load(void)
 	
 	
 	//Check the magic number
-	if(strncmp(cfgFile->filedata, cfgMagicNumber, strlen(cfgMagicNumber)));
+	if(strncmp(cfgFile->filedata, cfgMagicNumber, strlen(cfgMagicNumber)))
 	{
 		printf("[CFG_Load] Magic number check failed.\n");
 		return;

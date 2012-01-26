@@ -670,7 +670,7 @@ static void RenderEntity(entity_t* entity)
 	
 	
 	
-	if (renderer.props & PROP_SHADOW == PROP_SHADOW)
+	if ((renderer.props & PROP_SHADOW) == PROP_SHADOW)
 		glUniformMatrix4fv(currentShader->vars[SHADER_LIGHTPOV_MVT_MATRIX]   ,1,GL_FALSE,entity->cachePVMShadow);
 	
 	glUniform1f(currentShader->vars[SHADER_UNI_MATERIAL_SHININESS], entity->material->shininess);

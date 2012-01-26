@@ -1323,8 +1323,9 @@ void P_Die(uchar playerId)
 		players[playerId].shouldDraw = 0;
 		
 		
-		if (playerId == controlledPlayer  && numPlayers == 1||
-			numPlayers == 2 && players[0].respawnCounter < 0 && players[1].respawnCounter < 0)
+		if (((numPlayers == 1) && (playerId == controlledPlayer))     ||
+			((numPlayers == 2) && (players[0].respawnCounter < 0 && players[1].respawnCounter < 0))
+           )
 		{
 			MENU_Set(MENU_GAMEOVER);
 			Native_UploadScore(players[controlledPlayer].score);

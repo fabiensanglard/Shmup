@@ -29,8 +29,8 @@
 #import <OpenGLES/ES1/glext.h>
 
 
-#include "../src/ItextureLoader.h";
-#include "../src/globals.h";
+#include "../src/ItextureLoader.h"
+#include "../src/globals.h"
 
 
 

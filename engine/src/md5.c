@@ -544,7 +544,7 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 		printf("Listing Vertices.\n");
 		for (i=0; i < mesh->numVertices ; i++,currentVertex++) 
 		{
-			printf("vertex: %d/%hu  (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
+			printf("vertex: %d/%d  (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
 				   i,
 				   mesh->numVertices-1,   
 				   currentVertex->normal[0],
@@ -562,7 +562,7 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 		printf("Listing indices.\n");
 		for(i=0;  i < mesh->numIndices ; i++)
 		{
-			printf("indice: %d/%hu, vertex: %hu   (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
+			printf("indice: %d/%d, vertex: %hu   (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
 				   i,
 				   mesh->numIndices-1,   
 					mesh->indices[i],

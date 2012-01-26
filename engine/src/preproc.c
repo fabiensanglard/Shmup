@@ -1003,7 +1003,7 @@ void printIndexes(FILE*	debug)
 	
 	for (i=0 ; i <  num_map_entities ; i++) 
 	{
-		fprintf(debug,"indicesPerObjectId[%hu]=%hu.\n",i,indicesPerObjectId[i]);
+		fprintf(debug,"indicesPerObjectId[%d]=%hu.\n",i,indicesPerObjectId[i]);
 	}
 	
 	
@@ -1014,7 +1014,7 @@ void printIndexes(FILE*	debug)
 			continue;
 		
 		for (j=0 ; j < map[i].model->numIndices ; j+=3)
-			fprintf(debug,"entityIndiceToModelIndice[%hu][%hu]=%hu\n",i,j,entityIndiceToModelIndice[i][j]);
+			fprintf(debug,"entityIndiceToModelIndice[%d][%d]=%hu\n",i,j,entityIndiceToModelIndice[i][j]);
 	}
 
 	for (i=0 ; i <  num_map_entities ; i++) 
@@ -1023,7 +1023,7 @@ void printIndexes(FILE*	debug)
 			continue;
 		
 		for (j=0 ; j < map[i].model->numIndices ; j+=3)
-			fprintf(debug,"modelIndiceToEntityIndice[%hu][%hu]=%hu\n",i,j,modelIndiceToEntityIndice[i][j]);
+			fprintf(debug,"modelIndiceToEntityIndice[%d][%d]=%hu\n",i,j,modelIndiceToEntityIndice[i][j]);
 	}
 	
 }
@@ -1129,7 +1129,7 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 			entityIndiceToModelIndice[face->objectId][visSet->numIndices] = face->faceId*3 ;
 
 			if (TRACE_CONVERT_FRAME)
-				fprintf(debug,"	Entity %hu model face %hu is at %hu.\n",face->objectId,face->faceId*3,visSet->numIndices);
+				fprintf(debug,"	Entity %hu model face %d is at %hu.\n",face->objectId,face->faceId*3,visSet->numIndices);
 			
 			visSet->numIndices += 3;		
 			
@@ -1178,7 +1178,7 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 				toBeAdded[numToBeAdded].faceId = currentFrame->visSet.visFaces[i].faceId;
 				
 				if (TRACE_CONVERT_FRAME)
-					fprintf(debug,"	[Add   ] Entity %hu, ModelFace %hu.\n",toBeAdded[numToBeAdded].objectId,toBeAdded[numToBeAdded].faceId*3);
+					fprintf(debug,"	[Add   ] Entity %hu, ModelFace %d.\n",toBeAdded[numToBeAdded].objectId,toBeAdded[numToBeAdded].faceId*3);
 				
 				numToBeAdded++;
 			}
@@ -1205,7 +1205,7 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 				toBeRemoved[numToBeRemoved].faceId = prevFrame->visSet.visFaces[i].faceId;
 				
 				if (TRACE_CONVERT_FRAME)
-				fprintf(debug,"	[Remove ] Entity %hu, ModelFace %hu.\n",toBeRemoved[numToBeRemoved].objectId,toBeRemoved[numToBeRemoved].faceId*3);
+				fprintf(debug,"	[Remove ] Entity %hu, ModelFace %d.\n",toBeRemoved[numToBeRemoved].objectId,toBeRemoved[numToBeRemoved].faceId*3);
 				
 				numToBeRemoved++;
 			}
@@ -1287,7 +1287,7 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 			visSet = &worldVisSet->visSets [ entityStats[ toBeRemoved[i].objectId  ].indexInVisUpdate ] ;
 			
 			if (TRACE_CONVERT_FRAME)
-				fprintf(debug,"	[toBeRemoved] Entity %hu modelId %hu = entity %hu.\n",toBeRemoved[i].objectId ,toBeRemoved[i].faceId*3,modelIndiceToEntityIndice[ toBeRemoved[i].objectId   ][ toBeRemoved[i].faceId*3]);
+				fprintf(debug,"	[toBeRemoved] Entity %hu modelId %d = entity %hu.\n",toBeRemoved[i].objectId ,toBeRemoved[i].faceId*3,modelIndiceToEntityIndice[ toBeRemoved[i].objectId   ][ toBeRemoved[i].faceId*3]);
 			
 			visSet->facesToRemove[ visSet->numFacesToRemove++ ] = modelIndiceToEntityIndice[ toBeRemoved[i].objectId   ][ toBeRemoved[i].faceId*3];
 		}
@@ -1298,7 +1298,7 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 			visSet = &worldVisSet->visSets [ entityStats[ toBeAdded[i].objectId  ].indexInVisUpdate ] ;
 			
 			if (TRACE_CONVERT_FRAME)
-				fprintf(debug,"	[toBeAdded  ] Entity %hu modelId %hu.\n",toBeAdded[i].objectId ,toBeAdded[i].faceId*3);
+				fprintf(debug,"	[toBeAdded  ] Entity %hu modelId %d.\n",toBeAdded[i].objectId ,toBeAdded[i].faceId*3);
 			
 			visSet->facesToAdd[ visSet->numFacesToAdd++ ] = toBeAdded[i].faceId*3;
 			

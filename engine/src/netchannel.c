@@ -25,7 +25,7 @@
 
 #include "netchannel.h"
 
-// The network version was designed on iOS with Unix socket. This part still needs to be ported using winsockets.
+// The network version was designed on iOS with Unix socket. This part still needs to be ported using winsock32.
 #ifdef WIN32
 	int NET_Init(void){return 1;}
 	void NET_Setup(void){}
@@ -222,7 +222,11 @@ struct sockaddr_in NET_GetAddressForInterfaceName( const char *ifname )
 		struct sockaddr_in *ina = (struct sockaddr_in *)ifa->ifa_addr;
 		if ( ina->sin_family == AF_INET && !strcmp( ifa->ifa_name, ifname ) ) {
 			uchar *ip = (uchar *)&ina->sin_addr;
-			printf("if: %s, family=%d @=%s IFF_UP=%d IFF_RUNNING=%d .\n",ifa->ifa_name,ina->sin_family,inet_ntoa(ina->sin_addr),ifa->ifa_flags & IFF_UP != 0, ifa->ifa_flags & IFF_RUNNING != 0);
+			printf("if: %s, family=%d @=%s IFF_UP=%d IFF_RUNNING=%d .\n",
+                   ifa->ifa_name,ina->sin_family,
+                   inet_ntoa(ina->sin_addr),
+                   (ifa->ifa_flags & IFF_UP) != 0, 
+                   (ifa->ifa_flags & IFF_RUNNING) != 0);
 //			printf( "AddressForInterfaceName( %s ) = ifa_name: %s ifa_flags: %i sa_family: %i=AF_INET ip: %i.%i.%i.%i\n", ifname, ifa->ifa_name, ifa->ifa_flags,ina->sin_family, ip[0], ip[1], ip[2], ip[3]  );
 			sprintf(MENU_GetMultiplayerTextLine(1),"My IP: %i.%i.%i.%i",ip[0], ip[1], ip[2], ip[3]);
 			freeifaddrs( ifap );
@@ -355,7 +359,7 @@ int NET_CheckServerAvailability(void)
 	if(net.type == NET_SERVER)
 	{
 		sprintf(MENU_GetMultiplayerTextLine(MESSAGE_NETYPE), "Waiting for client to connect...");
-		sprintf(MENU_GetMultiplayerTextLine(MESSAGE_NETYPE+1), "");
+		sprintf(MENU_GetMultiplayerTextLine(MESSAGE_NETYPE+1), " ");
 		sprintf(MENU_GetMultiplayerTextLine(MESSAGE_NETYPE+2), "You are Player ONE.");
 	}
 	
@@ -866,7 +870,7 @@ void NET_Setup(void)
 	if (net.type == NET_UNKNOWN && !NET_IsNetworkAvailable())
 	{
 		sprintf(MENU_GetMultiplayerTextLine(0), "No WIFI network available !");
-		sprintf(MENU_GetMultiplayerTextLine(1), "");
+		sprintf(MENU_GetMultiplayerTextLine(1), " ");
 		sprintf(MENU_GetMultiplayerTextLine(2), "Make sure WIFI is enabled" );
 		sprintf(MENU_GetMultiplayerTextLine(3), "and the device is connected." );
 	
@@ -886,7 +890,7 @@ void NET_Setup(void)
 		if (!NET_ResolveNetworkServer())
 		{
 			sprintf(MENU_GetMultiplayerTextLine(0),   "Unable to find the server !");
-			sprintf(MENU_GetMultiplayerTextLine(1),   "");
+			sprintf(MENU_GetMultiplayerTextLine(1),   " ");
 			sprintf(MENU_GetMultiplayerTextLine(2), "Restart the server then try");
 			sprintf(MENU_GetMultiplayerTextLine(3), "connecting again.");
 			return ;
