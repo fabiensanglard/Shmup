@@ -16,11 +16,13 @@
 */    
 #include <windows.h>
 #include <string.h>
- 
+#include <strsafe.h>
+
 extern "C" {
 #include "../src/dEngine.h"
 #include "../src/commands.h"
 #include "../src/timer.h"
+#include "../src/menu.h"
 }
 
 
@@ -28,10 +30,93 @@ extern "C" {
 
 
 
-void WIN_SwapRenderBuffers()
-{
-	EGLSwapBuffers();
-	FlushWindowsMessages();
+
+
+void WIN_CheckError(char* errorHeader){
+
+	DWORD errorCode;
+	LPVOID lpMsgBuf;
+    LPVOID lpDisplayBuf;
+
+
+	errorCode = GetLastError();
+
+	
+	FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL,
+        errorCode,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+        (LPTSTR) &lpMsgBuf,
+        0, NULL );
+ 
+
+	
+    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT,(lstrlen((LPCTSTR)lpMsgBuf)+lstrlen((LPCTSTR)errorHeader)+40)*sizeof(TCHAR)); 
+   
+	
+	StringCchPrintf((LPTSTR)lpDisplayBuf, 
+	                  LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+					  TEXT("%s failed with error %d: %s"),
+					  errorHeader, 
+					  errorCode, 
+					  lpMsgBuf); 
+	
+
+	printf("'%s'\n",(char*)lpDisplayBuf);
+	
+
+    LocalFree(lpMsgBuf);
+    LocalFree(lpDisplayBuf);
+
+}
+
+#define KEYDOWN(vk_code)  ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
+#define KEYUP(vk_code)  ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
+
+void WIN_CheckInputs(void){}
+
+void WIN_ReadInputs(){
+
+	int numButtons;
+	touch_t* currentTouchSet;
+
+	if (engine.menuVisible)
+	{
+		numButtons = MENU_GetNumButtonsTouches();
+		currentTouchSet = MENU_GetCurrentButtonTouches();
+		
+	}
+	else 
+	{
+		numButtons = NUM_BUTTONS;
+		currentTouchSet = touches;
+	}
+
+	int buttonPressed = KEYDOWN(VK_LBUTTON);
+	if (!buttonPressed)
+		return;
+
+	//Get the mouse coordinates in screenspace.
+	CURSORINFO pci ;
+	pci.cbSize = sizeof(pci);
+	BOOL success = GetCursorInfo(&pci);
+
+	if (!success){
+		WIN_CheckError("GetCursorInfo");
+		return;
+	}
+
+	//Convert the screenspage to windowspace coordinates.
+	success = ScreenToClient(WIN_GetHWND(),&pci.ptScreenPos);
+	if (!success){
+		WIN_CheckError("ScreenToClient");
+		return;
+	}
+
+	printf("wc: %d,%d\n",pci.ptScreenPos.x,pci.ptScreenPos.y);
 }
 
 
@@ -80,7 +165,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	
 	dEngine_Init();
-	renderer.statsEnabled = 1;
+	renderer.statsEnabled = 0;
 
 	
 
@@ -90,11 +175,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	while(gameOn)
 	{
+		PumpWindowsMessages();
+
+		// Check the state of the mouse and its position, may generate a touch_t if the 
+		// left button is pressed.
+		WIN_ReadInputs();
+		
+		
+
 		//commands[0].time = simulationTime;
 		dEngine_HostFrame();
 
 		
-		WIN_SwapRenderBuffers();
+		EGLSwapBuffers();
 
 		// Game is clocked at 60Hz (timediff will be either 16 or 17, this value
 		// comes from timer.c).

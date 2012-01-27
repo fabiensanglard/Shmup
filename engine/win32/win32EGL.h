@@ -30,9 +30,9 @@
 		void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 		void Destroy_NativeWindow(void);
 		void EGLSwapBuffers(void);
-		void FlushWindowsMessages(void);
-		void WIN_CheckInputs(void);
+		void PumpWindowsMessages(void);
 		extern  int gameOn;
+		HWND WIN_GetHWND();
 
 #ifdef __cplusplus
  }

@@ -72,14 +72,22 @@ bool TestEGLError2(HWND hWnd, char* pszLocation)
 EGLDisplay			eglDisplay	= 0;
 EGLSurface			eglSurface	= 0;
 
-HWND				hWnd	= 0;
+HWND winHandle;
 
+
+HWND WIN_GetHWND()
+{
+	return winHandle;
+}
+
+HWND				hWnd	= 0;
 void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 
 	// Windows variables
-	HWND				hWnd	= 0;
+	
 	HDC					hDC		= 0;
+	
 	
 
 	// EGL variables
@@ -114,7 +122,7 @@ void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpC
 	RECT	sRect;
 	SetRect(&sRect, 0, 0, nWidth, nHeight);
 	AdjustWindowRectEx(&sRect, WS_CAPTION | WS_SYSMENU, false, 0);
-	hWnd = CreateWindow( WINDOW_CLASS, _T("Shmup"), WS_VISIBLE | WS_SYSMENU,0+100, 0+100, nWidth, nHeight, NULL, NULL, hInstance, NULL);
+	winHandle = hWnd = CreateWindow( WINDOW_CLASS, _T("Shmup"), WS_VISIBLE | WS_SYSMENU,0+100, 0+100, nWidth, nHeight, NULL, NULL, hInstance, NULL);
 
 	eglWindow = hWnd;
 
@@ -282,10 +290,9 @@ void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpC
 void EGLSwapBuffers(void)
 {
 	eglSwapBuffers(eglDisplay, eglSurface);
-	FlushWindowsMessages();
 }
 
-void FlushWindowsMessages(void)
+void PumpWindowsMessages(void)
 {
 	MSG msg;
 	PeekMessage(&msg, hWnd, NULL, NULL, PM_REMOVE);
@@ -293,14 +300,6 @@ void FlushWindowsMessages(void)
 	DispatchMessage(&msg);
 }
 
-#define KEYDOWN(vk_code)  ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
-#define KEYUP(vk_code)  ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
-
-void WIN_CheckInputs(void)
-{
-	
-		
-}
 
 
 
