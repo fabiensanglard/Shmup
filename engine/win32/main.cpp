@@ -172,26 +172,34 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	dEngine_InitDisplaySystem(engineParameters);
 
 
-
+	/*
+          The only complicated thing here is the time to sleep. timediff returned by the engine is telling us how long the frame should last.
+		  Since a PC can render a frame in 1-2ms we need to substract frame hosting duration to timediff (either 16 or 17ms) and sleep for this amount of time.
+	*/
 	while(gameOn)
 	{
 		PumpWindowsMessages();
 
 		// Check the state of the mouse and its position, may generate a touch_t if the 
 		// left button is pressed.
+		unsigned long startFrame = timeGetTime();
+
+
 		WIN_ReadInputs();
-		
-		
-
-		//commands[0].time = simulationTime;
 		dEngine_HostFrame();
-
-		
 		EGLSwapBuffers();
 
+		unsigned long endFrame = timeGetTime();
+
+		unsigned long timeForFrame = endFrame - startFrame;
+		
+		int timeToSleep = timediff - timeForFrame;
+
+		//printf("timeToSleep=%d\n",timeToSleep);
 		// Game is clocked at 60Hz (timediff will be either 16 or 17, this value
 		// comes from timer.c).
-		Sleep(timediff);
+		if (timeToSleep > 0)
+			Sleep(timeToSleep);
 	}
 
 

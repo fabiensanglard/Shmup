@@ -23,9 +23,9 @@
 #include <GLES/gl.h>
 #include <windows.h>
 
- #ifdef __cplusplus
- extern "C" {
- #endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 		void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
 		void Destroy_NativeWindow(void);
@@ -35,8 +35,8 @@
 		HWND WIN_GetHWND();
 
 #ifdef __cplusplus
- }
- #endif
+}
+#endif
 
 #define WIN32_WINDOWS_WIDTH 320
 #define WIN32_WINDOWS_HEIGHT 480
