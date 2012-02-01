@@ -71,7 +71,7 @@ filehandle_t* FS_OpenFile( const char *filename, char* mode  )
 	int		end;
 	
 	uchar   isWriting;
-	uint i;
+	size_t i;
 	
 	memset(netpath,0,MAX_OSPATH);
 	
@@ -135,7 +135,7 @@ filehandle_t* FS_OpenFile( const char *filename, char* mode  )
 SW32 FS_ReadFile( void *buffer, W32 size, W32 count, filehandle_t *fhandle )
 {		
 	W8	*buf = (PW8)buffer;
-	W32 i;
+	size_t i;
 	
 	if( (size * count) > (fhandle->ptrEnd - fhandle->ptrCurrent) )
 	{

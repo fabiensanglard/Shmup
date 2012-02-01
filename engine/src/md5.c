@@ -39,7 +39,7 @@
 void cleanUpDoubleQuotes(char* string)
 {
 	char* cursor;
-	uint i;
+	size_t i;
 	
 	cursor = string;
 	
@@ -592,14 +592,7 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 
 void MD5_FreeMesh(md5_mesh_t* mesh)
 {
-	free(mesh->bones);
-	free(mesh->vertices);
-	free(mesh->triangles);
-	free(mesh->weights);
-	free(mesh->indices);
-	free(mesh);
-	
-	//If GPU resident, free it as well
+		//If GPU resident, free it as well
 	if (mesh->memLocation == MD5_MEMLOC_VRAM)
 	{
 		renderer.FreeGPUBuffer(mesh->vboId);
@@ -607,5 +600,14 @@ void MD5_FreeMesh(md5_mesh_t* mesh)
 	else {
 		free(mesh->vertexArray);
 	}
+
+	free(mesh->bones);
+	free(mesh->vertices);
+	free(mesh->triangles);
+	free(mesh->weights);
+	free(mesh->indices);
+	free(mesh);
+	
+
 	
 }

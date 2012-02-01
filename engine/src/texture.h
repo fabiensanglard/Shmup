@@ -56,7 +56,7 @@ typedef struct  {
 	
 	uchar cachable;
 	uchar memLocation;
-	uchar memStatic;
+	uchar memStatic;       //This texture should never be freed, even between levels.
 	
 } texture_t;
 

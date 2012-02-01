@@ -108,8 +108,8 @@ void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpC
     sWC.lpszMenuName = 0;
 	sWC.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
     sWC.lpszClassName = WINDOW_CLASS;
-	unsigned int nWidth =  WIN32_WINDOWS_WIDTH * WIN32_WINDOWS_SCALE;
-	unsigned int nHeight = WIN32_WINDOWS_HEIGHT* WIN32_WINDOWS_SCALE;
+	unsigned int nWidth =  WIN32_WINDOWS_WIDTH ;
+	unsigned int nHeight = WIN32_WINDOWS_HEIGHT;
 
 	ATOM registerClass = RegisterClass(&sWC);
 	if (!registerClass)
@@ -121,9 +121,12 @@ void Create_NativeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpC
 
 	RECT	sRect;
 	SetRect(&sRect, 0, 0, nWidth, nHeight);
-	AdjustWindowRectEx(&sRect, WS_CAPTION | WS_SYSMENU, false, 0);
-	winHandle = hWnd = CreateWindow( WINDOW_CLASS, _T("Shmup"), WS_VISIBLE | WS_SYSMENU,0+100, 0+100, nWidth, nHeight, NULL, NULL, hInstance, NULL);
 
+	//Note: We need to adjust the window size (take into account border,menubar,title area so the window client area is actually what was requested
+	AdjustWindowRectEx(&sRect, WS_CAPTION | WS_SYSMENU, false, 0);
+	//winHandle = hWnd = CreateWindow( WINDOW_CLASS, _T("Shmup"), WS_VISIBLE | WS_SYSMENU,0+100, 0+100, nWidth,                 nHeight               , NULL, NULL, hInstance, NULL);
+	  winHandle = hWnd = CreateWindow( WINDOW_CLASS, _T("Shmup"), WS_VISIBLE | WS_SYSMENU,0+100, 0+100, sRect.right-sRect.left, sRect.bottom-sRect.top, NULL, NULL, hInstance, NULL);
+	
 	eglWindow = hWnd;
 
 	// Get the associated device context

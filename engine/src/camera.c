@@ -217,7 +217,7 @@ camera_frame_t* CAM_ReadFrameCP2Binary(FILE* fileHandle)
 			fread(&entityVisSet->numIndices, sizeof(ushort), 1, fileHandle);
 	
 			entityVisSet->indices = calloc(entityVisSet->numIndices, sizeof(ushort));
-			cameraVisMemSize += sizeof(entityVisSet->numIndices * sizeof(ushort));
+			cameraVisMemSize += entityVisSet->numIndices * sizeof(ushort);
 		
 			fread(entityVisSet->indices, sizeof(ushort), entityVisSet->numIndices, fileHandle);
 	
@@ -230,12 +230,12 @@ camera_frame_t* CAM_ReadFrameCP2Binary(FILE* fileHandle)
 			
 			fread(&entityVisSet->numFacesToAdd, sizeof(ushort), 1, fileHandle);
 			entityVisSet->facesToAdd = calloc(entityVisSet->numFacesToAdd, sizeof(ushort));
-			cameraVisMemSize += sizeof(entityVisSet->numFacesToAdd * sizeof(ushort));
+			cameraVisMemSize += entityVisSet->numFacesToAdd * sizeof(ushort);
 			fread(entityVisSet->facesToAdd, sizeof(ushort), entityVisSet->numFacesToAdd, fileHandle);
 			
 			fread(&entityVisSet->numFacesToRemove, sizeof(ushort), 1, fileHandle);
 			entityVisSet->facesToRemove = calloc(entityVisSet->numFacesToRemove, sizeof(ushort));
-			cameraVisMemSize += sizeof(entityVisSet->numFacesToRemove * sizeof(ushort));
+			cameraVisMemSize += entityVisSet->numFacesToRemove * sizeof(ushort);
 			fread(entityVisSet->facesToRemove, sizeof(ushort), entityVisSet->numFacesToRemove, fileHandle);
 
 			

@@ -657,8 +657,8 @@ void MENU_Init(void)
 	MENU_CreateText(currentMenu,0,200,2,TEXT_CENTERED,"");
 	MENU_CreateText(currentMenu,0,150,2,TEXT_CENTERED,"");
 	MENU_CreateText(currentMenu,0,100,2,TEXT_CENTERED,"");
-	MENU_CreateText(currentMenu,0,050,2,TEXT_CENTERED,"");
-	MENU_CreateText(currentMenu,0,000,2,TEXT_CENTERED,"");
+	MENU_CreateText(currentMenu,0, 50,2,TEXT_CENTERED,"");
+	MENU_CreateText(currentMenu,0,  0,2,TEXT_CENTERED,"");
 	MENU_CreateText(currentMenu,0,-50,2,TEXT_CENTERED,"");
 	
 	pos[X] = 0 ; 
@@ -870,7 +870,7 @@ void MENU_Render(void)
 	renderer.SetMaterialTextureBlending(1);
 	renderer.SetTransparency(currentMenu->alpha);
 	
-	if (currentMenu->alpha < 1);
+	if (currentMenu->alpha < 1)
 		currentMenu->alpha += FADING_IN_TIME_PER_MS * timediff;
 	
 	

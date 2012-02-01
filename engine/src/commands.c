@@ -72,7 +72,7 @@ void COM_Init(void)
 	
 	controlNumIndices = 16;
 
-	memchr(touches, 0, sizeof(touches));
+	memset(touches, 0, sizeof(touches));
 	
 	
 	// Init controller data

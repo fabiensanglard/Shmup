@@ -260,7 +260,7 @@ void P_ResetPlayers(void)
 #define SCORE_POS_X -300
 #define SCORE_POS_Y 460
 #define SCORE_FONT_SIZE 2.7f
-#define SCORE_FORMAT "SCORE:%7d"
+#define SCORE_FORMAT "SCORE:%7u"
 void P_InitPlayers(void)
 {
 	int j;
@@ -916,7 +916,8 @@ void P_PrepareBulletSprites(void)
 			if (bullet->expirationTime < simulationTime)
 				continue;
 			
-			bullet->type = ++bullet->type & 3;
+			bullet++;
+			bullet->type = bullet->type & 3;
 			
 			bulSprite->pos[X] = bullet->ss_boudaries[LEFT];
 			bulSprite->pos[Y] = bullet->ss_boudaries[DOWN];
