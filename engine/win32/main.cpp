@@ -174,7 +174,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	freopen("conout$","w",stderr);
 	HWND  consoleHandle = GetConsoleWindow();
 	MoveWindow(consoleHandle,1,1,680,480,1);
-	printf("[sys_win.c] Console initialized.\n");
+	printf("[main.cpp] Console initialized.\n");
 
 
 

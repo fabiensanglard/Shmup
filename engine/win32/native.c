@@ -1,6 +1,8 @@
 #include "../src/native_services.h"
 #include "../src/texture.h"
 
+#include "windows.h"
+#include "Mmsystem.h"
 
 
 
@@ -79,18 +81,20 @@ void Native_UploadScore(uint score){}
 void Native_LoginGameCenter(void){}
 
 
-
+char* format = "open %s type mpegvideo alias myFile";
 void SND_InitSoundTrack(char* filename)
 {
-
+	char command[256];
+	sprintf(command,format,filename);
+	mciSendString(command, NULL, 0, 0);
 }
 
 void SND_StartSoundTrack(void)
 {
-
+	mciSendString("play myFile", NULL, 0, 0);
 }
 
 void SND_StopSoundTrack(void)
 {
-
+	mciSendString("close myFile", NULL, 0, 0);
 }
