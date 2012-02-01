@@ -195,42 +195,46 @@ void ENT_ClearModelsLibrary(void)
 	md5_bucket_t* toDelete;
 	
 	for (i=0; i < SIZE_MD5_HASHTABLE; i++) 
-	{
+	{  
 		prev = NULL;
 		
 		for (curr = md5_hashtable[i] ;  curr != NULL;) 
 		{
-			
-			if (!curr->mesh->memStatic)
-			{
-				toDelete = curr;
-				if (prev == NULL)
-				{
-					
-					md5_hashtable[i] = curr->next;
-					curr=md5_hashtable[i];
-				}
-				else 
-				{
-					prev->next = curr->next;
-					curr=curr->next;
-				}
-
-								
-				//Free MD5 mesh
-				MD5_FreeMesh(toDelete->mesh);
-				
-				free(toDelete->name);
-				toDelete->name = 0;
-				
-				free(toDelete);
-				toDelete=0;
-			}
-			else 
+			//If this mesh cannot be freed, go to the next one.
+			if (curr->mesh->memStatic)
 			{
 				prev = curr;
 				curr=curr->next;
+				continue;
 			}
+
+			
+			toDelete = curr;   
+
+			//Rearrange the linked list to skip the element we are going to free.
+			if (prev == NULL)
+			{
+				
+				md5_hashtable[i] = curr->next;
+				curr=md5_hashtable[i];
+			}
+			else 
+			{
+				prev->next = curr->next;
+				curr=curr->next;
+			}
+
+							
+			//Free MD5 mesh
+			MD5_FreeMesh(toDelete->mesh);
+			
+			free(toDelete->name);
+			toDelete->name = 0;
+			
+			free(toDelete);
+			toDelete=0;
+			
+			
 
 		}
 	}

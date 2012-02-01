@@ -113,7 +113,7 @@ typedef struct md5_mesh_t
 	uchar indicesMemoryLoc;
 	uint indicesVboId;
 	
-	uchar memStatic;
+	uchar memStatic;			//This mesh should never be freed, even between levels.
 	
 } md5_mesh_t;
 

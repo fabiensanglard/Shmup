@@ -23,6 +23,7 @@ extern "C" {
 #include "../src/commands.h"
 #include "../src/timer.h"
 #include "../src/menu.h"
+#include "../src/io_interface.h"
 }
 
 
@@ -76,28 +77,16 @@ void WIN_CheckError(char* errorHeader){
 #define KEYDOWN(vk_code)  ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEYUP(vk_code)  ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
 
-void WIN_CheckInputs(void){}
-
+#define MOUSE_L_BUTTON 0
+#define MOUSE_R_BUTTON 1
+int buttonState[2];
 void WIN_ReadInputs(){
 
-	int numButtons;
-	touch_t* currentTouchSet;
+	event_t event;
 
-	if (engine.menuVisible)
-	{
-		numButtons = MENU_GetNumButtonsTouches();
-		currentTouchSet = MENU_GetCurrentButtonTouches();
-		
-	}
-	else 
-	{
-		numButtons = NUM_BUTTONS;
-		currentTouchSet = touches;
-	}
+	int buttonIsPressed = KEYDOWN(VK_LBUTTON);
+	static int buttonWasPressed = 0;
 
-	int buttonPressed = KEYDOWN(VK_LBUTTON);
-	if (!buttonPressed)
-		return;
 
 	//Get the mouse coordinates in screenspace.
 	CURSORINFO pci ;
@@ -116,7 +105,38 @@ void WIN_ReadInputs(){
 		return;
 	}
 
-	printf("wc: %d,%d\n",pci.ptScreenPos.x,pci.ptScreenPos.y);
+
+	if (buttonIsPressed)
+	{
+		if (!buttonWasPressed)
+		{
+			//This is a began event
+			event.type = IO_EVENT_BEGAN;
+			event.position[X] = pci.ptScreenPos.x;
+			event.position[Y] = pci.ptScreenPos.y;
+			IO_PushEvent(&event);
+		}
+		else
+		{
+			//This is a moved event
+		}
+
+		buttonWasPressed = 1;
+	}
+	else
+	{
+		if (buttonWasPressed)
+		{
+			//This is a end event
+		}
+		buttonWasPressed = 0;
+	}
+
+
+    
+
+
+	//printf("wc: %d,%d\n",pci.ptScreenPos.x,pci.ptScreenPos.y);
 }
 
 
@@ -153,6 +173,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	_putenv(cwd);
 
 	engineParameters |= GL_11_RENDERER ;
+		
 	renderer.statsEnabled = 0;
 	renderer.materialQuality = MATERIAL_QUALITY_LOW;
 
@@ -171,6 +192,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	dEngine_InitDisplaySystem(engineParameters);
 
+	renderer.props |= PROP_FOG;	
+
+	memset(buttonState,0,sizeof(buttonState));
 
 	/*
           The only complicated thing here is the time to sleep. timediff returned by the engine is telling us how long the frame should last.

@@ -294,6 +294,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\io_interface.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\lexer.c"
 					>
 				</File>
@@ -464,6 +468,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\io_interface.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\ItextureLoader.h"
 					>
 				</File>
@@ -481,6 +489,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\stats.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\target.h"
 					>
 				</File>
 				<File
