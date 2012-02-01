@@ -63,47 +63,66 @@ void ENT_DumpEntityCache(void)
 		cursorBucket = currentBucket;
 		while(cursorBucket != NULL)
 		{
-			printf("Dumping mesh '%s'.\n",cursorBucket->name);
+			printf("Loc[%d]-Dumping mesh '%s'.\n",j,cursorBucket->name);
 			mesh= cursorBucket->mesh;
 
-			currentVertex = mesh->vertexArray;
 			printf("Listing Vertices.\n");
-
-			for (i=0; i < mesh->numVertices ; i++,currentVertex++) 
+			if (mesh->memLocation == MD5_MEMLOC_RAM)
 			{
-				printf("vertex: %d/%d  (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
-					   i,
-					   mesh->numVertices-1,   
-					   currentVertex->normal[0],
-					   currentVertex->normal[1],
-					   currentVertex->normal[2],
-					   currentVertex->text[0],
-					   currentVertex->text[1],
-					   currentVertex->pos[0],
-					   currentVertex->pos[1],
-					   currentVertex->pos[2]	   
-					   );
-			}
+				currentVertex = mesh->vertexArray;
+				
 
+				for (i=0; i < mesh->numVertices ; i++,currentVertex++) 
+				{
+					printf("vertex: %d/%d  (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
+						   i,
+						   mesh->numVertices-1,   
+						   currentVertex->normal[0],
+						   currentVertex->normal[1],
+						   currentVertex->normal[2],
+						   currentVertex->text[0],
+						   currentVertex->text[1],
+						   currentVertex->pos[0],
+						   currentVertex->pos[1],
+						   currentVertex->pos[2]	   
+						   );
+				}
+			}
+			else
+			{
+				if (mesh->memLocation == MD5_MEMLOC_VRAM)
+					printf("Vertices on GPU.\n");
+				else
+					printf("Vertices on DISK.\n");
+			}
 
 			printf("Listing indices.\n");
-			for(i=0;  i < mesh->numIndices ; i++)
+			if (mesh->indicesMemoryLoc == MD5_MEMLOC_RAM)
 			{
-				printf("indice: %d/%d, vertex: %hu   (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
-					   i,
-					   mesh->numIndices-1,   
-						mesh->indices[i],
-					   mesh->vertexArray[mesh->indices[i]].normal[0],
-					   mesh->vertexArray[mesh->indices[i]].normal[1],
-					   mesh->vertexArray[mesh->indices[i]].normal[2],
-					   mesh->vertexArray[mesh->indices[i]].text[0],
-					   mesh->vertexArray[mesh->indices[i]].text[1],
-					   mesh->vertexArray[mesh->indices[i]].pos[0],
-					   mesh->vertexArray[mesh->indices[i]].pos[1],
-					   mesh->vertexArray[mesh->indices[i]].pos[2]	 
-					   );
+				for(i=0;  i < mesh->numIndices ; i++)
+				{
+					printf("indice: %d/%d, vertex: %hu   (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
+						   i,
+						   mesh->numIndices-1,   
+							mesh->indices[i],
+						   mesh->vertexArray[mesh->indices[i]].normal[0],
+						   mesh->vertexArray[mesh->indices[i]].normal[1],
+						   mesh->vertexArray[mesh->indices[i]].normal[2],
+						   mesh->vertexArray[mesh->indices[i]].text[0],
+						   mesh->vertexArray[mesh->indices[i]].text[1],
+						   mesh->vertexArray[mesh->indices[i]].pos[0],
+						   mesh->vertexArray[mesh->indices[i]].pos[1],
+						   mesh->vertexArray[mesh->indices[i]].pos[2]	 
+						   );
+				}
 			}
-
+			else
+			{
+				if (mesh->memLocation == MD5_MEMLOC_VRAM)
+						printf("Indices on GPU.\n");
+					else
+						printf("Indices on DISK.\n");
+			}
 			cursorBucket = cursorBucket->next;
 		}
 	}

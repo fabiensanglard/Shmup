@@ -505,6 +505,7 @@ void dEngine_FreeSceneRessources(void)
 	
 	TEXT_ClearTextureLibrary();
 
+	ENT_DumpEntityCache();
 	ENT_ClearModelsLibrary();
 	
 	//event object and camerapath object are freed on the fly
