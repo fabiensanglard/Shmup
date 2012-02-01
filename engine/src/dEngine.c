@@ -84,20 +84,7 @@ void dEngine_ReadConfig(void)
 	{
 		LE_readToken();
 
-		//printf("Current token = '%s'.\n",LE_getCurrentToken());
-		if (!strcmp("renderer", LE_getCurrentToken()))
-		{
-			LE_readToken(); //{
-			while (strcmp("}", LE_getCurrentToken()))
-			{
-				LE_readToken();
-				if (!strcmp("resolution", LE_getCurrentToken()))
-				{
-					renderer.resolution = LE_readReal();
-				}
-			}
-		}
-		else if (!strcmp("scenes", LE_getCurrentToken()))
+		if (!strcmp("scenes", LE_getCurrentToken()))
 		{
 			LE_readToken(); // {
 			LE_readToken(); // numScenes

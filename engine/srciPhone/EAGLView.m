@@ -154,6 +154,8 @@ vec2_t commScale;
 	
 }
 
+int resolution;
+
 //The GL view is stored in the nib file. When it's unarchived it's sent -initWithCoder:
 - (id)initWithCoder:(NSCoder*)coder {
     
@@ -211,19 +213,16 @@ vec2_t commScale;
 			
 			renderer.glBuffersDimensions[WIDTH] = 768;
 			renderer.glBuffersDimensions[HEIGHT] = 1024;
+            resolution = 2.14;
 			// iPad
-			renderer.resolution = 2.13f;//1.8f;//2.13f;
-//			screenSize[WIDTH] = 768;
-//			screenSize[HEIGHT] = 1024;
 		}
 		else
 		{	
 			renderer.glBuffersDimensions[WIDTH] = 320;
 			renderer.glBuffersDimensions[HEIGHT] = 480;
+            resolution = 1;
 			// iPhone
-			renderer.resolution = 1.0f;
-//			screenSize[WIDTH] = 320;
-//			screenSize[HEIGHT] = 480;
+
 		}
 		
 		//printf("renderer.resolution =%.2f\n",renderer.resolution );
@@ -658,7 +657,7 @@ int lastTouchBegan = 0;
 		touchCount++;
 
 		// find which one it is closest to
-		int		minDist = 64 * 64 * renderer.resolution ;	// allow up to 64 unit moves to be drags
+		int		minDist = 64 * 64 * resolution ;	// allow up to 64 unit moves to be drags
 		int		minIndex = -1;
 		int dist;
 		touch_t	*t2 = currentTouchSet;

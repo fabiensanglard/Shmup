@@ -97,7 +97,8 @@ typedef struct renderer_t
 	uint statsEnabled;
 	uint materialQuality;
 	
-	float resolution;
+    //This is useless
+	//float resolution;
 
 	//FOG enabled/diabled via props
 	vec3_t fogColor;

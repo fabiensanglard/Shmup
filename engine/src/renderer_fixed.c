@@ -32,11 +32,15 @@
 #include "dEngine.h"
 #include "camera.h"
 
-#ifdef WIN32
-	
-	#include "GLES/gl.h"
 
-#else
+#include "target.h"
+#if defined (SHMUP_TARGET_WINDOWS)
+	#include "GLES/gl.h"
+#elif defined (SHMUP_TARGET_MACOSX)
+    #include "OpenGL/gl.h"
+    #define glOrthof glOrtho
+    #define glFogx glFogf
+#elif defined (SHMUP_TARGET_IOS)
 	#include <OpenGLES/ES1/gl.h>
 #endif
 
@@ -53,7 +57,7 @@
 
 matrix_t projectionMatrix;
 matrix_t modelViewMatrix;
-matrix_t textureMatrix = { 1.0f/32767,0,0,0,0,1.0f/32767,0,0,0,0,1,0,0,0,0,1};	//Unpacking matrix
+matrix_t textureMatrix = { 1.0f/32767,0,0,0,0,1.0f/32767,0,0,0,0,1,0,0,0,0,1};	//Unpacking matrix since texture coordinates are normalized in a short instead of a float.
 unsigned int lastTextureId;
 
 void SCR_CheckErrors(char* step, char* details)

@@ -157,6 +157,7 @@
 		28FD14FF0DC6FC520079059D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2D000D8B14D8D1C80021DC8D /* target.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = target.h; sourceTree = "<group>"; };
 		2D1212C81118DE2B0051035B /* player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
 		2D1212C91118DE2B0051035B /* player.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = player.c; sourceTree = "<group>"; };
 		2D18CDD5106B44210028DF35 /* material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
@@ -487,27 +488,28 @@
 		2DF347D2102F5F9C0052FFFF /* src */ = {
 			isa = PBXGroup;
 			children = (
-				2D245EA911BC5E9C005B2AB3 /* sfx */,
-				2DBC744B105A084300104164 /* entities */,
-				2D7E1FFF104E0BF000B10894 /* renderer */,
-				2DF3679110389A7800020D05 /* utils */,
-				2DF3679010389A5B00020D05 /* math */,
-				2DF362A11037C85D00020D05 /* texture */,
-				2DF347E5102F60960052FFFF /* globals.h */,
-				2DF347D5102F5FCA0052FFFF /* dEngine.h */,
-				2DF347D6102F5FCA0052FFFF /* dEngine.c */,
-				2D7C75001037705600EAF594 /* camera.h */,
 				2D7C75011037705600EAF594 /* camera.c */,
-				2D2D554A10435D2100BEDC6E /* world.h */,
-				2D2D554B10435D2100BEDC6E /* world.c */,
-				2D9AE358105D918800414FB2 /* config.h */,
-				2D9AE359105D918800414FB2 /* config.c */,
-				2D62C82A10801FA6002411C3 /* commands.h */,
+				2D7C75001037705600EAF594 /* camera.h */,
 				2D62C82B10801FA6002411C3 /* commands.c */,
-				2D9651F310AC91AC00F5AD05 /* vis.h */,
-				2D9651F410AC91AC00F5AD05 /* vis.c */,
-				2DD7D0B8112470410009BD26 /* event.h */,
+				2D62C82A10801FA6002411C3 /* commands.h */,
+				2D9AE359105D918800414FB2 /* config.c */,
+				2D9AE358105D918800414FB2 /* config.h */,
+				2DF347D6102F5FCA0052FFFF /* dEngine.c */,
+				2DF347D5102F5FCA0052FFFF /* dEngine.h */,
+				2DBC744B105A084300104164 /* entities */,
 				2DD7D0B9112470410009BD26 /* event.c */,
+				2DD7D0B8112470410009BD26 /* event.h */,
+				2DF347E5102F60960052FFFF /* globals.h */,
+				2DF3679010389A5B00020D05 /* math */,
+				2D7E1FFF104E0BF000B10894 /* renderer */,
+				2D245EA911BC5E9C005B2AB3 /* sfx */,
+				2D000D8B14D8D1C80021DC8D /* target.h */,
+				2DF362A11037C85D00020D05 /* texture */,
+				2DF3679110389A7800020D05 /* utils */,
+				2D9651F410AC91AC00F5AD05 /* vis.c */,
+				2D9651F310AC91AC00F5AD05 /* vis.h */,
+				2D2D554B10435D2100BEDC6E /* world.c */,
+				2D2D554A10435D2100BEDC6E /* world.h */,
 			);
 			path = src;
 			sourceTree = "<group>";

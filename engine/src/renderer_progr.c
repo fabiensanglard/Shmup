@@ -22,8 +22,17 @@
  *  Copyright 2009 Memset software Inc. All rights reserved.
  *
  */
-#include "config.h"
+
+
 #include "renderer_progr.h"
+
+#include "target.h"
+#if defined (SHMUP_TARGET_WINDOWS) || defined (SHMUP_TARGET_MACOSX)
+void initProgrRenderer(renderer_t* renderer){ printf("Shader renderer is not implemented.\n");exit(0);}
+#else
+
+#include "config.h"
+
 #include "camera.h"
 #include "filesystem.h"
 #include "world.h"
@@ -31,30 +40,9 @@
 #include "config.h"
 #include "player.h"
 #include "enemy.h"
+#include <OpenGLES/ES2/gl.h>
+#include <OpenGLES/ES2/glext.h>
 
-#ifdef WIN32
-
-void initProgrRenderer(renderer_t* renderer)
-{
-
-}
-
-#else
-
-
-
-
-
-
-
-#ifdef WIN32
-	#include "GLES2/gl2.h"
-	#include "GLES2/gl2ext.h"
-	typedef char GLchar;
-#else
-	#include <OpenGLES/ES2/gl.h>
-	#include <OpenGLES/ES2/glext.h>
-#endif 
 
 
 matrix_t projectionMatrix;

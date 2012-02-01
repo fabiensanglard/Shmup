@@ -86,33 +86,34 @@ void SCR_SetFadeFullScreen(void)
 void SCR_Init(void)
 {
 	int i,j;
-	float ratio;
+	float shmupAspectRatio;
 	
-	//renderWidth =  320 * renderer.resolution;
-	//renderHeight = 480 * renderer.resolution;
-	
-	//Centering rendition area with viewPort
-	//vector2Clear(viewPortCentering);
-	
-	renderer.viewPortDimensions[VP_WIDTH] = 320.0f * renderer.resolution ;
-	renderer.viewPortDimensions[VP_HEIGHT] = 480.0f * renderer.resolution ;
-	
-	if (renderer.viewPortDimensions[VP_WIDTH] > renderer.glBuffersDimensions[WIDTH])
+    // We have the screen dimension inf the glBuffersDimensions attribute, we need to define the view port 
+    // in order to take the best advantage of the space available.
+    
+    
+    float aspectRatio = renderer.glBuffersDimensions[WIDTH] / (float)renderer.glBuffersDimensions[HEIGHT];
+    
+    shmupAspectRatio = 320.0f/480.0f;
+    
+    //The screen is wider than needed.
+    if (aspectRatio > shmupAspectRatio)
+    {
+        renderer.viewPortDimensions[VP_HEIGHT] = renderer.glBuffersDimensions[HEIGHT];
+        renderer.viewPortDimensions[VP_WIDTH]  = renderer.glBuffersDimensions[HEIGHT] * shmupAspectRatio;
+    }
+	else if (aspectRatio < shmupAspectRatio) //The screen is taller than needed
 	{
-		ratio = renderer.glBuffersDimensions[WIDTH] / renderer.viewPortDimensions[VP_WIDTH];
-		renderer.viewPortDimensions[VP_WIDTH]  = renderer.glBuffersDimensions[WIDTH] * ratio;
-		renderer.viewPortDimensions[VP_HEIGHT] = renderer.glBuffersDimensions[HEIGHT]* ratio;		
+        renderer.viewPortDimensions[VP_WIDTH]  = renderer.glBuffersDimensions[WIDTH] ;
+		renderer.viewPortDimensions[VP_HEIGHT] = renderer.glBuffersDimensions[WIDTH] * 1/shmupAspectRatio;
+	}
+	else
+	{
+		renderer.viewPortDimensions[VP_HEIGHT] = renderer.glBuffersDimensions[HEIGHT];
+        renderer.viewPortDimensions[VP_WIDTH]  = renderer.glBuffersDimensions[WIDTH];
 	}
 	
-	if (renderer.viewPortDimensions[VP_HEIGHT] > renderer.glBuffersDimensions[HEIGHT])
-	{
-		ratio = renderer.glBuffersDimensions[HEIGHT] / renderer.viewPortDimensions[VP_HEIGHT];
-		renderer.viewPortDimensions[VP_WIDTH]  = renderer.glBuffersDimensions[WIDTH] * ratio;
-		renderer.viewPortDimensions[VP_HEIGHT] = renderer.glBuffersDimensions[HEIGHT]* ratio;		
-		
-	}
-	
-	
+	//Center the active surface (defined by the viewport width and height) on the screen.
 	renderer.viewPortDimensions[VP_X] = (renderer.glBuffersDimensions[WIDTH] - renderer.viewPortDimensions[VP_WIDTH]) / 2;
 	renderer.viewPortDimensions[VP_Y] = (renderer.glBuffersDimensions[HEIGHT] - renderer.viewPortDimensions[VP_HEIGHT]) / 2;
 	

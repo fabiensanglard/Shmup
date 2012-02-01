@@ -71,7 +71,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	renderer.statsEnabled = 0;
 	renderer.materialQuality = MATERIAL_QUALITY_LOW;
 
-    renderer.resolution = WIN32_WINDOWS_SCALE;
+   
     renderer.glBuffersDimensions[WIDTH] = WIN32_WINDOWS_WIDTH;
 	renderer.glBuffersDimensions[HEIGHT] = WIN32_WINDOWS_HEIGHT;
 	
