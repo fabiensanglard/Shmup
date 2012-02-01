@@ -80,6 +80,7 @@ void WIN_CheckError(char* errorHeader){
 #define MOUSE_L_BUTTON 0
 #define MOUSE_R_BUTTON 1
 int buttonState[2];
+int lastPosition[2];
 void WIN_ReadInputs(){
 
 	event_t event;
@@ -108,26 +109,43 @@ void WIN_ReadInputs(){
 
 	if (buttonIsPressed)
 	{
+		
+
 		if (!buttonWasPressed)
 		{
 			//This is a began event
 			event.type = IO_EVENT_BEGAN;
 			event.position[X] = pci.ptScreenPos.x;
 			event.position[Y] = pci.ptScreenPos.y;
+
+			
+
+			//printf("Click: [%d,%d].\n",event.position[X],event.position[Y]);
 			IO_PushEvent(&event);
+			
 		}
 		else
 		{
 			//This is a moved event
+			event.type = IO_EVENT_MOVED;
+			event.position[X] = pci.ptScreenPos.x;
+			event.position[Y] = pci.ptScreenPos.y;
+			event.previousPosition[X] = lastPosition[X];
+			event.previousPosition[Y] = lastPosition[Y];
+			IO_PushEvent(&event);
 		}
 
+		lastPosition[X] = pci.ptScreenPos.x;
+		lastPosition[Y] = pci.ptScreenPos.y;
 		buttonWasPressed = 1;
 	}
 	else
 	{
 		if (buttonWasPressed)
 		{
-			//This is a end event
+			//This is an end event
+			event.type = IO_EVENT_ENDED;
+			IO_PushEvent(&event);
 		}
 		buttonWasPressed = 0;
 	}
@@ -185,10 +203,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameOn = 1;
 
 	
+
 	dEngine_Init();
 	renderer.statsEnabled = 0;
 
-	
+	//This is only for windows build. Uses the viewport
+	IO_Init();
 
 	dEngine_InitDisplaySystem(engineParameters);
 

@@ -15,4 +15,6 @@ typedef struct event_s
 //Expect event position in windows active+passive surface coordinates system.
 void IO_PushEvent(event_t* event);
 
+void IO_Init(void);
+
 #endif

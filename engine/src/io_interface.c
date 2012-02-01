@@ -4,8 +4,16 @@
 #include "timer.h"
 
 int lastTouchBegan=0;
-int resolution = 1;
+
 #define SQUARE(X) ((X)*(X))
+
+
+float commScale[2]; 
+
+void IO_Init(void){
+	commScale[X] = SS_W/ (float)renderer.viewPortDimensions[VP_WIDTH];
+	commScale[Y] = SS_H/ (float)renderer.viewPortDimensions[VP_HEIGHT];
+}
 
 void IO_PushEvent(event_t* event){
 	
@@ -14,7 +22,7 @@ void IO_PushEvent(event_t* event){
 	
 	
 	touch_t *touch, *t2;
-	int		minDist = 64 * 64 * resolution ;	// allow up to 64 unit moves to be drags
+	int		minDist = 64 * 64  ;	// allow up to 64 unit moves to be drags
 	int		minIndex = -1;
 
 	//Button analysis variables
@@ -25,7 +33,7 @@ void IO_PushEvent(event_t* event){
 	int numButton;
 	touch_t* currentTouchSet;
 
-	int commScale[2]; commScale[0] = 1;  commScale[1] = 1;
+	
 
 
 

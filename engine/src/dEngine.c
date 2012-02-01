@@ -505,7 +505,8 @@ void dEngine_FreeSceneRessources(void)
 	
 	TEXT_ClearTextureLibrary();
 
-	ENT_DumpEntityCache();
+	//Debug traces only
+	//ENT_DumpEntityCache();
 	ENT_ClearModelsLibrary();
 	
 	//event object and camerapath object are freed on the fly
@@ -554,8 +555,8 @@ void dEngine_JumpInTime(void)
 		
 		while (simulationTime < timeJumpTarget) 
 		{
-			//Move on step ahead
-			timediff = 16;
+			//Move one step ahead
+			timediff = 16; //We are going to simulate by slice of 16ms until we reached the jumpTime.
 			simulationTime+=timediff;
 			
 			
