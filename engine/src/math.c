@@ -100,7 +100,7 @@ void vectorCosinuInterpolate(const vec3_t v1,const vec3_t v2,float f,vec3_t dest
 
 void strReplace(char* string,char toReplace, char replacment)
 {
-	int i;
+	size_t i;
 	
 	for (i=0; i < strlen(string); i++) {
 		if (string[i] == toReplace)

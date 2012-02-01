@@ -39,7 +39,7 @@
 void cleanUpDoubleQuotes(char* string)
 {
 	char* cursor;
-	uint i;
+	size_t i;
 	
 	cursor = string;
 	

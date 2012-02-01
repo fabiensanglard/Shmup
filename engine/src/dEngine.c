@@ -101,7 +101,7 @@ void dEngine_ReadConfig(void)
 					
 					LE_readToken();
 					strReplace(LE_getCurrentToken(), '_', ' ');
-					strcmp(engine.scenes[currentSceneId].name, LE_getCurrentToken());
+					strcpy(engine.scenes[currentSceneId].name, LE_getCurrentToken());
 					
 					LE_readToken();
 					strcpy(engine.scenes[currentSceneId].path, LE_getCurrentToken());
