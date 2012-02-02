@@ -280,6 +280,7 @@ char ENT_LoadEntity(entity_t* entity, const char* filename, uchar usage)
 		if (!MD5_LoadMesh(entity->model,filename))
 		{
 			free(entity->model);
+			printf("Unable to load mesh '%s'.\n",filename);
 			return 0;
 		}
 		

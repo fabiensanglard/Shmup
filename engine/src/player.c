@@ -212,12 +212,15 @@ void P_LoadPlayer(int playerIdToLoad)
 	player_t* player;
 	
 	
+	
+
 	player = &players[playerIdToLoad];
 	player->playerId = playerIdToLoad;
 	currentEntity = &players[playerIdToLoad].entity ;
 	currentEntity->model = (md5_mesh_t*)calloc(1,sizeof(md5_mesh_t)) ;
 	ENT_LoadEntity(currentEntity,players[playerIdToLoad].modelPath,ENT_FULL_DRAW);
 	
+
 	currentEntity->model->memStatic = 1;
 	currentEntity->material->textures[TEXTURE_DIFFUSE].memStatic= 1;
 	currentEntity->material->textures[TEXTURE_BUMP].memStatic= 1;
