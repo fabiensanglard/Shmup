@@ -180,7 +180,7 @@ typedef struct player_t
 	char modelPath[256];
 	
 	int nextBulletFireTime;
-	uchar numBullets;
+	uchar nextBulletSlotIndice;
 	bullet_t bullets[MAX_PLAYER_BULLETS];
 	
 	uchar lastBulletType;

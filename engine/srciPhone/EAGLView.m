@@ -154,7 +154,6 @@ vec2_t commScale;
 	
 }
 
-int resolution;
 
 //The GL view is stored in the nib file. When it's unarchived it's sent -initWithCoder:
 - (id)initWithCoder:(NSCoder*)coder {
@@ -213,14 +212,14 @@ int resolution;
 			
 			renderer.glBuffersDimensions[WIDTH] = 768;
 			renderer.glBuffersDimensions[HEIGHT] = 1024;
-            resolution = 2.14;
+            
 			// iPad
 		}
 		else
 		{	
 			renderer.glBuffersDimensions[WIDTH] = 320;
 			renderer.glBuffersDimensions[HEIGHT] = 480;
-            resolution = 1;
+            
 			// iPhone
 
 		}
@@ -278,7 +277,17 @@ int resolution;
 			// iPad
 			commScale[X] = SS_W/ (float)renderer.viewPortDimensions[VP_WIDTH];
 			commScale[Y] = SS_H/ (float)renderer.viewPortDimensions[VP_HEIGHT];
-			renderer.props &= ~PROP_FOG ;
+            
+            //Disable fog only on iPad1 machines, iPad2 have enough fillarate
+            size_t size;
+			sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+			char *machine = malloc(size);
+			sysctlbyname("hw.machine", machine, &size, NULL, 0);
+			
+			
+			if (!strcmp(machine, "iPad1,1"))
+				renderer.props &= ~PROP_FOG ;
+			
 		}
 		else
 		{
@@ -657,7 +666,7 @@ int lastTouchBegan = 0;
 		touchCount++;
 
 		// find which one it is closest to
-		int		minDist = 64 * 64 * resolution ;	// allow up to 64 unit moves to be drags
+		int		minDist = 64 * 64  ;	// allow up to 64 unit moves to be drags
 		int		minIndex = -1;
 		int dist;
 		touch_t	*t2 = currentTouchSet;

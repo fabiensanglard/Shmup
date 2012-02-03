@@ -850,7 +850,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fabien Sanglard (ACBYHUTD87)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -859,10 +859,11 @@
 				GCC_THUMB_SUPPORT = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = shmup.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PRODUCT_NAME = Shmup;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F9F119E-C424-4071-B4F8-0715BB263645";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -873,17 +874,18 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fabien Sanglard (ACBYHUTD87)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = shmup.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
 				PRODUCT_NAME = Shmup;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C9193687-3AA3-4154-B4F9-C0282C179D5F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -894,7 +896,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fabien Sanglard (ACBYHUTD87)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -903,10 +905,11 @@
 				GCC_THUMB_SUPPORT = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = shmupLite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PRODUCT_NAME = ShmupLite;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F9F119E-C424-4071-B4F8-0715BB263645";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -917,17 +920,18 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Fabien Sanglard (ACBYHUTD87)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = shmupLite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
 				PRODUCT_NAME = ShmupLite;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6C21F40E-6F11-4937-BCC4-94F7664C4C68";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -938,19 +942,20 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fabien Sanglard";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = shmupLite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-fsingle-precision-constant";
 				PRODUCT_NAME = ShmupLite;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E4BE05F2-A7C5-4555-9422-282C51E5E103";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -961,17 +966,18 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fabien Sanglard";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = shmupLite.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
 				PRODUCT_NAME = ShmupLite;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "23F496D2-97DD-464B-B216-6B3641EEA888";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -981,14 +987,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Fabien Sanglard";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fabien Sanglard";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
@@ -998,8 +1004,8 @@
 					"-fsingle-precision-constant",
 				);
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "135911EC-FF0C-4C99-AE2E-1DBA51729E07";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "135911EC-FF0C-4C99-AE2E-1DBA51729E07";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1010,19 +1016,20 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fabien Sanglard";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = shmup.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-fsingle-precision-constant";
 				PRODUCT_NAME = Shmup;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "135911EC-FF0C-4C99-AE2E-1DBA51729E07";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1038,7 +1045,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
@@ -1054,17 +1061,18 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fabien Sanglard";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = shmup.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
 				PRODUCT_NAME = Shmup;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "23F496D2-97DD-464B-B216-6B3641EEA888";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1080,6 +1088,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = DDEBUG;
 				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
@@ -1102,7 +1111,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;

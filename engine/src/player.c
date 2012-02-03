@@ -344,9 +344,10 @@ void P_FireBullet(player_t* player,float deltaX, float deltaY)
 	
 	bullet_t* bullet;
 		
-	bullet = &player->bullets[player->numBullets];
+	bullet = &player->bullets[player->nextBulletSlotIndice];
+	player->nextBulletSlotIndice++;
+	player->nextBulletSlotIndice = (MAX_PLAYER_BULLETS-1) & player->nextBulletSlotIndice;
 	
-	bullet->expirationTime = simulationTime + bulletConfig.ttl ;
 	
 	
 	spawningPos[X] = player->ss_position[X]*SS_W + deltaX;
@@ -367,9 +368,11 @@ void P_FireBullet(player_t* player,float deltaX, float deltaY)
 	bullet->type = player->lastBulletType++ ;
 	player->lastBulletType &= 3;
 	
-	player->numBullets = (MAX_PLAYER_BULLETS-1) & (++player->numBullets);
+    
 	
 	player->firingUpTo = simulationTime+ bulletConfig.msBetweenBullets;
+    
+    bullet->expirationTime = simulationTime + bulletConfig.ttl ;
 	 
 }
 
