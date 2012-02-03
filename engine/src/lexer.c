@@ -43,19 +43,7 @@ char whiteCharacters[128] ;
 
 
 
-//Is the at least one character to be consumed after fileParsed.ptrCurrent .
-int LE_hasMoreData(void)
-{
-	return (fileParsed.ptrCurrent < fileParsed.ptrEnd-1);
-}
 
-char LE_Peek(void)
-{
-	if (!LE_hasMoreData())
-		return 0;
-
-	return *(fileParsed.ptrCurrent+1);
-}
 
 
 void LE_popLexer()
@@ -86,9 +74,23 @@ void LE_SkipRestOfLine(void)
 	}
 }
 
-int prtCurrentIsWhiteChar(void)
+ int  prtCurrentIsWhiteChar(void)
 {
 	return whiteCharacters[*fileParsed.ptrCurrent];
+}
+
+//Is the at least one character to be consumed after fileParsed.ptrCurrent .
+int LE_hasMoreData(void)
+{
+	return (fileParsed.ptrCurrent < fileParsed.ptrEnd-1);
+}
+
+char LE_Peek(void)
+{
+	if (!LE_hasMoreData())
+		return 0;
+
+	return *(fileParsed.ptrCurrent+1);
 }
 
 void LE_init(filehandle_t* textFile)
@@ -204,7 +206,7 @@ char* LE_readToken(void)
 	}
 	else
 	{
-		while(TOKEN_BUFFER_HAS_ONE_MORE_SLOT && LE_hasMoreData() && !prtCurrentIsWhiteChar())
+		while(!prtCurrentIsWhiteChar() && LE_hasMoreData() && TOKEN_BUFFER_HAS_ONE_MORE_SLOT  )
 			*tokenChar++ = *fileParsed.ptrCurrent++;
 	}
 	

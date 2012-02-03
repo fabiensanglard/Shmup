@@ -78,6 +78,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <AdditionalDependencies>Winmm.lib;libgles_cm.lib;DevIL.lib;ILU.lib;ILUT.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
