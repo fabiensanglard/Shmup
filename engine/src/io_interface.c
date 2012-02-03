@@ -15,7 +15,7 @@ void IO_Init(void){
 	commScale[Y] = SS_H/ (float)renderer.viewPortDimensions[VP_HEIGHT];
 }
 
-void IO_PushEvent(event_t* event){
+void IO_PushEvent(io_event_s* event){
 	
 
 
@@ -33,18 +33,6 @@ void IO_PushEvent(event_t* event){
 	int numButton;
 	touch_t* currentTouchSet;
 
-	
-
-
-
-
-
-	if ( event->type == IO_EVENT_REQUEST_MENU) 
-	{
-		MENU_Set(MENU_HOME);
-		engine.requiredSceneId=0;
-		return;
-	}
 
 
 
