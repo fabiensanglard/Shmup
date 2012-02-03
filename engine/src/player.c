@@ -285,7 +285,7 @@ void P_InitPlayers(void)
 	TEX_MakeStaticAvailable(&ghostTexture);
 	
 	
-	pointersTexture.path = calloc(sizeof(char), strlen(POINTER_TEXT_PATH)+1);
+//	pointersTexture.path = calloc(sizeof(char), strlen(POINTER_TEXT_PATH)+1);
 	strcpy(pointersTexture.path,POINTER_TEXT_PATH);
 	TEX_MakeStaticAvailable(&pointersTexture);
 	
@@ -1337,7 +1337,7 @@ void P_Die(uchar playerId)
 			players[playerId].invulnerableFor = 500000;
 			
 			//Request scene 0 and menu 0 for within 3 seconds from now
-			event = calloc(1, sizeof(event));
+			event = calloc(1, sizeof(event_t));
 			event->type = EV_REQUEST_MENU;
 			event->time = simulationTime + 5000;
 			eventReqMenu = (event_req_menu_t*)calloc(1,sizeof(event_req_menu_t));
@@ -1345,7 +1345,7 @@ void P_Die(uchar playerId)
 			event->payload = eventReqMenu;
 			EV_AddEvent(event);
 			
-			event= calloc(1, sizeof(event));
+			event= calloc(1, sizeof(event_t));
 			event->type = EV_REQUEST_SCENE;
 			event->time = simulationTime + 5000;
 			eventReqScene = (event_req_scene_t*)calloc(1,sizeof(event_req_scene_t));

@@ -146,7 +146,7 @@ void MATLIB_PrintCache()
 material_t* MATLIB_Create(char* materialName)
 {
 	material_t* material;
-	char* newMaterialName;
+	
 	int i;
 	
 	if (strlen(materialName) > MAX_MATERIAL_NAME_LENGTH-1)
@@ -176,7 +176,9 @@ material_t* MATLIB_Create(char* materialName)
 
 	//strcpy(material->name, materialName);
 	
-	
+	strcpy(material->name,materialName);
+	LE_cleanUpDoubleQuotes(material->name);
+	/*
 	newMaterialName = material->name;
 	while(*materialName != '\0')
 	{
@@ -189,6 +191,7 @@ material_t* MATLIB_Create(char* materialName)
 		else
 			materialName++;
 	}
+	*/
 	//*newMaterialName = '\0';
 	
 	//printf("Null termination char= '%d'\n",'\0');
@@ -260,7 +263,7 @@ void MATLIB_LoadLibraries(void)
 			// If the engine is in low quality, we need to skip this block
 			if (renderer.materialQuality == MATERIAL_QUALITY_LOW)
 			{
-				while (strcmp("}", LE_getCurrentToken())) {
+				while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken())) {
 					LE_readToken();
 				}
 			}
@@ -269,7 +272,7 @@ void MATLIB_LoadLibraries(void)
 				
 				LE_readToken(); // {
 				LE_readToken();
-				while (strcmp("}", LE_getCurrentToken())) 
+				while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken())) 
 				{
 					MATLIB_LoadLibrary(LE_getCurrentToken());
 					LE_readToken();
@@ -284,7 +287,7 @@ void MATLIB_LoadLibraries(void)
 			// If the engine is in high quality, we need to skip this block
 			if (renderer.materialQuality == MATERIAL_QUALITY_HIGH)
 			{
-				while (strcmp("}", LE_getCurrentToken())) {
+				while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken())) {
 					LE_readToken();
 				}
 			}
@@ -292,7 +295,7 @@ void MATLIB_LoadLibraries(void)
 			{
 				LE_readToken(); // {
 				LE_readToken();
-				while (strcmp("}", LE_getCurrentToken())) 
+				while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken())) 
 				{
 					MATLIB_LoadLibrary(LE_getCurrentToken());
 					LE_readToken();
@@ -339,7 +342,7 @@ void MATLIB_LoadLibrary(char* mtlPath)
 		{
 			//currentMaterial->textures[TEXTURE_DIFFUSE] = calloc(1,sizeof(texture_t));
 			LE_readToken();
-			currentMaterial->textures[TEXTURE_DIFFUSE].path = malloc((strlen(LE_getCurrentToken())+1)*sizeof(char));
+//			currentMaterial->textures[TEXTURE_DIFFUSE].path = malloc((strlen(LE_getCurrentToken())+1)*sizeof(char));
 			strcpy(currentMaterial->textures[TEXTURE_DIFFUSE].path, LE_getCurrentToken());
 				
 			currentMaterial->prop |= PROP_DIFF ;
@@ -348,7 +351,7 @@ void MATLIB_LoadLibrary(char* mtlPath)
 		if (!strcmp("BumpKd",LE_getCurrentToken()))
 		{
 			LE_readToken();
-			currentMaterial->textures[TEXTURE_BUMP].path = malloc((strlen(LE_getCurrentToken())+1)*sizeof(char));
+	//		currentMaterial->textures[TEXTURE_BUMP].path = malloc((strlen(LE_getCurrentToken())+1)*sizeof(char));
 			strcpy(currentMaterial->textures[TEXTURE_BUMP].path, LE_getCurrentToken());
 				
 			currentMaterial->prop |= PROP_BUMP;
@@ -358,7 +361,7 @@ void MATLIB_LoadLibrary(char* mtlPath)
 		if (!strcmp("SpecKd",LE_getCurrentToken()))
 		{
 			LE_readToken();
-			currentMaterial->textures[TEXTURE_SPECULAR].path = malloc((strlen(LE_getCurrentToken())+1)*sizeof(char));
+	//		currentMaterial->textures[TEXTURE_SPECULAR].path = malloc((strlen(LE_getCurrentToken())+1)*sizeof(char));
 			strcpy(currentMaterial->textures[TEXTURE_SPECULAR].path, LE_getCurrentToken());
 				
 			currentMaterial->prop |= PROP_SPEC;

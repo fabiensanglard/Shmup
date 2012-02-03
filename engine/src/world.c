@@ -77,7 +77,7 @@ void World_ReadMD5s(matrix_t currentMatrix)
 	
 	LE_readToken(); // {
 	LE_readToken();
-	while (strcmp(LE_getCurrentToken(), "}"))
+	while (LE_hasMoreData() && strcmp(LE_getCurrentToken(), "}"))
 	{
 		if (!strcmp("model",LE_getCurrentToken()))
 		{
@@ -201,7 +201,7 @@ void World_OpenScene(char* filename)
 		{
 			LE_readToken();	//{
 			LE_readToken();
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("filename", LE_getCurrentToken()))
 				{
@@ -286,7 +286,7 @@ void World_OpenScene(char* filename)
 			
 			LE_readToken();	//{
 			LE_readToken();
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("id", LE_getCurrentToken()))
 				{
@@ -313,7 +313,7 @@ void World_OpenScene(char* filename)
 		{
 			LE_readToken(); // {
 			LE_readToken();
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("position", LE_getCurrentToken()))
 				{
@@ -387,7 +387,7 @@ void World_OpenScene(char* filename)
 		{
 			LE_readToken(); // {
 			LE_readToken();
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("path", LE_getCurrentToken()))
 				{
@@ -447,7 +447,7 @@ void World_OpenScene(char* filename)
 		{
 			LE_readToken(); // {
 			LE_readToken();
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("at", LE_getCurrentToken()))
 				{
@@ -503,7 +503,7 @@ void World_OpenScene(char* filename)
 		{
 			LE_readToken(); // {
 			LE_readToken();
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("trackname", LE_getCurrentToken()))
 				{
@@ -529,7 +529,7 @@ void World_OpenScene(char* filename)
 		{
 			LE_readToken(); // {
 			LE_readToken();
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				
 				if (!strcmp("filename", LE_getCurrentToken()))
@@ -575,12 +575,12 @@ void World_OpenScene(char* filename)
 		{
 			LE_readToken(); // {
 			LE_readToken();
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("titleName", LE_getCurrentToken()))
 				{
 					LE_readToken();
-					titleTexture.path = calloc(strlen(LE_getCurrentToken())+1, sizeof(char));
+					//titleTexture.path = calloc(strlen(LE_getCurrentToken())+1, sizeof(char));
 					strcpy(titleTexture.path,LE_getCurrentToken());
 					TEX_MakeStaticAvailable(&titleTexture);
 				//	printf("titleTexture.textureId=%d\n",titleTexture.textureId);

@@ -535,7 +535,7 @@ void MENU_Init(void)
 	
 	memset(menuScreens,0,sizeof(menuScreens));
 	
-	textureAtlas.path = calloc(strlen(HOME_ATLAS)+1, sizeof(char));
+//	textureAtlas.path = calloc(strlen(HOME_ATLAS)+1, sizeof(char));
 	strcpy(textureAtlas.path,HOME_ATLAS );
 	
 	

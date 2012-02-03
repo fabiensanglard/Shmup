@@ -41,7 +41,7 @@
 
 typedef struct  {
 	uint textureId;
-	char* path;
+	char path[256];
 	
 	uchar numMipmaps;
 	ubyte** data;

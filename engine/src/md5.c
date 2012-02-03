@@ -33,25 +33,10 @@
 #include <limits.h>
 #include <float.h>
 #include "renderer.h"
+#include "lexer.h"
 
 
 
-void cleanUpDoubleQuotes(char* string)
-{
-	char* cursor;
-	size_t i;
-	
-	cursor = string;
-	
-	for(i=0 ; i < strlen(string) ; i++)
-	{
-		
-		if (string[i] != '"') 
-			*cursor++ = string[i];
-	}
-	
-	*cursor = '\0';
-}
 
 void MD5_GenerateLightingInfo (md5_mesh_t* mesh)
 {
@@ -284,15 +269,15 @@ void MD5_ReadMesh(md5_mesh_t* mesh)
 	
 	LE_readToken(); // {
 	
-	while (strcmp("}", LE_getCurrentToken())) 
+	while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken())) 
 	{
 		LE_readToken();
 		
 		if (!strcmp("shader", LE_getCurrentToken()))
 		{
 			LE_readToken();
-			cleanUpDoubleQuotes(LE_getCurrentToken());
-			mesh->materialName = calloc(strlen(LE_getCurrentToken()+1), sizeof(char));
+			LE_cleanUpDoubleQuotes(LE_getCurrentToken());
+			mesh->materialName = calloc(strlen(LE_getCurrentToken())+1, sizeof(char));
 			strcpy(mesh->materialName, LE_getCurrentToken());
 		}
 		else

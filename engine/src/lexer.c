@@ -30,39 +30,49 @@
 #define MAX_TOKEN_SIZE 256
 
 filehandle_t fileParsed;
-char* token = NULL;
-char* tokenChar = NULL;
+char token[MAX_TOKEN_SIZE];
+
+#define TOKEN_BUFFER_HAS_ONE_MORE_SLOT (tokenChar < &token[MAX_TOKEN_SIZE-1])
+#define TOKEN_BUFFER_HAS_TWO_MORE_SLOT (tokenChar < &token[MAX_TOKEN_SIZE-2])
 
 unsigned int stackPointer=0;
 filehandle_t filesStack[STACK_SIZE];
-char tokensStack[STACK_SIZE][MAX_TOKEN_SIZE];
-char* tokenCharsStack[STACK_SIZE];
 
 
 char whiteCharacters[128] ;
 
 
 
+//Is the at least one character to be consumed after fileParsed.ptrCurrent .
+int LE_hasMoreData(void)
+{
+	return (fileParsed.ptrCurrent < fileParsed.ptrEnd-1);
+}
+
+char LE_Peek(void)
+{
+	if (!LE_hasMoreData())
+		return 0;
+
+	return *(fileParsed.ptrCurrent+1);
+}
+
+
 void LE_popLexer()
 {
 	stackPointer--;
 	fileParsed = filesStack[stackPointer] ;
-	token = tokensStack[stackPointer]  ;
-	tokenChar = tokenCharsStack[stackPointer] ;
+	
+	
 }
 
 void LE_pushLexer()
 {
 	filesStack[stackPointer] = fileParsed;
-	
-	tokenCharsStack[stackPointer] = tokenChar;
 	stackPointer++ ;
-	token = tokensStack[stackPointer];
-	
-	*token = '\0';
-	tokenChar = token;
 }
 
+//Move ahead until after the 
 void LE_SkipRestOfLine(void)
 {
 	while (LE_hasMoreData())
@@ -85,14 +95,10 @@ void LE_init(filehandle_t* textFile)
 {
 	fileParsed = *textFile;	
 	
-	if (token == NULL)
-		token = tokensStack[0];
-	
-	tokenChar = token;
-	
 	
 	memset(whiteCharacters,0,128*sizeof(char));
 	
+	whiteCharacters['\0'] = 1;
 	whiteCharacters[' '] = 1;
 	whiteCharacters['	'] = 1;
 //	whiteCharacters[','] = 1;
@@ -102,22 +108,16 @@ void LE_init(filehandle_t* textFile)
 	whiteCharacters['\n'] = 1;
 	whiteCharacters['*'] = 1;
 	whiteCharacters[':'] = 1;
-	
+	whiteCharacters[';'] = 1;
+
+
 }
 
-void LE_SetWhiteCharValue(char c, char value)
-{
-	whiteCharacters[c] = value;
-}
 
-char previousChar=0;
 void LE_skipWhiteSpace(void)
 {
-	if (!LE_hasMoreData())
-		return;
-	
-	
-	
+	char previousChar=0;
+
 	while(LE_hasMoreData())
 	{
 		
@@ -133,7 +133,7 @@ void LE_skipWhiteSpace(void)
 		//Legacy C comment style //
 		if (*fileParsed.ptrCurrent == '/')
 		{
-			if((fileParsed.ptrCurrent+1) != fileParsed.ptrEnd &&  *(fileParsed.ptrCurrent+1) == '/')
+			if(LE_Peek() == '/')
 			{
 				fileParsed.ptrCurrent++;
 				LE_SkipRestOfLine();
@@ -144,7 +144,7 @@ void LE_skipWhiteSpace(void)
 		//C++ comment style /* */
 		if (*fileParsed.ptrCurrent == '/')
 		{
-			if((fileParsed.ptrCurrent+1) != fileParsed.ptrEnd &&  *(fileParsed.ptrCurrent+1) == '*')
+			if(LE_Peek() ==  '*')
 			{
 				fileParsed.ptrCurrent++;
 				
@@ -164,7 +164,6 @@ void LE_skipWhiteSpace(void)
 
 		if (prtCurrentIsWhiteChar())
 		{
-			previousChar = *fileParsed.ptrCurrent;
 			fileParsed.ptrCurrent++;
 			continue;
 		}
@@ -178,16 +177,22 @@ void LE_skipWhiteSpace(void)
 
 char* LE_readToken(void)
 {
+	char* tokenChar = NULL;
+    //tokenChat always point to the slot that will be written. It is used as a "write and move" pointer (as opposite to "move and write).
+
 	LE_skipWhiteSpace();
 	
 	tokenChar = token;
 	*tokenChar = '\0';
 	
+	if (!LE_hasMoreData())
+		return token;
+
 	//String literal
 	if (*fileParsed.ptrCurrent == '"')
 	{
 		*tokenChar++ = *fileParsed.ptrCurrent++;
-		while(LE_hasMoreData() && *fileParsed.ptrCurrent != '"')
+		while(TOKEN_BUFFER_HAS_TWO_MORE_SLOT && LE_hasMoreData() && *fileParsed.ptrCurrent != '"')
 		{
 			//			previousChar = *fileParsed.ptrCurrent;
 			*tokenChar++ = *fileParsed.ptrCurrent++;
@@ -196,17 +201,17 @@ char* LE_readToken(void)
 		fileParsed.ptrCurrent++;
 		
 		*tokenChar++ = '"';
-		*tokenChar++ = '\0';
-		return token;
 	}
 	else
 	{
-		while(LE_hasMoreData() && !prtCurrentIsWhiteChar())
+		while(TOKEN_BUFFER_HAS_ONE_MORE_SLOT && LE_hasMoreData() && !prtCurrentIsWhiteChar())
 			*tokenChar++ = *fileParsed.ptrCurrent++;
 	}
 	
 	*tokenChar++ = '\0';
-	
+
+//	printf("%s\n",token);
+
 	return token;
 }
 
@@ -224,9 +229,20 @@ char* LE_getCurrentToken()
 }
 
 
-int LE_hasMoreData(void)
+
+void LE_cleanUpDoubleQuotes(char* string)
 {
-	return (fileParsed.ptrCurrent < fileParsed.ptrEnd);
+	char* cursor;
+	size_t i;
+	
+	cursor = string;
+	
+	for(i=0 ; i < strlen(string) ; i++)
+	{
+		
+		if (string[i] != '"') 
+			*cursor++ = string[i];
+	}
+	
+	*cursor = '\0';
 }
-
-

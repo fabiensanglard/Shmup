@@ -81,20 +81,23 @@ void Native_UploadScore(uint score){}
 void Native_LoginGameCenter(void){}
 
 
-char* format = "open %s type mpegvideo alias myFile";
+wchar_t* format = L"open %s type mpegvideo alias myFile";
 void SND_InitSoundTrack(char* filename)
 {
-	char command[256];
-	sprintf(command,format,filename);
+	wchar_t command[256];
+
+	printf("[SND_InitSoundTrack] start '%s'.\n",filename);
+
+	swprintf(command,format,filename);
 	mciSendString(command, NULL, 0, 0);
 }
 
 void SND_StartSoundTrack(void)
 {
-	mciSendString("play myFile", NULL, 0, 0);
+	mciSendString(L"play myFile", NULL, 0, 0);
 }
 
 void SND_StopSoundTrack(void)
 {
-	mciSendString("close myFile", NULL, 0, 0);
+	mciSendString(L"close myFile", NULL, 0, 0);
 }
