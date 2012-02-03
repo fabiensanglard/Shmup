@@ -269,6 +269,6 @@ void TITLE_Render(void)
 void TITLE_FreeRessources()
 {
 	TEX_UnloadTexture(&titleTexture);
-	free(titleTexture.path);
+	//free(titleTexture.path);
 }
 

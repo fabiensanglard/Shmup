@@ -88,7 +88,7 @@ void dEngine_ReadConfig(void)
 		{
 			LE_readToken(); // {
 			LE_readToken(); // numScenes
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("numScenes", LE_getCurrentToken()))
 				{
@@ -118,28 +118,28 @@ void dEngine_ReadConfig(void)
 		else if (!strcmp("fx", LE_getCurrentToken()))
 		{
 			LE_readToken(); //{
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				LE_readToken();
 				
 				if (!strcmp("impactTextureName", LE_getCurrentToken()))
 				{
 					LE_readToken();
-					explosionTexture.path = calloc(strlen(LE_getCurrentToken()+1), sizeof(char));
+	//			explosionTexture.path = calloc(strlen(LE_getCurrentToken())+1, sizeof(char));
 					strcpy(explosionTexture.path, LE_getCurrentToken());
 				}
 				else 
 				if (!strcmp("smokeTextureName", LE_getCurrentToken()))
 				{
 					LE_readToken();
-					smokeTexture.path = calloc(strlen(LE_getCurrentToken()+1), sizeof(char));
+	//				smokeTexture.path = calloc(strlen(LE_getCurrentToken())+1, sizeof(char));
 					strcpy(smokeTexture.path, LE_getCurrentToken());
 				}
 				else 
 				if (!strcmp("ghostTextureName", LE_getCurrentToken()))
 				{
 					LE_readToken();
-					ghostTexture.path = calloc(strlen(LE_getCurrentToken()+1), sizeof(char));
+	//				ghostTexture.path = calloc(strlen(LE_getCurrentToken())+1, sizeof(char));
 					strcpy(ghostTexture.path, LE_getCurrentToken());
 				}
 			}
@@ -164,7 +164,7 @@ void dEngine_ReadConfig(void)
 		{
 			LE_readToken();	//{
 			LE_readToken();
-			while (strcmp("}", LE_getCurrentToken()))
+			while (LE_hasMoreData() && strcmp("}", LE_getCurrentToken()))
 			{
 				if (!strcmp("model1", LE_getCurrentToken()))
 				{
@@ -181,7 +181,7 @@ void dEngine_ReadConfig(void)
 					if (!strcmp("bulletTextureName", LE_getCurrentToken()))
 				{
 					LE_readToken();
-					bulletConfig.bulletTexture.path = calloc(strlen(LE_getCurrentToken())+1, sizeof(char));
+//					bulletConfig.bulletTexture.path = calloc(strlen(LE_getCurrentToken())+1, sizeof(char));
 					strcpy(bulletConfig.bulletTexture.path, LE_getCurrentToken());
 				}
 				else 

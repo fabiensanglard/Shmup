@@ -1,3 +1,14 @@
+*.sdf
+Debug
+Release
+*.dll
+*.exe
+*.pbd
+*.pdb
+*.ilk
+xcuserdata
+*.suo
+*.user
 build
 *.ncb
 .DS_Store

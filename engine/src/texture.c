@@ -329,7 +329,7 @@ void TEX_UnloadTexture(texture_t* texture)
 	}
 	
 	renderer.FreeGPUTexture(texture);
-	texture->textureId = 0;
+	
 
 	texture->memLocation = TEXT_MEM_LOC_DISK;
 

@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{ADF7591E-FBB8-48EE-98FF-74D8D4AD99EC}</ProjectGuid>
+    <RootNamespace>dEngine</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\opt\cygwin\home\SanglardFa\devIL\include;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\Include;C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Winmm.lib;libgles_cm.lib;DevIL.lib;ILU.lib;ILUT.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\..\..\ShmupDebug.exe</OutputFile>
+      <AdditionalLibraryDirectories>C:\opt\cygwin\home\SanglardFa\devIL\lib\;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\WindowsX86\Lib;C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\libs\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>C:\opt\cygwin\home\SanglardFa\devIL\include;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\Include;C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Winmm.lib;libgles_cm.lib;DevIL.lib;ILU.lib;ILUT.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\..\..\ShmupRelease.exe</OutputFile>
+      <AdditionalLibraryDirectories>C:\opt\cygwin\home\SanglardFa\devIL\lib\;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\WindowsX86\Lib;C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\libs\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\camera.c" />
+    <ClCompile Include="..\..\..\src\collisions.c" />
+    <ClCompile Include="..\..\..\src\commands.c" />
+    <ClCompile Include="..\..\..\src\dEngine.c" />
+    <ClCompile Include="..\..\..\src\event.c" />
+    <ClCompile Include="..\..\..\src\math.c" />
+    <ClCompile Include="..\..\..\src\vis.c" />
+    <ClCompile Include="..\..\..\src\world.c" />
+    <ClCompile Include="..\..\..\src\renderer.c" />
+    <ClCompile Include="..\..\..\src\renderer_fixed.c" />
+    <ClCompile Include="..\..\..\src\renderer_progr.c" />
+    <ClCompile Include="..\..\..\src\matrix.c" />
+    <ClCompile Include="..\..\..\src\quaternion.c" />
+    <ClCompile Include="..\..\..\src\enemy.c" />
+    <ClCompile Include="..\..\..\src\enemy_particules.c" />
+    <ClCompile Include="..\..\..\src\entities.c" />
+    <ClCompile Include="..\..\..\src\fx.c" />
+    <ClCompile Include="..\..\..\src\md5.c" />
+    <ClCompile Include="..\..\..\src\player.c" />
+    <ClCompile Include="..\..\..\src\ItextureLoader.c" />
+    <ClCompile Include="..\..\..\src\material.c" />
+    <ClCompile Include="..\..\..\src\texture.c" />
+    <ClCompile Include="..\..\..\src\config.c" />
+    <ClCompile Include="..\..\..\src\filesystem.c" />
+    <ClCompile Include="..\..\..\src\io_interface.c" />
+    <ClCompile Include="..\..\..\src\lexer.c" />
+    <ClCompile Include="..\..\..\src\menu.c" />
+    <ClCompile Include="..\..\..\src\preproc.c" />
+    <ClCompile Include="..\..\..\src\stats.c" />
+    <ClCompile Include="..\..\..\src\text.c" />
+    <ClCompile Include="..\..\..\src\timer.c" />
+    <ClCompile Include="..\..\..\src\titles.c" />
+    <ClCompile Include="..\..\main.cpp" />
+    <ClCompile Include="..\..\native.c" />
+    <ClCompile Include="..\..\win32EGL.cpp" />
+    <ClCompile Include="..\..\..\src\netchannel.c" />
+    <ClCompile Include="..\..\..\src\fht.c" />
+    <ClCompile Include="..\..\..\src\lee.c" />
+    <ClCompile Include="..\..\..\src\lofb.c" />
+    <ClCompile Include="..\..\..\src\shab.c" />
+    <ClCompile Include="..\..\..\src\tha.c" />
+    <ClCompile Include="..\..\..\src\sounds.c" />
+    <ClCompile Include="..\..\..\src\wavfile.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\camera.h" />
+    <ClInclude Include="..\..\..\src\collisions.h" />
+    <ClInclude Include="..\..\..\src\commands.h" />
+    <ClInclude Include="..\..\..\src\dEngine.h" />
+    <ClInclude Include="..\..\..\src\vis.h" />
+    <ClInclude Include="..\..\..\src\world.h" />
+    <ClInclude Include="..\..\..\src\renderer.h" />
+    <ClInclude Include="..\..\..\src\renderer_fixed.h" />
+    <ClInclude Include="..\..\..\src\renderer_progr.h" />
+    <ClInclude Include="..\..\..\src\math.h" />
+    <ClInclude Include="..\..\..\src\matrix.h" />
+    <ClInclude Include="..\..\..\src\quaternion.h" />
+    <ClInclude Include="..\..\..\src\config.h" />
+    <ClInclude Include="..\..\..\src\event.h" />
+    <ClInclude Include="..\..\..\src\filesystem.h" />
+    <ClInclude Include="..\..\..\src\globals.h" />
+    <ClInclude Include="..\..\..\src\io_interface.h" />
+    <ClInclude Include="..\..\..\src\ItextureLoader.h" />
+    <ClInclude Include="..\..\..\src\lexer.h" />
+    <ClInclude Include="..\..\..\src\menu.h" />
+    <ClInclude Include="..\..\..\src\preproc.h" />
+    <ClInclude Include="..\..\..\src\stats.h" />
+    <ClInclude Include="..\..\..\src\target.h" />
+    <ClInclude Include="..\..\..\src\text.h" />
+    <ClInclude Include="..\..\..\src\timer.h" />
+    <ClInclude Include="..\..\..\src\titles.h" />
+    <ClInclude Include="..\..\..\src\material.h" />
+    <ClInclude Include="..\..\..\src\texture.h" />
+    <ClInclude Include="..\..\..\src\enemy.h" />
+    <ClInclude Include="..\..\..\src\enemy_particules.h" />
+    <ClInclude Include="..\..\..\src\entities.h" />
+    <ClInclude Include="..\..\..\src\fx.h" />
+    <ClInclude Include="..\..\..\src\md5.h" />
+    <ClInclude Include="..\..\..\src\player.h" />
+    <ClInclude Include="..\..\win32EGL.h" />
+    <ClInclude Include="..\..\..\src\netchannel.h" />
+    <ClInclude Include="..\..\..\src\fht.h" />
+    <ClInclude Include="..\..\..\src\lee.h" />
+    <ClInclude Include="..\..\..\src\lofb.h" />
+    <ClInclude Include="..\..\..\src\shab.h" />
+    <ClInclude Include="..\..\..\src\tha.h" />
+    <ClInclude Include="..\..\..\src\sounds.h" />
+    <ClInclude Include="..\..\..\src\wavfile.h" />
+    <ClInclude Include="..\..\..\src\native_services.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

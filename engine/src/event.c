@@ -514,7 +514,7 @@ void EV_ReadEnemiesEvents(void)
 	LE_readToken() ; //{
 
 	LE_readToken(); 	//at or }
-	while (strcmp(LE_getCurrentToken(), "}")) 
+	while (LE_hasMoreData() && strcmp(LE_getCurrentToken(), "}")) 
 	{
 		if (!strcmp("settime", LE_getCurrentToken()))
 		{
@@ -737,7 +737,7 @@ void EV_ReadTextsEvents(void)
 	LE_readToken() ; //{
 	
 	LE_readToken(); 	//at or }
-	while (strcmp(LE_getCurrentToken(), "}")) 
+	while (LE_hasMoreData() && strcmp(LE_getCurrentToken(), "}")) 
 	{
 		if (!strcmp("at", LE_getCurrentToken()))
 		{

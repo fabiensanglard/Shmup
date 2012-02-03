@@ -81,20 +81,50 @@ void Native_UploadScore(uint score){}
 void Native_LoginGameCenter(void){}
 
 
-char* format = "open %s type mpegvideo alias myFile";
+void SND_LogMCI_Error(char* commmand,int cmdResult)
+{
+	wchar_t errorMessage[128];
+
+	mciGetErrorString(cmdResult,errorMessage,sizeof(errorMessage));
+
+	printf("MCI Error '%ls' reason: '%s'\n",errorMessage,commmand);
+}
+
+
+char* format = "open \"%s\" type mpegvideo alias myFile ";
 void SND_InitSoundTrack(char* filename)
 {
 	char command[256];
+	int cmdResult;
+
+	printf("[SND_InitSoundTrack] start '%s'.\n",filename);
+
 	sprintf(command,format,filename);
-	mciSendString(command, NULL, 0, 0);
+
+	printf(command);
+	cmdResult = mciSendStringA(command, NULL, 0, 0);
+
+	if (cmdResult)
+		SND_LogMCI_Error(command,cmdResult);
 }
 
 void SND_StartSoundTrack(void)
 {
-	mciSendString("play myFile", NULL, 0, 0);
+	int cmdResult;
+	cmdResult = mciSendStringA("play myFile", NULL, 0, 0);
+
+	if (cmdResult)
+		SND_LogMCI_Error("play myFile",cmdResult);
 }
 
 void SND_StopSoundTrack(void)
 {
-	mciSendString("close myFile", NULL, 0, 0);
+	int cmdResult;
+	cmdResult = mciSendStringA("stop myFile", NULL, 0, 0);
+	if (cmdResult)
+		SND_LogMCI_Error("stop myFile",cmdResult);
+
+	cmdResult = mciSendStringA("close myFile", NULL, 0, 0);
+	if (cmdResult)
+		SND_LogMCI_Error("close myFile",cmdResult);
 }

@@ -83,7 +83,7 @@ int buttonState[2];
 int lastPosition[2];
 void WIN_ReadInputs(){
 
-	event_t event;
+	io_event_s event;
 
 	int buttonIsPressed = KEYDOWN(VK_LBUTTON);
 	static int buttonWasPressed = 0;
@@ -107,6 +107,12 @@ void WIN_ReadInputs(){
 	}
 
 
+	if (KEYDOWN(VK_ESCAPE) && engine.requiredSceneId != 0 && engine.sceneId != 0){
+		MENU_Set(MENU_HOME);
+		engine.requiredSceneId=0;
+	}
+
+
 	if (buttonIsPressed)
 	{
 		
@@ -126,13 +132,18 @@ void WIN_ReadInputs(){
 		}
 		else
 		{
-			//This is a moved event
-			event.type = IO_EVENT_MOVED;
-			event.position[X] = pci.ptScreenPos.x;
-			event.position[Y] = pci.ptScreenPos.y;
-			event.previousPosition[X] = lastPosition[X];
-			event.previousPosition[Y] = lastPosition[Y];
-			IO_PushEvent(&event);
+			//This is maybe a moved event.
+			if (pci.ptScreenPos.x != lastPosition[X] ||
+				pci.ptScreenPos.y != lastPosition[Y]
+				)
+				{
+					event.type = IO_EVENT_MOVED;
+					event.position[X] = pci.ptScreenPos.x;
+					event.position[Y] = pci.ptScreenPos.y;
+					event.previousPosition[X] = lastPosition[X];
+					event.previousPosition[Y] = lastPosition[Y];
+					IO_PushEvent(&event);
+				}
 		}
 
 		lastPosition[X] = pci.ptScreenPos.x;
@@ -206,7 +217,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	dEngine_Init();
 	renderer.statsEnabled = 0;
-
+	engine.licenseType = LICENSE_FULL;
 	//This is only for windows build. Uses the viewport
 	IO_Init();
 

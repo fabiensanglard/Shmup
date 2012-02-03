@@ -162,7 +162,7 @@ void SCR_BindMethods(int rendererType)
 		initProgrRenderer(&renderer);
 	}
 	
-	scrFont.path = malloc(sizeof(char)*(strlen(STATS_FONT_PATH)+1));
+	//scrFont.path = malloc(sizeof(char)*(strlen(STATS_FONT_PATH)+1));
 	strcpy(scrFont.path,STATS_FONT_PATH);
 	TEX_MakeStaticAvailable(&scrFont);
 }
