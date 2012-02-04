@@ -518,7 +518,7 @@ void dEngine_FreeSceneRessources(void)
 }
 
 int timeJumpCounter =0;//;
-int timeJumpTarget = 135000;
+int timeJumpTarget = 19250;
 void dEngine_JumpInTime(void)
 {
 	event_t* event;
@@ -642,11 +642,11 @@ void dEngine_HostFrame(void)
 	//NET_Update();
 	
 	//Check collisions.
-	COLL_CheckEnemies();
-	COLL_CheckPlayers();
+    COLL_CheckEnemies();
+    COLL_CheckPlayers();
 	
 	//Update world
-	World_Update();
+    World_Update();
 	P_Update();
 	ENE_Update();
 	ENPAR_Update();

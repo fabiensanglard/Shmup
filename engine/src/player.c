@@ -60,7 +60,7 @@ player_bullet_config_t bulletConfig;
 unsigned short bulletIndices[(MAX_PLAYER_BULLETS * 6 + 6)*MAX_NUM_PLAYERS];
 xf_colorless_sprite_t pBulletVertices[(MAX_PLAYER_BULLETS*4+4)*MAX_NUM_PLAYERS];
 int numPBulletsIndices=0;
-int numBulletSpriteVertices;
+
 
 
 
@@ -270,7 +270,7 @@ void P_ResetPlayers(void)
 void P_InitPlayers(void)
 {
 	int j;
-
+    int numBulletSpriteVertices;
 	
 	numPlayers = 1;
 	controlledPlayer = 0;
@@ -323,7 +323,7 @@ void P_InitPlayers(void)
 		bulletIndices[j+4] = numBulletSpriteVertices+1;
 		bulletIndices[j+5] = numBulletSpriteVertices+2;
 	}
-	numBulletSpriteVertices=0;
+	
 
 	
 	
@@ -464,7 +464,7 @@ void P_Update(void)
 	//players[1].ss_position[X] +=0.01 ;
 	
 	
-	
+
 	
 	//Need to update entity matrix to stick to camera
 	for( i =0 ; i <numPlayers ; i++)
@@ -918,16 +918,24 @@ void P_PrepareBulletSprites(void)
 			
 		}
 		
+      //  char bulletdiagnostic[MAX_PLAYER_BULLETS+1+3];
+      //  bulletdiagnostic[0] = 'p';
+      //  bulletdiagnostic[1] = '0'+i;
+      //  bulletdiagnostic[2] = '-';
+      //  bulletdiagnostic[19]= '\0';
+        
 		// Check if there is any bullets to render.
 		for(j=0 ; j < MAX_PLAYER_BULLETS ; j++)
 		{
 			bullet = &player->bullets[j];
 			
-			
+		//	bulletdiagnostic[j+3] = '0';
 			if (bullet->expirationTime < simulationTime)
 				continue;
-			
-			bullet++;
+		//	bulletdiagnostic[j+3] = '1';
+            
+            
+		    bullet->type++;
 			bullet->type = bullet->type & 3;
 			
 			bulSprite->pos[X] = bullet->ss_boudaries[LEFT];
@@ -956,18 +964,13 @@ void P_PrepareBulletSprites(void)
 			bulSprite++;
 			
 			
-			/*
-			bulletIndices[numPBulletsIndices]   = numBulletSpriteVertices+0;
-			bulletIndices[numPBulletsIndices+1] = numBulletSpriteVertices+1;
-			bulletIndices[numPBulletsIndices+2] = numBulletSpriteVertices+3;
-			bulletIndices[numPBulletsIndices+3] = numBulletSpriteVertices+3;
-			bulletIndices[numPBulletsIndices+4] = numBulletSpriteVertices+1;
-			bulletIndices[numPBulletsIndices+5] = numBulletSpriteVertices+2;
-			*/
+
 			
 			numPBulletsIndices += 6;
-			//numBulletSpriteVertices += 4;
-		}	
+		}
+        
+        //printf("bulletDiag='%s'",bulletdiagnostic);
+       // printf("0=%d 1=%d\n",player->bullets[0].expirationTime,player->bullets[1].expirationTime);
 	}
 }
 

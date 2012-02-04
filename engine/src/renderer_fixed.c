@@ -713,7 +713,8 @@ void UpLoadEntityToGPUF(entity_t* entity)
 
 void RenderPlayersBulletsF(void)
 {
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	
 	SetTextureF(bulletConfig.bulletTexture.textureId);
@@ -796,7 +797,7 @@ void RenderFXSpritesF(void)
 		}
 	}
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 	
 
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -815,7 +816,7 @@ void RenderFXSpritesF(void)
 		STATS_AddTriangles(numParticulesIndices/3);
 	}
 	
-	
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	
 	

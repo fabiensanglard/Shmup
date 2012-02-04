@@ -249,7 +249,7 @@ explosion_t* FX_GetFirstExplosion(void)
 }
 
 #define EXPLOSION_START_SIZE 0.05f
-#define EXPLOSION_END_SIZE 0.17f
+#define EXPLOSION_END_SIZE 0.20f
 explosion_t nullExplosion;
 explosion_t* FX_GetExplosion(vec2_t ss_position, uchar type,float sizeFactor, float mouvementY)
 {

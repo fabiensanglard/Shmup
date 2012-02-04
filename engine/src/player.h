@@ -35,7 +35,9 @@
 
 extern texture_t pointersTexture;
 
+//This must be a power of two since we use a binary mask for cyclic in bullet array.
 #define MAX_PLAYER_BULLETS 16
+
 #define BULLET_DEFAULT_ENERGY 1
 #define MAX_NUM_PLAYERS 2
 #define PLAYER_NUM_LIVES 3

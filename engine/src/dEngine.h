@@ -24,6 +24,18 @@
  */
 
 
+
+/*
+ 
+ Note about compiling on Windows and running PVSStudio:
+ 
+ Side effect within a sequence point with different behavior.
+ strlen(x+1)
+ calloc(sizeof(event)) instead of calloc(sizeof(event_t))
+ 
+ */
+
+
 #ifndef DE_MAIN
 #define DE_MAIN 1
 
