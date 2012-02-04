@@ -476,7 +476,7 @@ void COLL_CheckEnemies(void)
 				if (bullets[j].energy <= 0)
 				{
 
-					bullets[j].expirationTime = simulationTime-1;
+					bullets[j].expirationTime = simulationTime-1 ;
 					Spawn_BulletParticules(&bullets[j],i);
 				}
 				

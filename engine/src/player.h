@@ -88,9 +88,12 @@ typedef struct playerBulletSprite_t
 } playerBulletSprite_t;
 */
 
+//Variable storing players bullet AND firing flash (in front of the player ship)
+// Vertices needed is number_of_players * number_of_bullets * 4 +  number_of_players * 4 = number_of_players * (number_of_bullets*4 +4)
+// Indices needed is number_of_players * number_of_bullets * 6 + number_of_players * 6 =   number_of_players * (number_of_bullets * 6 + 6)
 extern int numPBulletsIndices;
-extern unsigned short bulletIndices[(MAX_PLAYER_BULLETS*2 * 6 + 2*6)*MAX_NUM_PLAYERS];
-extern xf_colorless_sprite_t pBulletVertices[(MAX_PLAYER_BULLETS*2*4+2*4)*MAX_NUM_PLAYERS];
+extern unsigned short bulletIndices[(MAX_PLAYER_BULLETS * 6 + 6)*MAX_NUM_PLAYERS];
+extern xf_colorless_sprite_t pBulletVertices[(MAX_PLAYER_BULLETS*4+4)*MAX_NUM_PLAYERS];
 
 
 typedef struct bullet_t
