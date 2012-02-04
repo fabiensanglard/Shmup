@@ -58,7 +58,22 @@
 		2D000D8514D8C1760021DC8D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D000D8314D8C1760021DC8D /* OpenGL.framework */; };
 		2D000D8814D8CE020021DC8D /* macosx_native.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D000D8714D8CE020021DC8D /* macosx_native.c */; };
 		2D000D9414D8DE720021DC8D /* MyOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D000D9314D8DE720021DC8D /* MyOpenGLView.m */; };
+		2DB4A9E414DD2E37002D6FB9 /* io_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DB4A9E214DD2E37002D6FB9 /* io_interface.c */; };
+		2DB4A9E614DD3675002D6FB9 /* native_music.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DB4A9E514DD3675002D6FB9 /* native_music.mm */; };
+		2DB4A9EC14DD40E7002D6FB9 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB4A9EB14DD40E7002D6FB9 /* ApplicationServices.framework */; };
+		2DB4A9F914DDF190002D6FB9 /* liblibpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB4A9F814DDF187002D6FB9 /* liblibpng.a */; };
+		2DB4A9FB14DDF1C0002D6FB9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB4A9FA14DDF1C0002D6FB9 /* libz.dylib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2DB4A9F714DDF187002D6FB9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2DB4A9F014DDF187002D6FB9 /* libpng.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2DB4A98914DD1FC6002D6FB9;
+			remoteInfo = libpng;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2D000CE314D8C14C0021DC8D /* macosx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = macosx.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +179,12 @@
 		2D000D9114D8D8280021DC8D /* target.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = target.h; path = ../src/target.h; sourceTree = "<group>"; };
 		2D000D9214D8DE720021DC8D /* MyOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOpenGLView.h; sourceTree = "<group>"; };
 		2D000D9314D8DE720021DC8D /* MyOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOpenGLView.m; sourceTree = "<group>"; };
+		2DB4A9E214DD2E37002D6FB9 /* io_interface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = io_interface.c; path = ../src/io_interface.c; sourceTree = "<group>"; };
+		2DB4A9E314DD2E37002D6FB9 /* io_interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = io_interface.h; path = ../src/io_interface.h; sourceTree = "<group>"; };
+		2DB4A9E514DD3675002D6FB9 /* native_music.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = native_music.mm; sourceTree = "<group>"; };
+		2DB4A9EB14DD40E7002D6FB9 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		2DB4A9F014DDF187002D6FB9 /* libpng.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libpng.xcodeproj; path = libpng/libpng/libpng.xcodeproj; sourceTree = "<group>"; };
+		2DB4A9FA14DDF1C0002D6FB9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +192,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DB4A9FB14DDF1C0002D6FB9 /* libz.dylib in Frameworks */,
+				2DB4A9F914DDF190002D6FB9 /* liblibpng.a in Frameworks */,
+				2DB4A9EC14DD40E7002D6FB9 /* ApplicationServices.framework in Frameworks */,
 				2D000D8414D8C1760021DC8D /* OpenAL.framework in Frameworks */,
 				2D000D8514D8C1760021DC8D /* OpenGL.framework in Frameworks */,
 				2D000CE814D8C14C0021DC8D /* Cocoa.framework in Frameworks */,
@@ -183,6 +207,9 @@
 		2D000CD814D8C14C0021DC8D = {
 			isa = PBXGroup;
 			children = (
+				2DB4A9FA14DDF1C0002D6FB9 /* libz.dylib */,
+				2DB4A9F014DDF187002D6FB9 /* libpng.xcodeproj */,
+				2DB4A9EB14DD40E7002D6FB9 /* ApplicationServices.framework */,
 				2D000D8214D8C1760021DC8D /* OpenAL.framework */,
 				2D000D8314D8C1760021DC8D /* OpenGL.framework */,
 				2D000D0414D8C1530021DC8D /* engine */,
@@ -229,6 +256,7 @@
 				2D000D8714D8CE020021DC8D /* macosx_native.c */,
 				2D000D9214D8DE720021DC8D /* MyOpenGLView.h */,
 				2D000D9314D8DE720021DC8D /* MyOpenGLView.m */,
+				2DB4A9E514DD3675002D6FB9 /* native_music.mm */,
 			);
 			path = macosx;
 			sourceTree = "<group>";
@@ -248,6 +276,8 @@
 		2D000D0414D8C1530021DC8D /* engine */ = {
 			isa = PBXGroup;
 			children = (
+				2DB4A9E214DD2E37002D6FB9 /* io_interface.c */,
+				2DB4A9E314DD2E37002D6FB9 /* io_interface.h */,
 				2D000D5814D8C1610021DC8D /* camera.c */,
 				2D000D5714D8C1610021DC8D /* camera.h */,
 				2D000D5614D8C1610021DC8D /* collisions.c */,
@@ -337,6 +367,14 @@
 			name = engine;
 			sourceTree = "<group>";
 		};
+		2DB4A9F114DDF187002D6FB9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2DB4A9F814DDF187002D6FB9 /* liblibpng.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -376,12 +414,28 @@
 			mainGroup = 2D000CD814D8C14C0021DC8D;
 			productRefGroup = 2D000CE414D8C14C0021DC8D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2DB4A9F114DDF187002D6FB9 /* Products */;
+					ProjectRef = 2DB4A9F014DDF187002D6FB9 /* libpng.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				2D000CE214D8C14C0021DC8D /* macosx */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2DB4A9F814DDF187002D6FB9 /* liblibpng.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = liblibpng.a;
+			remoteRef = 2DB4A9F714DDF187002D6FB9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2D000CE114D8C14C0021DC8D /* Resources */ = {
@@ -446,6 +500,8 @@
 				2D000D8114D8C1610021DC8D /* camera.c in Sources */,
 				2D000D8814D8CE020021DC8D /* macosx_native.c in Sources */,
 				2D000D9414D8DE720021DC8D /* MyOpenGLView.m in Sources */,
+				2DB4A9E414DD2E37002D6FB9 /* io_interface.c in Sources */,
+				2DB4A9E614DD3675002D6FB9 /* native_music.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,6 +559,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = libpng/src;
 			};
 			name = Debug;
 		};
@@ -523,12 +580,14 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = libpng/src;
 			};
 			name = Release;
 		};
 		2D000D0214D8C14C0021DC8D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "macosx/macosx-Prefix.pch";
 				GCC_VERSION = "";
@@ -541,6 +600,7 @@
 		2D000D0314D8C14C0021DC8D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "macosx/macosx-Prefix.pch";
 				GCC_VERSION = "";

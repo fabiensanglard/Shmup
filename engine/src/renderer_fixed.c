@@ -198,7 +198,13 @@ void UpLoadTextureToGPUF(texture_t* texture)
 	{
 		glTexParameterf(GL_TEXTURE_2D,GL_GENERATE_MIPMAP, GL_TRUE);
 		
+        if(texture->format == TEXTURE_GL_RGBA)
+        {
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->data[0]);
+        }
+        else
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->width, texture->height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->data[0]);
+
 		free(texture->data[0]);
 		texture->data[0] = 0;
 	}

@@ -1301,17 +1301,17 @@
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
-						<object class="NSOpenGLView" id="280979521">
+						<object class="NSOpenGLView" id="121069609">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">1292</int>
 							<object class="NSPSMatrix" key="NSDrawMatrix"/>
-							<string key="NSFrameSize">{320, 480}</string>
+							<string key="NSFrame">{{0, -9}, {320, 489}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView"/>
 							<object class="NSOpenGLPixelFormat" key="NSPixelFormat">
 								<object class="NSMutableData" key="NSPixelAttributes">
-									<bytes key="NS.bytes">AAAAYAAAAAA</bytes>
+									<bytes key="NS.bytes">AAAAYAAAAAgAAAAYAAAADAAAACAAAAAAA</bytes>
 								</object>
 							</object>
 						</object>
@@ -1319,9 +1319,9 @@
 					<string key="NSFrameSize">{320, 480}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView" ref="280979521"/>
+					<reference key="NSNextKeyView" ref="121069609"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {2560, 1578}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
 			</object>
 			<object class="NSCustomObject" id="976324537">
@@ -1329,19 +1329,6 @@
 			</object>
 			<object class="NSCustomObject" id="755631768">
 				<string key="NSClassName">NSFontManager</string>
-			</object>
-			<object class="NSOpenGLView" id="8136842">
-				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">1292</int>
-				<object class="NSPSMatrix" key="NSDrawMatrix"/>
-				<string key="NSFrameSize">{323, 487}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSNextKeyView"/>
-				<object class="NSOpenGLPixelFormat" key="NSPixelFormat">
-					<object class="NSMutableData" key="NSPixelAttributes">
-						<bytes key="NS.bytes">AAAABQAAAEkAAAA7AAAAYAAAAAgAAAAYAAAADAAAABAAAAA4AAAAEAAAADcAAAABAAAAAA</bytes>
-					</object>
-				</object>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -2556,7 +2543,7 @@
 						<int key="objectID">372</int>
 						<reference key="object" ref="439893737"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="280979521"/>
+							<reference ref="121069609"/>
 						</array>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -3029,13 +3016,8 @@
 						<reference key="parent" ref="956096989"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">533</int>
-						<reference key="object" ref="8136842"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">535</int>
-						<reference key="object" ref="280979521"/>
+						<int key="objectID">536</int>
+						<reference key="object" ref="121069609"/>
 						<reference key="parent" ref="439893737"/>
 					</object>
 				</array>
@@ -3180,10 +3162,8 @@
 				<string key="515.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="516.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="517.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="533.CustomClassName">MyOpenGLView</string>
-				<string key="533.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="535.CustomClassName">MyOpenGLView</string>
-				<string key="535.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="536.CustomClassName">MyOpenGLView</string>
+				<string key="536.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3204,7 +3184,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">535</int>
+			<int key="maxID">536</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
