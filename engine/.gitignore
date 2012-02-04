@@ -1,3 +1,5 @@
+*.xcworkspace
+DerivedData
 *.dll
 *.exe
 *.pbd
