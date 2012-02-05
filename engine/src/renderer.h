@@ -36,8 +36,14 @@
 #define GL_11_RENDERER 0
 #define GL_20_RENDERER 1
 
+// The following defines are used in order to test a bitvector for supported texture compression formats
+#define TEXTURE_FORMAT_PNG    0
+#define TEXTURE_FORMAT_PVRTC  1     
+#define TEXTURE_FORMAT_ETC1   2
+#define TEXTURE_FORMAT_ATITC  3
+#define TEXTURE_FORMAT_S3TC   4     
 
-
+     
 #define SHADOW_TYPE_NORMAL 0
 #define SHADOW_TYPE_DISABLED 1
 #define SHADOW_TYPE_VSM 2
@@ -138,7 +144,7 @@ typedef struct renderer_t
 	void (*SetMaterialTextureBlending)(char modulate);
 	void (*SetTransparency)(float alpha);
 	
-	
+	int (*IsTextureCompressionSupported)(int type);
 	
 } renderer_t;
 

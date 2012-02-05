@@ -132,8 +132,27 @@ int initialized = 0;
     IO_PushEvent(&event);
 }
 
+#include "menu.h"
+#pragma mark    -   NSResponder
+- (void)cancelOperation:(id)sender
+{
+    if (engine.requiredSceneId != 0 && engine.sceneId != 0){
+		MENU_Set(MENU_HOME);
+		engine.requiredSceneId=0;
+	}
+}
+
+-(void)windowWillClose:(NSNotification *)aNotification {
+    printf("About to close.\n");
+}
+
 //We need to flip the view coordinate system in order to match the iOS coordinate system.
 - (BOOL)isFlipped{
     return NO;
 }
+
+- (BOOL)acceptsFirstResponder {
+    return YES;
+}
+
 @end

@@ -60,6 +60,11 @@ matrix_t modelViewMatrix;
 matrix_t textureMatrix = { 1.0f/32767,0,0,0,0,1.0f/32767,0,0,0,0,1,0,0,0,0,1};	//Unpacking matrix since texture coordinates are normalized in a short instead of a float.
 unsigned int lastTextureId;
 
+
+
+int supportedCompressionFormatF;
+
+
 void SCR_CheckErrors(char* step, char* details)
 {
 	GLenum err = glGetError();
@@ -200,10 +205,10 @@ void UpLoadTextureToGPUF(texture_t* texture)
 		
         if(texture->format == TEXTURE_GL_RGBA)
         {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->data[0]);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->data[0]);
         }
         else
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->width, texture->height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->data[0]);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->data[0]);
 
 		free(texture->data[0]);
 		texture->data[0] = 0;
@@ -974,8 +979,9 @@ void SetMaterialTextureBlendingF(char modulate)
 
 }
 
-
-
+int IsTextureCompressionSupportedF(int type){
+    return supportedCompressionFormatF & type;
+}
 
 void initFixedRenderer(renderer_t* renderer)
 {
@@ -1013,7 +1019,7 @@ void initFixedRenderer(renderer_t* renderer)
 	renderer->FadeScreen = FadeScreenF;
 	renderer->SetMaterialTextureBlending = SetMaterialTextureBlendingF;
 	renderer->SetTransparency = SetTransparencyF;
-	
+	renderer->IsTextureCompressionSupported = IsTextureCompressionSupportedF;
 
 	
 	glViewport(renderer->viewPortDimensions[VP_X],
@@ -1044,6 +1050,16 @@ void initFixedRenderer(renderer_t* renderer)
 	glMatrixMode(GL_TEXTURE);
 	glLoadMatrixf(textureMatrix);
 		
+    
+    
+    //We need to check what texture compression method is supported.
+    char *extensionsList = (char *) glGetString(GL_EXTENSIONS);
+    if (strstr(extensionsList,"GL_IMG_texture_compression_pvrtc"))
+        supportedCompressionFormatF |= TEXTURE_FORMAT_PVRTC ;
+        
+        
+    
+    
 	err = glGetError();
 	if (err != GL_NO_ERROR)
 		printf("Error initing 1.1: glError: 0x%04X", err);

@@ -1013,6 +1013,12 @@ void FreeGPUBuffer(uint bufferId)
 	
 }
 
+
+int supportedCompressionFormat;
+int IsTextureCompressionSupported(int type){
+    return supportedCompressionFormat & type;
+}
+
 void initProgrRenderer(renderer_t* renderer)
 {
 	/*
@@ -1055,7 +1061,7 @@ void initProgrRenderer(renderer_t* renderer)
 	renderer->FadeScreen = FadeScreen;
 	renderer->SetMaterialTextureBlending = SetMaterialTextureBlending;
 	renderer->SetTransparency = SetTransparency;
-	
+	renderer->IsTextureCompressionSupported = IsTextureCompressionSupported;
 
 	
 	//Clean up screen first
@@ -1080,6 +1086,10 @@ void initProgrRenderer(renderer_t* renderer)
 	//Create shadowMap and FBO
 	CreateFBOandShadowMap();
 	
+    //We need to check what texture compression method is supported.
+    char *extensionsList = (char *) glGetString(GL_EXTENSIONS);
+    if (strstr(extensionsList,"GL_IMG_texture_compression_pvrtc"))
+        supportedCompressionFormat |= TEXTURE_FORMAT_PVRTC ;
 	
 	SCR_CheckErrorsF("End of initProgrRenderer", "no details");
 

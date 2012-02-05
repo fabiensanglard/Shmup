@@ -93,12 +93,16 @@ void loadNativePNG(texture_t* tmpTex)
     tmpTex->width = width; 
     tmpTex->height =  height;
 	
+
+    
     
     
     /* Set up some transforms. */
-    if (color_type & PNG_COLOR_MASK_ALPHA) {
-        png_set_strip_alpha(png_ptr);
-    }
+    //FCS: WTF Why are we trowing away the alpha channel ?! This is wrong....
+//    if (color_type & PNG_COLOR_MASK_ALPHA) {
+//      png_set_strip_alpha(png_ptr);
+//    }
+    
     if (bit_depth > 8) {
         png_set_strip_16(png_ptr);
     }
@@ -119,8 +123,13 @@ void loadNativePNG(texture_t* tmpTex)
 	tmpTex->bpp = rowbytes / width;
     if (tmpTex->bpp == 4)
         tmpTex->format = TEXTURE_GL_RGBA;
-    else
+    else if (tmpTex->bpp == 3)
         tmpTex->format = TEXTURE_GL_RGB;
+    else
+    {
+        printf("!!! ERROR !! PNG %s is not a supported format.",tmpTex->path);
+    }
+    
     
     /* Allocate a buffer to hold all the mip-maps */
 	//Since PNG can only store one image there is only one mipmap, allocated an array of one
