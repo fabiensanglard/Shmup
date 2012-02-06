@@ -35,6 +35,7 @@
 #include "titles.h"
 #include "text.h"
 #include "enemy_particules.h"
+#include "io_interface.h"
 
 //int renderWidth;
 //int renderHeight;
@@ -83,14 +84,13 @@ void SCR_SetFadeFullScreen(void)
 }
 
 
-void SCR_Init(void)
+
+
+// We have the screen dimension inf the glBuffersDimensions attribute, we need to define the view port 
+// in order to take the best advantage of the space available.
+void SRC_CalcViewPortDimensions(void)
 {
-	int i,j;
-	float shmupAspectRatio;
-	
-    // We have the screen dimension inf the glBuffersDimensions attribute, we need to define the view port 
-    // in order to take the best advantage of the space available.
-    
+   float shmupAspectRatio;
     
     float aspectRatio = renderer.glBuffersDimensions[WIDTH] / (float)renderer.glBuffersDimensions[HEIGHT];
     
@@ -117,7 +117,30 @@ void SCR_Init(void)
 	renderer.viewPortDimensions[VP_X] = (renderer.glBuffersDimensions[WIDTH] - renderer.viewPortDimensions[VP_WIDTH]) / 2;
 	renderer.viewPortDimensions[VP_Y] = (renderer.glBuffersDimensions[HEIGHT] - renderer.viewPortDimensions[VP_HEIGHT]) / 2;
 	
+}
+
+void SRC_OnResizeScreen(int width, int height){
+    
+    renderer.glBuffersDimensions[HEIGHT] = height;
+    renderer.glBuffersDimensions[WIDTH]  = width;
+    
+    SRC_CalcViewPortDimensions();
+    IO_Init();
+    
+    //Also need to reset the viewPort in the renderer.
+    renderer.RefreshViewPort();
+}
+
+
+void SCR_Init(void)
+{
+	int i,j;
 	
+	
+   
+    SRC_CalcViewPortDimensions();
+    
+   	
 	
 	
 	for (i=0; i < 4; i++) 

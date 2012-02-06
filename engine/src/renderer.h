@@ -107,7 +107,7 @@ typedef struct renderer_t
 	//float resolution;
 
 	//FOG enabled/diabled via props
-	vec3_t fogColor;
+	vec4_t fogColor;
 	float fogDensity; //Only used for non linear fogs
 	uint fogStartAt;
 	uint fogStopAt;
@@ -145,7 +145,8 @@ typedef struct renderer_t
 	void (*SetTransparency)(float alpha);
 	
 	int (*IsTextureCompressionSupported)(int type);
-	
+	void (*RefreshViewPort)();
+          
 } renderer_t;
 
 extern renderer_t renderer;
@@ -165,6 +166,8 @@ void SCR_StartConvertText(void);
 void SCR_ConvertTextToVertices(const char* string, float size, short ss_cooX, short ss_cooY, uchar centered);
 void SCR_RenderText(void);	 
 	 
+     void SRC_OnResizeScreen(int width, int height);     
+     
 extern ushort fadeIndices[6] ;
 extern xf_textureless_sprite_t fadeVertices[4];
 	 

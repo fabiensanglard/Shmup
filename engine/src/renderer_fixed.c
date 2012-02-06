@@ -166,7 +166,7 @@ void Set3DF(void)
 	glEnable(GL_TEXTURE_2D);
 	glShadeModel(GL_SMOOTH);
 	
-	//glCullFace(GL_FRONT);
+	
 	
 	
 	
@@ -208,7 +208,7 @@ void UpLoadTextureToGPUF(texture_t* texture)
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->data[0]);
         }
         else
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->data[0]);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->width, texture->height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->data[0]);
 
 		free(texture->data[0]);
 		texture->data[0] = 0;
@@ -512,10 +512,18 @@ static void RenderEntityF(entity_t* entity)
 
 		glBindBuffer(GL_ARRAY_BUFFER, entity->model->vboId);
 		
-		glVertexPointer (3, GL_FLOAT, sizeof(vertex_t), (char *)NULL + VERTEX_T_DELTA_TO_POS);	
-		glNormalPointer(GL_SHORT, sizeof(vertex_t), (char *)NULL + VERTEX_T_DELTA_TO_NORMAL);
-		glTexCoordPointer (2, GL_SHORT, sizeof(vertex_t), (char *)NULL + VERTEX_T_DELTA_TO_TEXT);	
-	}
+        //This is very likely not 64bits friendly if the GPU copies stuff as it is presented.
+        
+		//glVertexPointer (3, GL_FLOAT, sizeof(vertex_t), (char *)NULL + VERTEX_T_DELTA_TO_POS);	
+		//glNormalPointer(GL_SHORT, sizeof(vertex_t), (char *)NULL + VERTEX_T_DELTA_TO_NORMAL);
+		//glTexCoordPointer (2, GL_SHORT, sizeof(vertex_t), (char *)NULL + VERTEX_T_DELTA_TO_TEXT);
+        
+        glVertexPointer  (3, GL_FLOAT, sizeof(vertex_t), (char *)( (char *)(&entity->model->vertexArray->pos)    - ((char*)&entity->model->vertexArray->pos)) );	
+		glNormalPointer  (   GL_SHORT, sizeof(vertex_t), (char *)((char *)(&entity->model->vertexArray->normal) - ((char*)&entity->model->vertexArray->pos))  );
+		glTexCoordPointer(2, GL_SHORT, sizeof(vertex_t), (char *)((char *)(&entity->model->vertexArray->text)   - ((char*)&entity->model->vertexArray->pos))  );
+        
+        
+    }
 	else 
 	{
 		glTexCoordPointer (2, GL_SHORT, sizeof(vertex_t), entity->model->vertexArray->text);	
@@ -523,6 +531,8 @@ static void RenderEntityF(entity_t* entity)
 		glNormalPointer(GL_SHORT, sizeof(vertex_t), entity->model->vertexArray->normal);
 	}
 
+    
+    
 	if (entity->usage == ENT_PARTIAL_DRAW)
 	{
 		
@@ -708,12 +718,13 @@ void UpLoadEntityToGPUF(entity_t* entity)
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vboId);
 	glBufferData(GL_ARRAY_BUFFER, mesh->numVertices * sizeof(vertex_t), mesh->vertexArray, GL_STATIC_DRAW);
 	
+    
 //#define GENERATE_VIDEO	
 #ifndef GENERATE_VIDEO	
 	free(mesh->vertexArray);
 	mesh->vertexArray = 0;
 #else
-	printf("Warning, not freeing mesh after openGL upload.\n");
+	printf("Warning, not freeing mesh after GPU upload.\n");
 #endif
 	
 	mesh->memLocation = MD5_MEMLOC_VRAM;
@@ -983,10 +994,19 @@ int IsTextureCompressionSupportedF(int type){
     return supportedCompressionFormatF & type;
 }
 
+void RefreshViewPortF()
+{
+    glViewport(renderer.viewPortDimensions[VP_X],
+			   renderer.viewPortDimensions[VP_Y], 
+			   renderer.viewPortDimensions[VP_WIDTH], 
+			   renderer.viewPortDimensions[VP_HEIGHT]);
+}
+
 void initFixedRenderer(renderer_t* renderer)
 {
 	GLenum err;
-	
+	char *extensionsList ;
+    
 	//printf("[initFixedRenderer] has a nnnasty hack");
 	
 	renderer->type = GL_11_RENDERER ;
@@ -1020,7 +1040,7 @@ void initFixedRenderer(renderer_t* renderer)
 	renderer->SetMaterialTextureBlending = SetMaterialTextureBlendingF;
 	renderer->SetTransparency = SetTransparencyF;
 	renderer->IsTextureCompressionSupported = IsTextureCompressionSupportedF;
-
+    renderer->RefreshViewPort = RefreshViewPortF;
 	
 	glViewport(renderer->viewPortDimensions[VP_X],
 			   renderer->viewPortDimensions[VP_Y], 
@@ -1053,7 +1073,7 @@ void initFixedRenderer(renderer_t* renderer)
     
     
     //We need to check what texture compression method is supported.
-    char *extensionsList = (char *) glGetString(GL_EXTENSIONS);
+    extensionsList = (char *) glGetString(GL_EXTENSIONS);
     if (strstr(extensionsList,"GL_IMG_texture_compression_pvrtc"))
         supportedCompressionFormatF |= TEXTURE_FORMAT_PVRTC ;
         

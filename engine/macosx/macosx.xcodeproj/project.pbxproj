@@ -63,6 +63,8 @@
 		2DB4A9E414DD2E37002D6FB9 /* io_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DB4A9E214DD2E37002D6FB9 /* io_interface.c */; };
 		2DB4A9E614DD3675002D6FB9 /* native_music.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2DB4A9E514DD3675002D6FB9 /* native_music.mm */; };
 		2DB4A9EC14DD40E7002D6FB9 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB4A9EB14DD40E7002D6FB9 /* ApplicationServices.framework */; };
+		2DCD835514DF8C5300963799 /* WindowsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD835414DF8C5300963799 /* WindowsDelegate.m */; };
+		2DCD835714DF9F9200963799 /* blackWhiteIconiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD835614DF9F9200963799 /* blackWhiteIconiPad.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +187,9 @@
 		2DB4A9E514DD3675002D6FB9 /* native_music.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = native_music.mm; sourceTree = "<group>"; };
 		2DB4A9EB14DD40E7002D6FB9 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		2DB4A9F014DDF187002D6FB9 /* libpng.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libpng.xcodeproj; path = libpng/libpng/libpng.xcodeproj; sourceTree = "<group>"; };
+		2DCD835314DF8C5300963799 /* WindowsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowsDelegate.h; sourceTree = "<group>"; };
+		2DCD835414DF8C5300963799 /* WindowsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowsDelegate.m; sourceTree = "<group>"; };
+		2DCD835614DF9F9200963799 /* blackWhiteIconiPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackWhiteIconiPad.png; path = ../blackWhiteIconiPad.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +212,7 @@
 		2D000CD814D8C14C0021DC8D = {
 			isa = PBXGroup;
 			children = (
+				2DCD835614DF9F9200963799 /* blackWhiteIconiPad.png */,
 				2D3189BC14DDFA8B00A76D89 /* libz.dylib */,
 				2DB4A9F014DDF187002D6FB9 /* libpng.xcodeproj */,
 				2DB4A9EB14DD40E7002D6FB9 /* ApplicationServices.framework */,
@@ -257,6 +263,8 @@
 				2D000D9214D8DE720021DC8D /* MyOpenGLView.h */,
 				2D000D9314D8DE720021DC8D /* MyOpenGLView.m */,
 				2DB4A9E514DD3675002D6FB9 /* native_music.mm */,
+				2DCD835314DF8C5300963799 /* WindowsDelegate.h */,
+				2DCD835414DF8C5300963799 /* WindowsDelegate.m */,
 			);
 			path = macosx;
 			sourceTree = "<group>";
@@ -445,6 +453,7 @@
 				2D000CF214D8C14C0021DC8D /* InfoPlist.strings in Resources */,
 				2D000CF814D8C14C0021DC8D /* Credits.rtf in Resources */,
 				2D000CFE14D8C14C0021DC8D /* MainMenu.xib in Resources */,
+				2DCD835714DF9F9200963799 /* blackWhiteIconiPad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,6 +511,7 @@
 				2D000D9414D8DE720021DC8D /* MyOpenGLView.m in Sources */,
 				2DB4A9E414DD2E37002D6FB9 /* io_interface.c in Sources */,
 				2DB4A9E614DD3675002D6FB9 /* native_music.mm in Sources */,
+				2DCD835514DF8C5300963799 /* WindowsDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,7 +600,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "macosx/macosx-Prefix.pch";
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "macosx/macosx-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -603,7 +613,7 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "macosx/macosx-Prefix.pch";
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "macosx/macosx-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

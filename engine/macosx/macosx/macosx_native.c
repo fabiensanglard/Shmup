@@ -34,6 +34,8 @@ void loadNativePNG(texture_t* tmpTex)
 	char* file_name = tmpTex->path;
     uchar header[8];
     
+    int             number_of_passes;
+    int             interlace_type;
     
 	char realPath[1024];
 	FILE *fp = NULL ;
@@ -88,7 +90,12 @@ void loadNativePNG(texture_t* tmpTex)
     png_read_info(png_ptr, info_ptr);
     
 	//Retrieve metadata and tranfert to structure bean tmpTex
-    png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, NULL, NULL, NULL);
+    png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, NULL, NULL);
+    
+    
+    if (interlace_type == PNG_INTERLACE_ADAM7)
+        number_of_passes= png_set_interlace_handling(png_ptr);
+    
     
     tmpTex->width = width; 
     tmpTex->height =  height;
@@ -158,7 +165,7 @@ void loadNativePNG(texture_t* tmpTex)
 	//     messed up, just swap to:   row_pointers[             i] = ....
     for (i = 0;  i < height;  ++i)
     //    row_pointers[height - 1 - i] = tmpTex->data[0]  + i*rowbytes;
-    row_pointers[             i] = tmpTex->data[0]  + i*rowbytes;
+          row_pointers[             i] = tmpTex->data[0]  + i*rowbytes;
     
     
     

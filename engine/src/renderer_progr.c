@@ -472,9 +472,18 @@ void UpLoadTextureToGPU(texture_t* texture)
 	
 	if (texture->format == TEXTURE_GL_RGB ||texture->format == TEXTURE_GL_RGBA)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->data[0]);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		//glTexParameterf(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+		printf("Warning mipmap for %s were not generated due to no GL_GENERATE_MIPMAP support.\n",texture->path);
+        
+        if(texture->format == TEXTURE_GL_RGBA)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width, texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture->data[0]);
+        }
+        else
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->width, texture->height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture->data[0]);
+        
 		free(texture->data[0]);
+		texture->data[0] = 0;
 	}
 	else
 	{
@@ -584,11 +593,18 @@ void SetupMD5forRendition(md5_mesh_t* mesh)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, mesh->vboId);
 			
-			glVertexAttribPointer(currentShader->vars[SHADER_ATT_VERTEX], 3, GL_FLOAT, GL_FALSE,  sizeof(vertex_t), (char*)NULL+VERTEX_T_DELTA_TO_POS);
-			glVertexAttribPointer(currentShader->vars[SHADER_ATT_NORMAL], 3, GL_SHORT, GL_TRUE,  sizeof(vertex_t), (char*)NULL+VERTEX_T_DELTA_TO_NORMAL);
-			glVertexAttribPointer(currentShader->vars[SHADER_ATT_UV], 2, GL_SHORT, GL_TRUE,  sizeof(vertex_t), (char*)NULL+VERTEX_T_DELTA_TO_TEXT);	
-			glVertexAttribPointer(currentShader->vars[SHADER_ATT_TANGENT], 3, GL_SHORT, GL_TRUE,  sizeof(vertex_t), (char*)NULL+VERTEX_T_DELTA_TO_TANGEN);	
+             //This is very likely not 64bits friendly if the GPU copies stuff as it is presented.
+			//glVertexAttribPointer(currentShader->vars[SHADER_ATT_VERTEX], 3, GL_FLOAT, GL_FALSE,  sizeof(vertex_t), (char*)NULL+VERTEX_T_DELTA_TO_POS);
+			//glVertexAttribPointer(currentShader->vars[SHADER_ATT_NORMAL], 3, GL_SHORT, GL_TRUE,  sizeof(vertex_t), (char*)NULL+VERTEX_T_DELTA_TO_NORMAL);
+			//glVertexAttribPointer(currentShader->vars[SHADER_ATT_UV], 2, GL_SHORT, GL_TRUE,  sizeof(vertex_t), (char*)NULL+VERTEX_T_DELTA_TO_TEXT);	
+			//glVertexAttribPointer(currentShader->vars[SHADER_ATT_TANGENT], 3, GL_SHORT, GL_TRUE,  sizeof(vertex_t), (char*)NULL+VERTEX_T_DELTA_TO_TANGEN);	
 			
+            glVertexAttribPointer(currentShader->vars[SHADER_ATT_VERTEX], 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t),  (char *)( (char *)(&mesh->vertexArray->pos   )  - ((char*)&mesh->vertexArray->pos)) );
+			glVertexAttribPointer(currentShader->vars[SHADER_ATT_NORMAL],  3, GL_SHORT, GL_TRUE,  sizeof(vertex_t),  (char *)( (char *)(&mesh->vertexArray->normal)  - ((char*)&mesh->vertexArray->pos)) );
+			glVertexAttribPointer(currentShader->vars[SHADER_ATT_UV],      2, GL_SHORT, GL_TRUE,  sizeof(vertex_t),  (char *)( (char *)(&mesh->vertexArray->text)    - ((char*)&mesh->vertexArray->pos)) );	
+			glVertexAttribPointer(currentShader->vars[SHADER_ATT_TANGENT], 3, GL_SHORT, GL_TRUE,  sizeof(vertex_t),  (char *)( (char *)(&mesh->vertexArray->tangent) - ((char*)&mesh->vertexArray->pos)) );	
+            
+            
 		}
 		else 
 		{
@@ -1019,8 +1035,17 @@ int IsTextureCompressionSupported(int type){
     return supportedCompressionFormat & type;
 }
 
+void RefreshViewPort()
+{
+    glViewport(renderer.viewPortDimensions[VP_X],
+			   renderer.viewPortDimensions[VP_Y], 
+			   renderer.viewPortDimensions[VP_WIDTH], 
+			   renderer.viewPortDimensions[VP_HEIGHT]);
+}
+
 void initProgrRenderer(renderer_t* renderer)
 {
+    char *extensionsList;
 	/*
 	int numAttVert;
 	int numUnifVert, numUnifFrag;
@@ -1062,7 +1087,7 @@ void initProgrRenderer(renderer_t* renderer)
 	renderer->SetMaterialTextureBlending = SetMaterialTextureBlending;
 	renderer->SetTransparency = SetTransparency;
 	renderer->IsTextureCompressionSupported = IsTextureCompressionSupported;
-
+    renderer->RefreshViewPort = RefreshViewPort;
 	
 	//Clean up screen first
 	glClearColor(0, 0, 0, 1);
@@ -1087,7 +1112,7 @@ void initProgrRenderer(renderer_t* renderer)
 	CreateFBOandShadowMap();
 	
     //We need to check what texture compression method is supported.
-    char *extensionsList = (char *) glGetString(GL_EXTENSIONS);
+    extensionsList = (char *) glGetString(GL_EXTENSIONS);
     if (strstr(extensionsList,"GL_IMG_texture_compression_pvrtc"))
         supportedCompressionFormat |= TEXTURE_FORMAT_PVRTC ;
 	

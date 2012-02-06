@@ -14,14 +14,16 @@
 @implementation MyOpenGLView
 
 - (void) initEngine{
-    // Insert code here to initialize your application
-    setenv( "RD", ".", 1 );
-	
+    
+    NSString *myPath = [[NSBundle mainBundle] bundlePath];
+    setenv( "RD", [myPath cString], 1 );
+	// setenv( "RD",".", 1 );
+    
 	setenv( "WD",".", 1 );
     
+    //printf("Workin directory: '%s'.\n",getenv("PWD"));
+   // NSLog(@"Working directory: '%@'.\n",);
     
-    
-    renderer.props |= PROP_FOG;	
 	renderer.statsEnabled = 0;
 	renderer.materialQuality = MATERIAL_QUALITY_HIGH;
     
@@ -31,15 +33,15 @@
     renderer.glBuffersDimensions[WIDTH] = self.frame.size.width;
     renderer.glBuffersDimensions[HEIGHT] = self.frame.size.height;
     engine.licenseType = LICENSE_FULL;
-	//This is only for windows build. Uses the viewport
-	
-    
+	    
     
     dEngine_Init();
     
     int engineParameters = 0;
     engineParameters |= GL_11_RENDERER ;
 	dEngine_InitDisplaySystem(engineParameters);
+    
+    renderer.props |= PROP_FOG;	
 }
 
 - (void) startAnimation
@@ -83,7 +85,12 @@ int initialized = 0;
     
     
     dEngine_HostFrame();
-    glFlush();
+    
+    //Does not work if we use double buffering
+    //glFlush();
+    
+    //This does work in double buffered surface.
+    [[self openGLContext] flushBuffer];
 }
 
 - (void)awakeFromNib{
@@ -92,6 +99,10 @@ int initialized = 0;
     [[self openGLContext] makeCurrentContext];
     [self initEngine];
     [self startAnimation];
+    
+    //Enable VSync in order to avoid tearing.
+    GLint swapInterval = 1;
+    [[self openGLContext] setValues:&swapInterval forParameter:NSOpenGLCPSwapInterval];
 }
 
 #include "io_interface.h"
@@ -154,5 +165,44 @@ int initialized = 0;
 - (BOOL)acceptsFirstResponder {
     return YES;
 }
+
+- (void)viewDidEndLiveResize{
+   
+   // NSSize size;
+   // size.width = [self window].frame.size.width;
+   // size.height= [self window].frame.size.height;
+   //∂∫ [self setFrameSize:size];
+}
+
+- (void)viewWillStartLiveResize{
+       
+}
+
+//This gets called continuoiusly while the window is behind modified.
+- (void) reshape
+{
+   // printf("reshape\n");
+//	NSRect rect = [self bounds];
+ //   rect.size = [self convertSize:rect.size toView:nil];
+  //  glViewport(NSWidth(rect)/2.0, NSHeight(rect)/2.0, NSWidth(rect), NSHeight(rect));
+    
+    
+  //  printf("Resize view %.0f %.0f.\n",[self frame].size.width,[self frame].size.height);
+  //  printf("Resize window %.0f %.0f.\n",[self window].frame.size.width,[self window].frame.size.height); 
+    
+    [super setNeedsDisplay:YES];
+    [[self openGLContext] update];  
+    NSRect rect ;
+    rect.origin.x=0;
+    rect.origin.y=0;
+    rect.size.width = [self window].frame.size.width;
+    rect.size.height =[self window].frame.size.height; 
+    [self  setFrame:rect];
+    
+    //Now that we have resized the NSOpenGLView we also need to let the engine know.
+    SRC_OnResizeScreen(rect.size.width,rect.size.height-20);
+    
+}
+
 
 @end

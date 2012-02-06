@@ -24,6 +24,7 @@
  */
 
 #include "config.h"
+#include "target.h"
 
 #ifndef DE_MATH
 #define DE_MATH 
@@ -39,18 +40,36 @@ typedef float vec4_t[4];
 typedef short vec4short_t[4];
 typedef short vec3short_t[3];
 typedef short vec2short_t[2];
+ 
+// It seems that ATI want their VBO first attribute to be 32bit aligned for interleaved data. As a result Windows and MacOS X are padded to vertex,normal,texture and tangent are 32bits aligned.
+#if defined(SHMUP_TARGET_MACOSX) || defined(SHMUP_TARGET_WINDOWS)
+  typedef  struct vertex_t {
+      vec3_t pos;
+      vec3short_t normal;  short macoxPadding;
+      vec2short_t text;
+      vec3short_t tangent; short macoxPadding2;
+  } vertex_t;
 
-
+#else
 typedef  struct vertex_t {
 	vec3_t pos;
-	vec3short_t normal;
+	vec3short_t normal; 
 	vec2short_t text;
 	vec3short_t tangent;
+    
 } vertex_t;
+#endif
+
+// This is very likely not a good idea to hard-code the vertex attribute offest based on my knowledge of the compiler
+// An other compiler could do anything in terms of padding.
+/*
 #define VERTEX_T_DELTA_TO_POS 0
 #define VERTEX_T_DELTA_TO_NORMAL 12
 #define VERTEX_T_DELTA_TO_TEXT 18
 #define VERTEX_T_DELTA_TO_TANGEN 24
+*/
+
+
 
 /*
 typedef  struct svertex_t {
