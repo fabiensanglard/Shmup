@@ -5,8 +5,7 @@
  * zlib is a must since all asset are compressed in an Android apk.
  * ndk-build and ndk-stack are invaluable tools.
  * Eclipse and build system detect automatically when the library has been recompiled.
-
-
+ * printf are delayed so don't rely on them to debug. Use ndk-stack and -sym.
 */
 #include <stdio.h>
 #include <jni.h>
@@ -38,6 +37,7 @@ void android_main(struct android_app* state) {
 	printf("Hello, Native World-11!\n");
 	sleep(1);
 
+	//Init everything except for the rendering system.
 	dEngine_Init();
 
 

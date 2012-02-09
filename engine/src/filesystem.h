@@ -58,6 +58,7 @@ typedef signed long		SW32,   *PSW32;
 
 typedef struct
 	{
+        
 		FILE *hFile;
 		
 		/* Following is used when the file is loaded into memory */

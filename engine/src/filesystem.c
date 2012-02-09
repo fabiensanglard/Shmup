@@ -101,7 +101,8 @@ filehandle_t* FS_OpenFile( const char *filename, char* mode  )
 	
 	
 	hFile = (filehandle_t*) calloc(1, sizeof( filehandle_t ) );
-	memset( hFile, 0, sizeof( filehandle_t ) );
+    //Useless since calloc already zero memory allocated.
+	//memset( hFile, 0, sizeof( filehandle_t ) );
 	
 	
 	pos = ftell (fd);
@@ -115,6 +116,8 @@ filehandle_t* FS_OpenFile( const char *filename, char* mode  )
 	//	printf("techDemo.scene filesize = %d",hFile->filesize);
 	//}
 	
+    
+    //This should be done in an external method.
 	hFile->filedata = calloc( hFile->filesize,sizeof(char) );
 	
 	fread(hFile->filedata, sizeof(char),hFile->filesize, fd);
@@ -137,6 +140,7 @@ SW32 FS_ReadFile( void *buffer, W32 size, W32 count, filehandle_t *fhandle )
 	W8	*buf = (PW8)buffer;
 	size_t i;
 	
+    //Trying to read more than what is remaining.
 	if( (size * count) > (fhandle->ptrEnd - fhandle->ptrCurrent) )
 	{
 		SW32 read;
