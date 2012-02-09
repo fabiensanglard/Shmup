@@ -34,10 +34,11 @@ void CFG_Load(void)
 	filehandle_t* cfgFile ;
 	
 	cfgFile = FS_OpenFile(CONFIG_FILENAME, "wrt");
-	
+	FS_UploadToRAM(cfgFile);
+
 	if (!cfgFile)
 	{
-		printf("[CFG_Load] Unable to find player settings file, creating it.\n");
+		Log_Printf("[CFG_Load] Unable to find player settings file, creating it.\n");
 		CFG_Save();
 		CFG_Load();
 		return;
@@ -47,7 +48,7 @@ void CFG_Load(void)
 	//Check the magic number
 	if(strncmp(cfgFile->filedata, cfgMagicNumber, strlen(cfgMagicNumber)))
 	{
-		printf("[CFG_Load] Magic number check failed.\n");
+		Log_Printf("[CFG_Load] Magic number check failed.\n");
 		return;
 	}
 	
@@ -62,7 +63,7 @@ void CFG_Save(void)
 	filehandle_t* cfgFile ;
 	
 	cfgFile = FS_OpenFile(CONFIG_FILENAME, "wt");
-	
+	FS_UploadToRAM(cfgFile);
 	//Writing the magic number
 	fwrite(cfgMagicNumber,1,strlen(cfgMagicNumber), cfgFile->hFile);
 	

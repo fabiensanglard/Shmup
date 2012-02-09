@@ -36,6 +36,7 @@ typedef unsigned short ushort ;
 
 
 #include <stdio.h>
+#include "log.h"
 //Doing some memory tracking here
 //#include <stdlib.h>
 #include "trackmem.h"

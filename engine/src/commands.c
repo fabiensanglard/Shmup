@@ -329,7 +329,7 @@ void COM_PrepareFingerSprites(command_t* command)
 		ss_sprite_boundaries[LEFT]  = (touches[BUTTON_FIRE].iphone_coo_SysPos[X]  - SS_W/2)*2- FINGER_SPRITE_SIZE ;
 		ss_sprite_boundaries[RIGHT] = (touches[BUTTON_FIRE].iphone_coo_SysPos[X]  - SS_W/2)*2+ FINGER_SPRITE_SIZE;
 		
-		printf("BUTTON_FIRE_PRESSED\n");
+		Log_Printf("BUTTON_FIRE_PRESSED\n");
 		/*
 		    0 3
 		    1 2
@@ -474,7 +474,7 @@ void COM_ExecCommand(command_t* command)
 			if (players[pId].respawnCounter < 0 )
 				return;
 			
-			//printf("engine.showFingers=%d\n",engine.showFingers);
+			//Log_Printf("engine.showFingers=%d\n",engine.showFingers);
 			
 			if (engine.showFingers)
 				COM_PrepareFingerSprites(command);
@@ -546,7 +546,7 @@ void COM_UpdateRecord(void)
 		
 	if (lastRecordCommand < currentRecordCommand)
 	{
-		printf("Command buffer overflow: stop recording !!\n");
+		Log_Printf("Command buffer overflow: stop recording !!\n");
 		engine.playback.record = 0;
 		return;
 	}
@@ -646,21 +646,22 @@ void COM_StopRecording(void)
 		
 	engine.playback.record = 0;
 		
-	printf("[COM_StopRecording] Writing command record to disk.\n");
+	Log_Printf("[COM_StopRecording] Writing command record to disk.\n");
 	//printf("[COM_StartScene] Allocating %lu kb for inputs recording.\n",NUM_RECORD_FRAMES*sizeof(commandHistoryElem_t)/1024);
 	
 	ioFileHandle = FS_OpenFile(engine.playback.filename,"wb");
-	
+	FS_UploadToRAM(ioFileHandle);
+
 	if (!ioFileHandle)
 	{
-		printf("[COM_StopRecording] Unable to create commandHistory file: %s.\n",engine.playback.filename);
+		Log_Printf("[COM_StopRecording] Unable to create commandHistory file: %s.\n",engine.playback.filename);
 		return;
 	}
 	
 	int_numPlayers = numPlayers;
-	printf("Writing numPlayer=%d to file record\n",int_numPlayers);
-	fwrite(&int_numPlayers,sizeof(int),1, ioFileHandle->hFile);
-	fwrite(recordCommands, sizeof(command_t), NUM_RECORD_FRAMES, ioFileHandle->hFile);
+	Log_Printf("Writing numPlayer=%d to file record\n",int_numPlayers);
+	FS_Write(&int_numPlayers,sizeof(int),1, ioFileHandle);
+	FS_Write(recordCommands, sizeof(command_t), NUM_RECORD_FRAMES, ioFileHandle);
 	FS_CloseFile(ioFileHandle);
 
 	
@@ -677,32 +678,32 @@ void COM_StartScene(void)
 
 	if (engine.playback.play && engine.playback.record)
 	{
-		printf("[COM_StartScene] Unable to play and record at the same time: Giving priority to playback.\n");
+		Log_Printf("[COM_StartScene] Unable to play and record at the same time: Giving priority to playback.\n");
 		engine.playback.record=0;
 	}
 	
 	if (engine.playback.play)
 	{
 		
-		printf("[COM_StartScene] PLAYING BACK VIDEO: ");
+		Log_Printf("[COM_StartScene] PLAYING BACK VIDEO: ");
 		
 		filename[0] = '\0';
 		strcat(filename,"/data/commandRecord/");
 		strcat(filename,engine.playback.filename);
 		ioFileHandle = FS_OpenFile(filename,"rb"); 
-		
+		FS_UploadToRAM(ioFileHandle);
 		
 		if (!ioFileHandle)
 		{
 			engine.playback.play = 0;
 			//FS_CloseFile(ioFileHandle);
-			printf("[COM_StartScene] Cannot start playback: io file missing.\n");
+			Log_Printf("[COM_StartScene] Cannot start playback: io file missing.\n");
 			return;
 		}
 		
 		numPlayers = *((int*)ioFileHandle->ptrStart);
 		
-		printf("Found %d players in this playback.\n",numPlayers);
+		Log_Printf("Found %d players in this playback.\n",numPlayers);
 		
 		//recordCommands = calloc(NUM_RECORD_FRAMES, sizeof(command_t));
 		currentRecordCommand = recordCommands;

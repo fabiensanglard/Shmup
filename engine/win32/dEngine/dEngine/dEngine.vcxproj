@@ -97,6 +97,7 @@
     <ClCompile Include="..\..\..\src\commands.c" />
     <ClCompile Include="..\..\..\src\dEngine.c" />
     <ClCompile Include="..\..\..\src\event.c" />
+    <ClCompile Include="..\..\..\src\log.c" />
     <ClCompile Include="..\..\..\src\math.c" />
     <ClCompile Include="..\..\..\src\vis.c" />
     <ClCompile Include="..\..\..\src\world.c" />
@@ -141,6 +142,7 @@
     <ClInclude Include="..\..\..\src\collisions.h" />
     <ClInclude Include="..\..\..\src\commands.h" />
     <ClInclude Include="..\..\..\src\dEngine.h" />
+    <ClInclude Include="..\..\..\src\log.h" />
     <ClInclude Include="..\..\..\src\vis.h" />
     <ClInclude Include="..\..\..\src\world.h" />
     <ClInclude Include="..\..\..\src\renderer.h" />

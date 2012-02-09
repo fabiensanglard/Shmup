@@ -175,13 +175,13 @@ void SCR_BindMethods(int rendererType)
 {
 	if (rendererType == GL_11_RENDERER)
 	{
-		printf("[Renderer] Running in mode OpenGL ES 1.1\n");
+		Log_Printf("[Renderer] Running in mode OpenGL ES 1.1\n");
 		initFixedRenderer(&renderer);
 	}
 	
 	if (rendererType == GL_20_RENDERER)
 	{
-		printf("[Renderer] Running in mode OpenGL ES 2.0\n"); 
+		Log_Printf("[Renderer] Running in mode OpenGL ES 2.0\n"); 
 		initProgrRenderer(&renderer);
 	}
 	
@@ -210,7 +210,7 @@ void SCR_RenderFrame(void)
 	renderer.RenderPlayersBullets();
 
 //	if (enFxLib.num_indices != 0)
-//		printf("fsdf\n");
+//		Log_Printf("fsdf\n");
 	// enemy particules + FX + players lives counter
 	
 	
@@ -332,7 +332,7 @@ void SCR_ConvertTextToVertices(const char* string, float size, short ss_cooX, sh
 	//Check that we won't overflow the vertices rendition buffer
 	if ( scr_TextNumVertices + stringLength * 4 > MAX_NUM_TEXT_VERTICES)
 	{
-		printf("[SCR_ConvertTextToVertices] Unable to render string, preventing buffer overflow.\n");
+		Log_Printf("[SCR_ConvertTextToVertices] Unable to render string, preventing buffer overflow.\n");
 		return;
 	}
 	
@@ -349,7 +349,7 @@ void SCR_ConvertTextToVertices(const char* string, float size, short ss_cooX, sh
 	// 1 3
 	for (i=0; i < stringLength; i++) 
 	{
-		//	printf("character %c=%d\n",*currentChar,*currentChar);
+		//	Log_Printf("character %c=%d\n",*currentChar,*currentChar);
 		textCoo[X] = *currentChar & 15;
 		textCoo[Y] = *currentChar >> 4;
 		

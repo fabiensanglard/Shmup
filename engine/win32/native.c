@@ -19,7 +19,7 @@ void loadNativePNG(texture_t* tmpTex)
 	if (!devILinitialized)
 	{
 		ilInit(); 
-		printf("[DevIL] Initialized.\n");
+		Log_Printf("[DevIL] Initialized.\n");
 		devILinitialized = 1;
 	}
 
@@ -46,7 +46,7 @@ void loadNativePNG(texture_t* tmpTex)
 
 	if (error != IL_NO_ERROR)
 	{
-		printf("Could not load texture: '%s'\n",tmpTex->path);
+		Log_Printf("Could not load texture: '%s'\n",tmpTex->path);
 		return;
 	}
 
@@ -87,7 +87,7 @@ void SND_LogMCI_Error(char* commmand,int cmdResult)
 
 	mciGetErrorString(cmdResult,errorMessage,sizeof(errorMessage));
 
-	printf("MCI Error '%ls' reason: '%s'\n",errorMessage,commmand);
+	Log_Printf("MCI Error '%ls' reason: '%s'\n",errorMessage,commmand);
 }
 
 
@@ -97,11 +97,13 @@ void SND_InitSoundTrack(char* filename)
 	char command[256];
 	int cmdResult;
 
-	printf("[SND_InitSoundTrack] start '%s'.\n",filename);
+	Log_Printf("[SND_InitSoundTrack] start '%s'.\n",filename);
 
 	sprintf(command,format,filename);
 
-	printf(command);
+	Log_Printf(command);
+	Log_Printf("\n");
+
 	cmdResult = mciSendStringA(command, NULL, 0, 0);
 
 	if (cmdResult)

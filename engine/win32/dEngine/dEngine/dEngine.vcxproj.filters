@@ -201,6 +201,9 @@
     <ClCompile Include="..\..\..\src\wavfile.c">
       <Filter>Source Files\audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\log.c">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\camera.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\native_services.h">
       <Filter>Header Files\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\log.h">
+      <Filter>Header Files\utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

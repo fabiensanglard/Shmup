@@ -66,7 +66,7 @@ void WIN_CheckError(char* errorHeader){
 					  lpMsgBuf); 
 	
 
-	printf("'%s'\n",(char*)lpDisplayBuf);
+	Log_Printf("'%s'\n",(char*)lpDisplayBuf);
 	
 
     LocalFree(lpMsgBuf);
@@ -126,7 +126,7 @@ void WIN_ReadInputs(){
 
 			
 
-			//printf("Click: [%d,%d].\n",event.position[X],event.position[Y]);
+			//Log_Printf("Click: [%d,%d].\n",event.position[X],event.position[Y]);
 			IO_PushEvent(&event);
 			
 		}
@@ -165,7 +165,7 @@ void WIN_ReadInputs(){
     
 
 
-	//printf("wc: %d,%d\n",pci.ptScreenPos.x,pci.ptScreenPos.y);
+	//Log_Printf("wc: %d,%d\n",pci.ptScreenPos.x,pci.ptScreenPos.y);
 }
 
 
@@ -250,7 +250,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		
 		int timeToSleep = timediff - timeForFrame;
 
-		//printf("timeToSleep=%d\n",timeToSleep);
+		//Log_Printf("timeToSleep=%d\n",timeToSleep);
 		// Game is clocked at 60Hz (timediff will be either 16 or 17, this value
 		// comes from timer.c).
 		if (timeToSleep > 0)

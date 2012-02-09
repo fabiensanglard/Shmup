@@ -63,10 +63,10 @@ void ENT_DumpEntityCache(void)
 		cursorBucket = currentBucket;
 		while(cursorBucket != NULL)
 		{
-			printf("Loc[%d]-Dumping mesh '%s'.\n",j,cursorBucket->name);
+			Log_Printf("Loc[%d]-Dumping mesh '%s'.\n",j,cursorBucket->name);
 			mesh= cursorBucket->mesh;
 
-			printf("Listing Vertices.\n");
+			Log_Printf("Listing Vertices.\n");
 			if (mesh->memLocation == MD5_MEMLOC_RAM)
 			{
 				currentVertex = mesh->vertexArray;
@@ -74,7 +74,7 @@ void ENT_DumpEntityCache(void)
 
 				for (i=0; i < mesh->numVertices ; i++,currentVertex++) 
 				{
-					printf("vertex: %d/%d  (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
+					Log_Printf("vertex: %d/%d  (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
 						   i,
 						   mesh->numVertices-1,   
 						   currentVertex->normal[0],
@@ -91,17 +91,17 @@ void ENT_DumpEntityCache(void)
 			else
 			{
 				if (mesh->memLocation == MD5_MEMLOC_VRAM)
-					printf("Vertices on GPU.\n");
+					Log_Printf("Vertices on GPU.\n");
 				else
-					printf("Vertices on DISK.\n");
+					Log_Printf("Vertices on DISK.\n");
 			}
 
-			printf("Listing indices.\n");
+			Log_Printf("Listing indices.\n");
 			if (mesh->indicesMemoryLoc == MD5_MEMLOC_RAM)
 			{
 				for(i=0;  i < mesh->numIndices ; i++)
 				{
-					printf("indice: %d/%d, vertex: %hu   (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
+					Log_Printf("indice: %d/%d, vertex: %hu   (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
 						   i,
 						   mesh->numIndices-1,   
 							mesh->indices[i],
@@ -119,9 +119,9 @@ void ENT_DumpEntityCache(void)
 			else
 			{
 				if (mesh->memLocation == MD5_MEMLOC_VRAM)
-						printf("Indices on GPU.\n");
+						Log_Printf("Indices on GPU.\n");
 					else
-						printf("Indices on DISK.\n");
+						Log_Printf("Indices on DISK.\n");
 			}
 			cursorBucket = cursorBucket->next;
 		}
@@ -280,7 +280,7 @@ char ENT_LoadEntity(entity_t* entity, const char* filename, uchar usage)
 		if (!MD5_LoadMesh(entity->model,filename))
 		{
 			free(entity->model);
-			printf("Unable to load mesh '%s'.\n",filename);
+			Log_Printf("Unable to load mesh '%s'.\n",filename);
 			return 0;
 		}
 		
@@ -294,7 +294,7 @@ char ENT_LoadEntity(entity_t* entity, const char* filename, uchar usage)
 	entity->material =  MATLIB_Get(entity->model->materialName);
 	if (!entity->material)
 	{
-		printf("[ENT_LoadEntity *****ERROR******] Unknown material: '%s'.\n",entity->model->materialName);
+		Log_Printf("[ENT_LoadEntity *****ERROR******] Unknown material: '%s'.\n",entity->model->materialName);
 	}
 	
 	if (usage == ENT_PARTIAL_DRAW)

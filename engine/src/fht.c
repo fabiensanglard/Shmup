@@ -65,7 +65,7 @@ void updateStraight(enemy_t* enemy)
 	
 	enemy->entity.yAxisRot = f * FHT_NUM_ROTATION * 2.0f * M_PI;
 	
-	//printf("f=%.2f\n",f);
+	//Log_Printf("f=%.2f\n",f);
 	
 	enemy->ss_position[X] = oneMinusF*oneMinusF * enemy->spawn_startPosition[X] + 2*oneMinusF*f*enemy->spawn_controlPoint[X]+ f*f*enemy->spawn_endPosition[X];
 	enemy->ss_position[Y] = oneMinusF*oneMinusF * enemy->spawn_startPosition[Y] + 2*oneMinusF*f*enemy->spawn_controlPoint[Y]+f*f*enemy->spawn_endPosition[Y];
@@ -99,7 +99,7 @@ void updateCircle(enemy_t* enemy)
 	//enemy->ss_position[X] = (1-f)*  enemy->spawn_startPosition[X] ;
 	//enemy->ss_position[Y] = (1-f)*  enemy->spawn_startPosition[Y] ;
 	
-	//printf("ene pso = %.2f, %.2f.\n",enemy->ss_position[X],enemy->ss_position[Y]);
+	//Log_Printf("ene pso = %.2f, %.2f.\n",enemy->ss_position[X],enemy->ss_position[Y]);
 	
 	
 	

@@ -73,10 +73,11 @@ void loadNativePVRT(texture_t* texture)
 	
 	//printf("[loadNativePVRT] Loading '%s'\n",texture->path);
 	texture->file = FS_OpenFile(texture->path,"rb");
-	
+	FS_UploadToRAM(texture->file);
+
 	if (!texture->file)
 	{
-		printf("[loadNativePVRT] Could not load: '%s'\n",texture->path);
+		Log_Printf("[loadNativePVRT] Could not load: '%s'\n",texture->path);
 		return;
 	}
 	
@@ -96,12 +97,12 @@ void loadNativePVRT(texture_t* texture)
 		gPVRTexIdentifier[2] != ((pvrTag >> 16) & 0xff) ||
 		gPVRTexIdentifier[3] != ((pvrTag >> 24) & 0xff))
 	{
-		printf("PVR file '%s' failed magic number check.\n",texture->path);
+		Log_Printf("PVR file '%s' failed magic number check.\n",texture->path);
 		return ;
 	}
 	
 	texture->numMipmaps = pvrHeader->numMipmaps + 1;
-	printf("Texture %s has %d mipmaps.\n",texture->path,texture->numMipmaps);
+	Log_Printf("Texture %s has %d mipmaps.\n",texture->path,texture->numMipmaps);
 	
 	texture->data =       malloc(texture->numMipmaps * sizeof(ubyte*)) ;
 	texture->dataLength = malloc(texture->numMipmaps * sizeof(int));

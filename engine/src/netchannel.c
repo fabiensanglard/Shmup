@@ -42,7 +42,7 @@
 	net_channel_t net;
 #else
 
-#define DNSServiceRefDeallocate(x) printf("DNSServiceRefDeallocate(" #x ")\n"); DNSServiceRefDeallocate(x) 
+#define DNSServiceRefDeallocate(x)Log_Printf("DNSServiceRefDeallocate(" #x ")\n"); DNSServiceRefDeallocate(x) 
 
 
 #define MESSAGE_NETMYIP 1
@@ -137,7 +137,7 @@ fakeCmdHistory_t fakeCmdHistory;
 
 void NET_Free(void)
 {
-	printf("NET_FREE\n");
+	Log_Printf("NET_FREE\n");
 	
 	// unregister
 	DNSServiceRefDeallocate(browseRef); browseRef=0;
@@ -175,9 +175,9 @@ char NET_IsNetworkAvailable() {
 		return 0;
 	}
 	
-	printf("NET_IsNetworkAvailable\n");
+	Log_Printf("NET_IsNetworkAvailable\n");
 	
-	//printf("NET_IsNetworkAvailable() searching for interface %s with type %d\n",INTERFACE_NAME,AF_INET);
+	//Log_Printf("NET_IsNetworkAvailable() searching for interface %s with type %d\n",INTERFACE_NAME,AF_INET);
 	
 	// We can't tell if bluetooth is available from here, because
 	// the interface doesn't appear until after the service is found,
@@ -186,11 +186,11 @@ char NET_IsNetworkAvailable() {
 	
 	for ( struct ifaddrs *ifa = ifap ; ifa ; ifa = ifa->ifa_next ) {
 		struct sockaddr_in *ina = (struct sockaddr_in *)ifa->ifa_addr;
-	//	printf("[NET_IsNetworkAvailable] Searching interface: %s, family=%d.\n",ifa->ifa_name,ina->sin_family);
-	//	printf("current if: %s, family=%d @=%s IFF_UP=%d IFF_RUNNING=%d .\n",ifa->ifa_name,ina->sin_family,inet_ntoa(ina->sin_addr),ifa->ifa_flags & IFF_UP != 0, ifa->ifa_flags & IFF_RUNNING != 0);
+	//	Log_Printf("[NET_IsNetworkAvailable] Searching interface: %s, family=%d.\n",ifa->ifa_name,ina->sin_family);
+	//	Log_Printf("current if: %s, family=%d @=%s IFF_UP=%d IFF_RUNNING=%d .\n",ifa->ifa_name,ina->sin_family,inet_ntoa(ina->sin_addr),ifa->ifa_flags & IFF_UP != 0, ifa->ifa_flags & IFF_RUNNING != 0);
 		if ( ina->sin_family == AF_INET ) {
 			if ( !strcmp( ifa->ifa_name, INTERFACE_NAME ) ) {
-		//		printf("[NET_IsNetworkAvailable] Found interface: %s, family=%d.\n",ifa->ifa_name,ina->sin_family);
+		//		Log_Printf("[NET_IsNetworkAvailable] Found interface: %s, family=%d.\n",ifa->ifa_name,ina->sin_family);
 				goodInterface = 1;
 				break;
 			}
@@ -207,7 +207,7 @@ struct sockaddr_in NET_GetAddressForInterfaceName( const char *ifname )
 	struct sockaddr_in s;
 	
 	
-	printf("NET_GetAddressForInterfaceName\n");
+	Log_Printf("NET_GetAddressForInterfaceName\n");
 	
 	memset( &s, 0, sizeof( s ) );
 	
@@ -222,19 +222,19 @@ struct sockaddr_in NET_GetAddressForInterfaceName( const char *ifname )
 		struct sockaddr_in *ina = (struct sockaddr_in *)ifa->ifa_addr;
 		if ( ina->sin_family == AF_INET && !strcmp( ifa->ifa_name, ifname ) ) {
 			uchar *ip = (uchar *)&ina->sin_addr;
-			printf("if: %s, family=%d @=%s IFF_UP=%d IFF_RUNNING=%d .\n",
+			Log_Printf("if: %s, family=%d @=%s IFF_UP=%d IFF_RUNNING=%d .\n",
                    ifa->ifa_name,ina->sin_family,
                    inet_ntoa(ina->sin_addr),
                    (ifa->ifa_flags & IFF_UP) != 0, 
                    (ifa->ifa_flags & IFF_RUNNING) != 0);
-//			printf( "AddressForInterfaceName( %s ) = ifa_name: %s ifa_flags: %i sa_family: %i=AF_INET ip: %i.%i.%i.%i\n", ifname, ifa->ifa_name, ifa->ifa_flags,ina->sin_family, ip[0], ip[1], ip[2], ip[3]  );
+//			Log_Printf( "AddressForInterfaceName( %s ) = ifa_name: %s ifa_flags: %i sa_family: %i=AF_INET ip: %i.%i.%i.%i\n", ifname, ifa->ifa_name, ifa->ifa_flags,ina->sin_family, ip[0], ip[1], ip[2], ip[3]  );
 			sprintf(MENU_GetMultiplayerTextLine(1),"My IP: %i.%i.%i.%i",ip[0], ip[1], ip[2], ip[3]);
 			freeifaddrs( ifap );
 			return *ina;
 		}
 	}
 	freeifaddrs( ifap );
-	printf( "AddressForInterfaceName( %s ): Couldn't find IP address\n", ifname );
+	Log_Printf( "AddressForInterfaceName( %s ): Couldn't find IP address\n", ifname );
 	return s;
 }
 
@@ -251,7 +251,7 @@ int NET_InterfaceIndexForInterfaceName( const char *ifname ) {
 			return index;
 		}
 	}	
-	printf( "InterfaceIndexForName( %s ): Couldn't find interface\n", ifname );
+	Log_Printf( "InterfaceIndexForName( %s ): Couldn't find interface\n", ifname );
 	if_freenameindex( ifnames );
 	return 0;
 }
@@ -266,19 +266,19 @@ void DNSServiceRegisterReplyCallback (
 									  const char *domain, 
 									  void *context ) {
 	
-	printf("DNSServiceRegisterReplyCallback\n");
+	Log_Printf("DNSServiceRegisterReplyCallback\n");
 	
 	if ( errorCode == kDNSServiceErr_NoError ) 
 	{
 		net.type = NET_SERVER;
 		net.state = NET_STARTED;
-		printf("Able to register: I am the one and only SERVER.\n");
+		Log_Printf("Able to register: I am the one and only SERVER.\n");
 	} 
 	else 
 	{
 		net.type = NET_CLIENT;
 		net.state = NET_STARTED;
-		printf("Registering error: I have to be a client.\n");
+		Log_Printf("Registering error: I have to be a client.\n");
 	}
 }
 int NET_CheckServerAvailability(void)
@@ -288,8 +288,8 @@ int NET_CheckServerAvailability(void)
 	
 	net.type = NET_UNKNOWN;
 	
-	printf("NET_CheckServerAvailability\n");
-	printf("DNSServiceRegister\n");
+	Log_Printf("NET_CheckServerAvailability\n");
+	Log_Printf("DNSServiceRegister\n");
 	DNSServiceErrorType	err = DNSServiceRegister( 
 												 &registerRef, 
 												 kDNSServiceFlagsNoAutoRename,		// we want a conflict error
@@ -309,7 +309,7 @@ int NET_CheckServerAvailability(void)
 	
 	if ( err != kDNSServiceErr_NoError ) 
 	{
-		printf( "DNSServiceRegister error\n" );
+		Log_Printf( "DNSServiceRegister error\n" );
 		net.type = NET_UNKNOWN;
 		return 0;
 	} 
@@ -334,7 +334,7 @@ int NET_CheckServerAvailability(void)
 	tv.tv_usec = 0;
 	
 	if ( select( socket+1, &set, NULL, NULL, &tv ) > 0 ) {
-		printf("Received response from dnsDeamon\n");
+		Log_Printf("Received response from dnsDeamon\n");
 		DNSServiceProcessResult( registerRef );
 	}	
 	else {
@@ -343,11 +343,11 @@ int NET_CheckServerAvailability(void)
 	/*
 	// block until we get a response, process it, and run the callback
 	// Do this instead of using a select 
-	printf("DNSServiceProcessResult\n");
+	Log_Printf("DNSServiceProcessResult\n");
 	err = DNSServiceProcessResult( registerRef );
 	if ( err != kDNSServiceErr_NoError ) 
 	{
-		printf( "DNSServiceProcessResult error\n" );
+		Log_Printf( "DNSServiceProcessResult error\n" );
 		net.type = UNKNOWN;
 		return 0;
 	}
@@ -385,12 +385,12 @@ void DNSServiceQueryRecordReplyCallback (
 	
 	
 	char	interfaceName[IF_NAMESIZE];
-	printf("DNSServiceQueryRecordReplyCallback\n");
+	Log_Printf("DNSServiceQueryRecordReplyCallback\n");
 	
 	if_indextoname( interfaceIndex, interfaceName );
 	
-	//printf( "DNSServiceQueryRecordReplyCallback: Found service %s on interface %s.\n",fullname,interfaceName);
-	//printf( "DNSServiceQueryRecordReplyCallback: %s, interface[%i] = %s, [%i] = %i.%i.%i.%i\n", fullname, interfaceIndex, interfaceName, rdlen, ip[0], ip[1], ip[2], ip[3] );
+	//Log_Printf( "DNSServiceQueryRecordReplyCallback: Found service %s on interface %s.\n",fullname,interfaceName);
+	//Log_Printf( "DNSServiceQueryRecordReplyCallback: %s, interface[%i] = %s, [%i] = %i.%i.%i.%i\n", fullname, interfaceIndex, interfaceName, rdlen, ip[0], ip[1], ip[2], ip[3] );
 	
 	
 	//ReportNetworkInterfaces();
@@ -422,10 +422,10 @@ void DNSServiceResolveReplyCallback (
 	DNSServiceRef	queryRef;
 	char	interfaceName[IF_NAMESIZE];
 	
-	printf("DNSServiceResolveReplyCallback\n");
+	Log_Printf("DNSServiceResolveReplyCallback\n");
 	
 	if_indextoname( interfaceIndex, interfaceName );
-	//printf( "Resolve: interfaceIndex [%i]=%s : %s @ %s\n", interfaceIndex, interfaceName, fullname, hosttarget );
+	//Log_Printf( "Resolve: interfaceIndex [%i]=%s : %s @ %s\n", interfaceIndex, interfaceName, fullname, hosttarget );
 	
 
 	
@@ -467,9 +467,9 @@ void DNSServiceBrowseReplyCallback(
 								   const char *replyDomain, 
 								   void *context ) {
 	
-	printf("DNSServiceBrowseReplyCallback\n");
+	Log_Printf("DNSServiceBrowseReplyCallback\n");
 	
-	//printf( "DNSServiceBrowseReplyCallback %s: interface:%i name:%s regtype:%s domain:%s\n", (flags & kDNSServiceFlagsAdd) ? "ADD" : "REMOVE",interfaceIndex, serviceName, regtype, replyDomain );
+	//Log_Printf( "DNSServiceBrowseReplyCallback %s: interface:%i name:%s regtype:%s domain:%s\n", (flags & kDNSServiceFlagsAdd) ? "ADD" : "REMOVE",interfaceIndex, serviceName, regtype, replyDomain );
 	
 	service_t* service ;
 	
@@ -478,12 +478,12 @@ void DNSServiceBrowseReplyCallback(
 		// add it to the list
 		if ( interfaceIndex == 1 ) 
 		{
-			printf( "Not adding service on loopback interface.\n" );
+			Log_Printf( "Not adding service on loopback interface.\n" );
 			return;
 		} 
 		
 		service = &serviceInterfaces[interfaceIndex];
-		//printf("DNSServiceBrowseReplyCallback processing service interface= %d.\n",service->interfaceIndex);
+		//Log_Printf("DNSServiceBrowseReplyCallback processing service interface= %d.\n",service->interfaceIndex);
 			
 		strncpy( service->browseName, serviceName, sizeof( service->browseName ) -1 );
 		strncpy( service->browseRegtype, regtype, sizeof( service->browseRegtype ) -1 );
@@ -550,9 +550,9 @@ int NET_ResolveNetworkServer( )
 	fd_set	set;
 	int	socket;
 	
-	printf("NET_ResolveNetworkServer\n");
+	Log_Printf("NET_ResolveNetworkServer\n");
 	
-	printf("DNSServiceBrowse\n");
+	Log_Printf("DNSServiceBrowse\n");
 	//Browse and then Resolve
 	DNSServiceErrorType err = DNSServiceBrowse ( 
 												&browseRef, 
@@ -586,7 +586,7 @@ int NET_ResolveNetworkServer( )
 	tv.tv_usec = 0;
 	
 	if ( select( socket+1, &set, NULL, NULL, &tv ) > 0 ) {
-		printf("Received response from dnsDeamon\n");
+		Log_Printf("Received response from dnsDeamon\n");
 		DNSServiceProcessResult( browseRef );
 	}	
 	else {
@@ -608,7 +608,7 @@ void NET_CreateSocket(void)
 {
 	struct sockaddr_in bindingIp_address;
 	
-	printf("NET_CreateSocket\n");
+	Log_Printf("NET_CreateSocket\n");
 	
 	bzero(&bindingIp_address, sizeof(bindingIp_address));
 	//ip_address = NET_GetAddressForInterfaceName(INTERFACE_NAME);
@@ -622,7 +622,7 @@ void NET_CreateSocket(void)
 	net.udpSocket = socket( AF_INET, SOCK_DGRAM, IPPROTO_UDP );
 	if ( net.udpSocket == -1 ) 
 	{
-		printf( "UDP socket failed: %s\n", strerror( errno ) );
+		Log_Printf( "UDP socket failed: %s\n", strerror( errno ) );
 		return ;
 	}
 	
@@ -632,7 +632,7 @@ void NET_CreateSocket(void)
 	//int x;
 	//x = fcntl(udpSocket,F_GETFL,0);
 	if (fcntl(net.udpSocket,F_SETFL, O_NONBLOCK)== -1 ) {
-		printf( "UDP fcntl failed: %s\n", strerror( errno ) );
+		Log_Printf( "UDP fcntl failed: %s\n", strerror( errno ) );
 		close( net.udpSocket );
 		
 		return ;
@@ -644,11 +644,11 @@ void NET_CreateSocket(void)
 	errorCheck = bind( net.udpSocket, (struct sockaddr *)&bindingIp_address, sizeof( struct sockaddr_in ) );
 	if (errorCheck == -1)
 	{
-		printf("UDP bind failed: %s\n", strerror( errno ) );
+		Log_Printf("UDP bind failed: %s\n", strerror( errno ) );
 		return ;
 	}
 	
-	printf("[NETCHANNEL ] Bind on %s:%hud\n",inet_ntoa(bindingIp_address.sin_addr),bindingIp_address.sin_port);
+	Log_Printf("[NETCHANNEL ] Bind on %s:%hud\n",inet_ntoa(bindingIp_address.sin_addr),bindingIp_address.sin_port);
 	
 	
 }
@@ -666,11 +666,11 @@ void Net_ProcessSetupPacket(void)
 	uchar packetConsumed = 0;
 	net_packet_t outPacket;
 	
-//	printf("Net_ProcessSetupPacket\n");
+//	Log_Printf("Net_ProcessSetupPacket\n");
 	
 	bzero(&incomingAdd, sizeof(incomingAdd));
 	len = sizeof(incomingAdd);
-	//printf("Net_ProcessSetupPacket()\n");
+	//Log_Printf("Net_ProcessSetupPacket()\n");
 	
 	byteReceived = recvfrom(net.udpSocket,net.buffer,sizeof(net.buffer),0, (struct sockaddr*)&incomingAdd, &len );
 	if (byteReceived == -1)
@@ -678,25 +678,25 @@ void Net_ProcessSetupPacket(void)
 		if (errno != EAGAIN )
 			sprintf(MENU_GetMultiplayerTextLine(4),"Error recvfrom:%d %s.\n",errno,strerror( errno ));
 	
-		//printf("No packets.\n");
+		//Log_Printf("No packets.\n");
 		return;
 	}
 
-	printf("Net_ProcessSetupPacket() read %d bytes\n",byteReceived);
+	Log_Printf("Net_ProcessSetupPacket() read %d bytes\n",byteReceived);
 
 	packet = (net_packet_t*)net.buffer;
 		
-	printf("packet->type=%d\n",packet->type);
+	Log_Printf("packet->type=%d\n",packet->type);
 	
 	if (packet->type != SETUP_PACKET)
 	{
-		printf("Not a setup packet.\n");
+		Log_Printf("Not a setup packet.\n");
 		return;
 	}
 		
 	if (packet->sequenceNumber <= net.lastReceivedSequenceNumber)
 	{
-		printf("Old packet.\n");
+		Log_Printf("Old packet.\n");
 		return;
 	}
 		
@@ -725,20 +725,20 @@ void Net_ProcessSetupPacket(void)
 		numPlayers=2;
 		controlledPlayer=0;
 		
-//		printf("PPRE Player1=%p\n",players[0].entity.material);
-//		printf("PPRE Player2=%p\n",players[1].entity.material);
+//		Log_Printf("PPRE Player1=%p\n",players[0].entity.material);
+//		Log_Printf("PPRE Player2=%p\n",players[1].entity.material);
 		
 		dEngine_CheckState();
 		
-//		printf("POST Player1=%p\n",players[0].entity.material);
-//		printf("POST Player2=%p\n",players[1].entity.material);		
+//		Log_Printf("POST Player1=%p\n",players[0].entity.material);
+//		Log_Printf("POST Player2=%p\n",players[1].entity.material);		
 		
 		SND_PauseSoundTrack();
 		Timer_Pause();
 		net.state = NET_PRELOADED;
 		sprintf(MENU_GetMultiplayerTextLine(MESSAGE_NETSTATE), "state=NET_PRELOADED.\n");
 		
-		printf("Client loaded level, but Timer still paused sending NET_CMD_LOAD_NEXT_LEVEL.\n");
+		Log_Printf("Client loaded level, but Timer still paused sending NET_CMD_LOAD_NEXT_LEVEL.\n");
 		
 		// Trigger preload on the other end as well by sending a NET_CMD_LOAD_NEXT_LEVEL to peer
 		outPacket.command.type = NET_CMD_LOAD_NEXT_LEVEL;
@@ -768,7 +768,7 @@ void Net_ProcessSetupPacket(void)
 		net.state = NET_PRELOADED;
 		sprintf(MENU_GetMultiplayerTextLine(MESSAGE_NETSTATE), "state=NET_PRELOADED.\n");
 
-		printf("Client loaded level, but Timer still paused sending NET_CMD_NOTIFY_LOADED.\n");
+		Log_Printf("Client loaded level, but Timer still paused sending NET_CMD_NOTIFY_LOADED.\n");
 		
 		// Tell server we are ready to start by sending NET_CMD_NOTIFY_LOADED
 		outPacket.command.type = NET_CMD_NOTIFY_LOADED;
@@ -788,7 +788,7 @@ void Net_ProcessSetupPacket(void)
 		
 		net.state = NET_RUNNING;
 		sprintf(MENU_GetMultiplayerTextLine(MESSAGE_NETSTATE), "state=NET_RUNNING.\n");
-		//printf(MENU_GetMultiplayerTextLine(MESSAGE_NETSTATE), "state=NET_RUNNING.\n");
+		//Log_Printf(MENU_GetMultiplayerTextLine(MESSAGE_NETSTATE), "state=NET_RUNNING.\n");
 		//Send NET_CMD_START_LEVEL
 		
 		//Start level (unpause time, unpause music)
@@ -796,7 +796,7 @@ void Net_ProcessSetupPacket(void)
 		Timer_resetTime();
 		Timer_Resume();
 		
-		printf("Server Received NET_CMD_NOTIFY_LOADED, starting and asking client to start as well: NET_CMD_START_LEVEL.\n");
+		Log_Printf("Server Received NET_CMD_NOTIFY_LOADED, starting and asking client to start as well: NET_CMD_START_LEVEL.\n");
 		
 		MENU_Set(MENU_NONE);
 		
@@ -821,13 +821,13 @@ void Net_ProcessSetupPacket(void)
 		Timer_resetTime();
 		Timer_Resume();
 		
-		printf("Client Received NET_CMD_START_LEVEL, starting.\n");
+		Log_Printf("Client Received NET_CMD_START_LEVEL, starting.\n");
 		
 		MENU_Set(MENU_NONE);
 		
 		
 		sprintf(MENU_GetMultiplayerTextLine(MESSAGE_NETSTATE), "state=NET_RUNNING.\n");
-		//printf(MENU_GetMultiplayerTextLine(MESSAGE_NETSTATE), "state=NET_RUNNING.\n");
+		//Log_Printf(MENU_GetMultiplayerTextLine(MESSAGE_NETSTATE), "state=NET_RUNNING.\n");
 		
 		sprintf(MENU_GetMultiplayerTextLine(MESSAGE_NETLASTSENT), "LAST SENT=NET_CMD_LOAD_NEXT_LEVEL");
 	}
@@ -838,7 +838,7 @@ void Net_ProcessSetupPacket(void)
 	//}
 	
 	if (!packetConsumed)
-		printf("Packet type=%d was not consumed.",packet->command.type );
+		Log_Printf("Packet type=%d was not consumed.",packet->command.type );
 }
 
 #define isInitialized (net.state == NET_RUNNING && (net.type == NET_SERVER || (net.type == NET_CLIENT && net.serverAddResolved)))
@@ -847,21 +847,21 @@ void NET_Setup(void)
 	net_packet_t registerPacket;
 	struct sockaddr_in localAddress;
 	
-	//printf("NET_Setup\n");
+	//Log_Printf("NET_Setup\n");
 	
 	if (!net.setupRequested)
 	{
-	//	printf("!setupRequested\n");
+	//	Log_Printf("!setupRequested\n");
 		return ;
 	
 	}
 	if (isInitialized)
 	{
-	//	printf("isInitialized\n");
+	//	Log_Printf("isInitialized\n");
 		return ;
 	}
 	
-	//printf("NET_Setup\n");
+	//Log_Printf("NET_Setup\n");
 	
 	//NET_Free();
 	//buffer = calloc(, sizeof(uchar));
@@ -910,11 +910,11 @@ void NET_Setup(void)
 	if (net.udpSocket == 0)
 	{
 		NET_CreateSocket();
-		printf("File descriptor UDP socket = %d.\n",net.udpSocket);
+		Log_Printf("File descriptor UDP socket = %d.\n",net.udpSocket);
 	}
 	
 	//Process to setup
-	//printf("net.state =%d\n",net.state );
+	//Log_Printf("net.state =%d\n",net.state );
 	
 	if (net.state == NET_STARTED)
 	{
@@ -938,7 +938,7 @@ void NET_Setup(void)
 	}
 	else
 	{
-		printf("Stoping setup, as we reached NET_RUNNING\n");
+		Log_Printf("Stoping setup, as we reached NET_RUNNING\n");
 		net.setupRequested = 0;
 		
 		memset(&fakeCmdHistory,0,sizeof(fakeCmdHistory_t));
@@ -1047,7 +1047,7 @@ void NET_Receive(void)
 	int i;
 	command_t* cmd;
 	
-	//printf("NET_Receive\n");
+	//Log_Printf("NET_Receive\n");
 	
 	if (!isInitialized)
 		return;
@@ -1068,7 +1068,7 @@ void NET_Receive(void)
 		}	
 		if (rcv_packet.sequenceNumber <= net.lastReceivedSequenceNumber)
 		{
-			printf("Old packet.\n");
+			Log_Printf("Old packet.\n");
 			continue;
 		}
 			
@@ -1080,7 +1080,7 @@ void NET_Receive(void)
 		
 		rcv_packet.command.time = simulationTime;
 		
-		//printf("Receiving packet for player id= %d\n",rcv_packet.command.playerId);
+		//Log_Printf("Receiving packet for player id= %d\n",rcv_packet.command.playerId);
 		
 		
 		
@@ -1090,7 +1090,7 @@ void NET_Receive(void)
 			memcpy(&commandsBuffers[!controlledPlayer].cmds[commandsBuffers[!controlledPlayer].numCommands], &rcv_packet.command, sizeof(command_t));
 			
 			/*
-			printf("t=%d rcv: t=%d d=[%.2f %.2f] %d%d%d\n",
+			Log_Printf("t=%d rcv: t=%d d=[%.2f %.2f] %d%d%d\n",
 				   simulationTime,
 				   rcv_packet.type,rcv_packet.command.delta[X],
 				   rcv_packet.command.delta[Y],
@@ -1113,7 +1113,7 @@ void NET_Receive(void)
 	}
 	
 	
-	printf("t=%d,numDeltaUpdateRecv=%d\n",simulationTime,numDeltaUpdateRecv);
+	Log_Printf("t=%d,numDeltaUpdateRecv=%d\n",simulationTime,numDeltaUpdateRecv);
 	
 	return;
 	
@@ -1127,7 +1127,7 @@ void NET_Receive(void)
 		//Add it to history
 		NET_AddFakeToHistory(cmd);
 		
-		//printf("t=%d, missing deltaCmd: fake=%.4f,%.4f\n",simulationTime,cmd->delta[X],cmd->delta[Y]);
+		//Log_Printf("t=%d, missing deltaCmd: fake=%.4f,%.4f\n",simulationTime,cmd->delta[X],cmd->delta[Y]);
 		if (commandsBuffers[!controlledPlayer].numCommands < COMMAND_BUFFER_SIZE-1)
 		{
 			memcpy(&commandsBuffers[!controlledPlayer].cmds[commandsBuffers[!controlledPlayer].numCommands], cmd, sizeof(command_t));
@@ -1138,11 +1138,11 @@ void NET_Receive(void)
 	}
 	else 
 	{
-		//printf("t=%d: %d deltaCmd(s).\n",simulationTime,numDeltaUpdateRecv);
+		//Log_Printf("t=%d: %d deltaCmd(s).\n",simulationTime,numDeltaUpdateRecv);
 		// If we have received more than 1 update, we can undo that many fake commands previously generated
 		for (i=1; i < numDeltaUpdateRecv && fakeCmdHistory.num >0 && commandsBuffers[!controlledPlayer].numCommands < COMMAND_BUFFER_SIZE-1; i++) 
 		{
-			//printf("t=%d: Undoing 1 fake deltaCmd.\n",simulationTime);
+			//Log_Printf("t=%d: Undoing 1 fake deltaCmd.\n",simulationTime);
 			cmd = &cmdBuffer->cmds[commandsBuffers[!controlledPlayer].numCommands];
 			cmd->time = simulationTime;
 			cmd->type = NET_RTM_COMMAND;
@@ -1168,26 +1168,26 @@ void NET_Send()
 {
 	net_packet_t send_packet;
 	
-	//printf("NET_Send\n");
+	//Log_Printf("NET_Send\n");
 	
 	if (!isInitialized)
 		return;
 	
-	//printf("To send contains playerId= %X\n",toSend.playerId);
+	//Log_Printf("To send contains playerId= %X\n",toSend.playerId);
 	
 	
 	
 	send_packet.type = RUNTIME_PACKET;
 	send_packet.command.type = NET_RTM_COMMAND;
 	send_packet.sequenceNumber = net.lastSentSequenceNumber++;
-	//printf("net.lastSentSequenceNumber=%d\n",net.lastSentSequenceNumber);
+	//Log_Printf("net.lastSentSequenceNumber=%d\n",net.lastSentSequenceNumber);
 	send_packet.ackSequenceNumber = net.lastReceivedSequenceNumber;
 	memcpy(&send_packet.command,&toSend,sizeof(command_t));
 	
 	//send_packet.command.playerId = controlledPlayer;
 	
-	//printf("Sending packet for player id= %X\n",send_packet.command.playerId);
-	//printf("Controlled player = %X\n",controlledPlayer);
+	//Log_Printf("Sending packet for player id= %X\n",send_packet.command.playerId);
+	//Log_Printf("Controlled player = %X\n",controlledPlayer);
 	
 	sendto(net.udpSocket, &send_packet, sizeof(net_packet_t), 0, (struct sockaddr*)&net.peerAddr, sizeof(net.peerAddr));	
 	
@@ -1210,7 +1210,7 @@ void Net_SendDie(command_t* command)
 
 	net_packet_t send_packet;
 
-	printf("Net_SendDie\n");
+	Log_Printf("Net_SendDie\n");
 	
 	send_packet.type = NET_RUNNING;
 	send_packet.sequenceNumber = net.lastSentSequenceNumber++;
@@ -1223,7 +1223,7 @@ void Net_SendDie(command_t* command)
 
 int NET_Init(void)
 {
-	printf("NET_Init\n");
+	Log_Printf("NET_Init\n");
 	NET_Free();
 	net.setupRequested = 1;
 	return 1;
@@ -1231,14 +1231,14 @@ int NET_Init(void)
 
 void NET_OnNextLevelLoad(void)
 {
-	printf("NET_OnNextLevelLoad\n");
+	Log_Printf("NET_OnNextLevelLoad\n");
 	net.setupRequested = 1;
 	net.state = NET_STARTED;	
 }
 
 char NET_IsRunning(void)
 {
-	printf("NET_IsRunning\n");
+	Log_Printf("NET_IsRunning\n");
 	return (net.state == NET_RUNNING);
 }
 

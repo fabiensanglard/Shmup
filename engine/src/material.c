@@ -127,19 +127,19 @@ void MATLIB_PrintCache()
 	int i;
 	mat_bucket_t* curr;
 	
-	printf("	--Material cache--\n");
+	Log_Printf("	--Material cache--\n");
 	
 	for (i=0; i< SIZE_MAT_HASHTABLE; i++) 
 	{
 		curr = mat_hashtable[i];
 		while (curr != NULL) 
 		{
-			printf("	Mat (%d) = '%s' loaded=%d\n",i,curr->material->name,curr->material->textures[TEXTURE_DIFFUSE].memLocation == TEXT_MEM_LOC_VRAM);
+			Log_Printf("	Mat (%d) = '%s' loaded=%d\n",i,curr->material->name,curr->material->textures[TEXTURE_DIFFUSE].memLocation == TEXT_MEM_LOC_VRAM);
 			curr=curr->next;
 		}
 	}
 	
-	printf("	--END Material cache END --\n");
+	Log_Printf("	--END Material cache END --\n");
 }
 
 
@@ -151,7 +151,7 @@ material_t* MATLIB_Create(char* materialName)
 	
 	if (strlen(materialName) > MAX_MATERIAL_NAME_LENGTH-1)
 	{
-		printf("Material name '%s' is too long (> %d).\n",materialName,MAX_MATERIAL_NAME_LENGTH-1);
+		Log_Printf("Material name '%s' is too long (> %d).\n",materialName,MAX_MATERIAL_NAME_LENGTH-1);
 		return NULL;
 	}
 	
@@ -184,7 +184,7 @@ material_t* MATLIB_Create(char* materialName)
 	{
 		if (*materialName != '"')
 		{
-		//	printf("material->name = '%s'\n",  material->name);
+		//	Log_Printf("material->name = '%s'\n",  material->name);
 			//printf("'%c'\n",*materialName);
 			*newMaterialName++ = *materialName++;
 		}
@@ -217,7 +217,7 @@ material_t* MATLIB_Create(char* materialName)
 void MATLIB_printProp(uchar props)
 {
 	
-	printf("prop for %X %1d%1d%1d%1d%1d%1d%1d%1d\n",
+	Log_Printf("prop for %X %1d%1d%1d%1d%1d%1d%1d%1d\n",
 		   props,
 		   (props & PROP_SHADOW) >> 7,
 		   (props & PROP_BUMP) >> 6,
@@ -228,14 +228,14 @@ void MATLIB_printProp(uchar props)
 		   (props & PROP_SPEC) >> 1,
 		   (props & PROP_BUMP)
 		   );
-	if ((props & PROP_BUMP) == PROP_BUMP) printf("PROP_BUMP\n");
-	if ((props & PROP_SPEC) == PROP_SPEC) printf("PROP_SPEC\n");
-	if ((props & PROP_DIFF) == PROP_DIFF) printf("PROP_DIFF\n");
-	if ((props & PROP_UNDEF1) == PROP_UNDEF1) printf("PROP_UNDEF1\n");
-	if ((props & PROP_UNDEF2) == PROP_UNDEF2) printf("PROP_UNDEF2\n");
-	if ((props & PROP_UNDEF3) == PROP_UNDEF3) printf("PROP_UNDEF3\n");
-	if ((props & PROP_BUMP) == PROP_BUMP) printf("PROP_BUMP\\n");
-	if ((props & PROP_SHADOW) == PROP_SHADOW) printf("PROP_SHADOW\n");
+	if ((props & PROP_BUMP) == PROP_BUMP) Log_Printf("PROP_BUMP\n");
+	if ((props & PROP_SPEC) == PROP_SPEC) Log_Printf("PROP_SPEC\n");
+	if ((props & PROP_DIFF) == PROP_DIFF) Log_Printf("PROP_DIFF\n");
+	if ((props & PROP_UNDEF1) == PROP_UNDEF1) Log_Printf("PROP_UNDEF1\n");
+	if ((props & PROP_UNDEF2) == PROP_UNDEF2) Log_Printf("PROP_UNDEF2\n");
+	if ((props & PROP_UNDEF3) == PROP_UNDEF3) Log_Printf("PROP_UNDEF3\n");
+	if ((props & PROP_BUMP) == PROP_BUMP) Log_Printf("PROP_BUMP\\n");
+	if ((props & PROP_SHADOW) == PROP_SHADOW) Log_Printf("PROP_SHADOW\n");
 }
 
 
@@ -245,13 +245,14 @@ void MATLIB_LoadLibraries(void)
 	int i;
 	filehandle_t* library;
 	
-	printf("Initalizing material library.\n");
+	Log_Printf("Initalizing material library.\n");
 	
 	for (i=0 ; i < SIZE_MAT_HASHTABLE ; i++)
 		mat_hashtable[i] = 0;
 	
 	library = FS_OpenFile("data/materials.lbr","rt");
-	
+	FS_UploadToRAM(library);
+
 	LE_init(library);
 	
 	while (LE_hasMoreData()) 
@@ -318,10 +319,11 @@ void MATLIB_LoadLibrary(char* mtlPath)
 	
 	
 	mtlFile = FS_OpenFile(mtlPath, "rt");
-	
+	FS_UploadToRAM(mtlFile);
+
 	if (!mtlFile)
 	{
-		printf("Material loader could not find file '%s'",mtlPath);
+		Log_Printf("Material loader could not find file '%s'",mtlPath);
 		return;
 	}
 	

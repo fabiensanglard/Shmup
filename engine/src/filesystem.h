@@ -83,8 +83,11 @@ char*	FS_GameWritableDir(void);
 char*	FS_Gamedir(void);
 
 filehandle_t* FS_OpenFile( const char *filename, char* mode  );
+int FS_UploadToRAM( filehandle_t *fhandle);
 void FS_CloseFile( filehandle_t *fhandle );
-SW32 FS_ReadFile( void *buffer, W32 size, W32 count, filehandle_t *fhandle );
+SW32 FS_Read( void *buffer, W32 size, W32 count, filehandle_t *fhandle );
+SW32 FS_Write( const void * buffer, W32 size, W32 count, filehandle_t * stream );
+
 W32 FS_FileSeek( filehandle_t *fhandle, SW32 offset, W32 origin );
 
 SW32 FS_GetFileSize( filehandle_t *fhandle );

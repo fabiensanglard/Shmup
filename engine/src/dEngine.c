@@ -69,11 +69,11 @@ void dEngine_ReadConfig(void)
     
     
 	config = FS_OpenFile("data/config.cfg", "rt");
-	
+	FS_UploadToRAM(config);
 	
 	if (!config)
 	{
-		printf("Configuration file: data/config.cfg not found");
+		Log_Printf("Configuration file: data/config.cfg not found");
 		exit(0);
 	}
 	
@@ -101,14 +101,14 @@ void dEngine_ReadConfig(void)
 				{
 					currentSceneId = LE_readReal();
 					
-					LE_readToken();
+					LE_readToken(); //The name of the scene, here only to help developer to keep track of config.cfg
 					strReplace(LE_getCurrentToken(), '_', ' ');
 					strcpy(engine.scenes[currentSceneId].name, LE_getCurrentToken());
 					
 					LE_readToken();
 					strcpy(engine.scenes[currentSceneId].path, LE_getCurrentToken());
 					
-					printf("Read scene %d, name %s, path %s\n",currentSceneId,engine.scenes[currentSceneId].name,engine.scenes[currentSceneId].path);
+					Log_Printf("Read scene %d, name %s, path %s\n",currentSceneId,engine.scenes[currentSceneId].name,engine.scenes[currentSceneId].path);
 					
 					
 				}
@@ -256,7 +256,7 @@ void dEngine_WriteScreenshot(char* directory)
 {
 	
 	int i;//,j;
-	FILE* pScreenshot;
+	filehandle_t* pScreenshot;
 	char fullPath[256];
 	
 	uchar tga_header[18];
@@ -279,7 +279,7 @@ void dEngine_WriteScreenshot(char* directory)
 	
 	SCR_GetColorBuffer(screenShotBuffer);
 	
-	pScreenshot = fopen(fullPath, "wb");
+	pScreenshot = FS_OpenFile(fullPath, "wb");
 	
 	memset(tga_header, 0, 18);
 	tga_header[2] = 2;
@@ -291,7 +291,7 @@ void dEngine_WriteScreenshot(char* directory)
 	
 	
 	
-	fwrite(&tga_header, 18, sizeof(uchar), pScreenshot);
+	FS_Write(&tga_header, 18, sizeof(uchar), pScreenshot);
 	
 	// RGB > BGR
 	pixel = screenShotBuffer;
@@ -305,15 +305,16 @@ void dEngine_WriteScreenshot(char* directory)
 	}
 	
 	
-	fwrite(screenShotBuffer, renderer.glBuffersDimensions[WIDTH] * renderer.glBuffersDimensions[HEIGHT], 4 * sizeof(uchar), pScreenshot);
+	FS_Write(screenShotBuffer, renderer.glBuffersDimensions[WIDTH] * renderer.glBuffersDimensions[HEIGHT], 4 * sizeof(uchar), pScreenshot);
 	
-	fclose(pScreenshot);
+	FS_CloseFile(pScreenshot);
 	
 }
 
 void dEngine_Init(void) 
 {
-    printf("dEngine Initialization...\n");
+	FS_InitFilesystem();
+    Log_Printf("dEngine Initialization...\n");
     
 	ENT_InitCacheSystem();
 	TEXT_InitCacheSystem();
@@ -339,7 +340,6 @@ void dEngine_Init(void)
 	ENPAR_Init();
 	
 	
-	FS_InitFilesystem();
 
 	dEngine_ReadConfig();
 
@@ -363,43 +363,6 @@ void dEngine_Init(void)
 	MENU_Init();
 	
 	
-	
-	//TESTS
-	/*
-	char c = CHAR_MAX;
-	unsigned char uc = UCHAR_MAX;
-	short s = SHRT_MAX;
-	unsigned short us = USHRT_MAX;
-	int i = INT_MAX;
-	unsigned int ui = UINT_MAX;
-	long l = LONG_MAX;
-	unsigned long ul = ULONG_MAX;
-	
-	printf("\n");
-	printf("LIMITS: c:%d, uc:%u, s:%d, us:%u\n"
-		   "LIMITS: i:%d, ui:%u, l:%ld, ul:%lu\n",
-		   c, uc, s, us, i, ui, l, ul);
-	
-	// promotion 
-	printf("\n");
-	printf("i = s: %d, \n", i = s);
-	printf("i = us: %d, \n", i = us);
-	printf("ui = s: %u, \n", ui = s);
-	printf("ui = us: %u\n", ui = us);
-	
-	// narrowing 
-	printf("\n");
-	printf("c = s: %d, \n", c = s);
-	printf("c = us: %d, \n", c = us);
-	printf("uc = s: %d, \n", uc = s); //Ln:31
-	printf("uc = us: %d\n", uc = us);
-	
-	printf("\n");
-	printf("uc = UCHAR_MAX (%u) + 1: %u, \n",
-		   UCHAR_MAX, uc = UCHAR_MAX + 1); // Ln:36 
-	printf("uc = -1: %d\n", uc = -1);
-	*/
-	
 }
 
 void dEngine_InitDisplaySystem(uchar rendererType)
@@ -422,7 +385,7 @@ void dEngine_LoadScene(int sceneId)
 {
 	event_t* ev;
 	
-	printf("[dEngine_LoadScene] sceneid=(%d)\n",sceneId);
+	Log_Printf("[dEngine_LoadScene] sceneid=(%d)\n",sceneId);
 	
 	COM_StopRecording();
 
@@ -540,7 +503,7 @@ void dEngine_JumpInTime(void)
 		{			
 			while (event->next != NULL && event->next->time <= timeJumpTarget && event->next->type == EV_SPAWN_ENEMY)
 			{
-				//printf("[dEngine_JumpInTime] Cleaning EV_SPAWN_ENEMY events t=%d.\n",event->next->time);
+				//Log_Printf("[dEngine_JumpInTime] Cleaning EV_SPAWN_ENEMY events t=%d.\n",event->next->time);
 				
 				toDelete = event->next;
 				event->next = event->next->next;
@@ -553,7 +516,7 @@ void dEngine_JumpInTime(void)
 			event = event->next;
 		}
 		
-	//	printf("[dEngine_JumpInTime] events cleaned.\n");
+	//	Log_Printf("[dEngine_JumpInTime] events cleaned.\n");
 		
 		while (simulationTime < timeJumpTarget) 
 		{
@@ -563,7 +526,7 @@ void dEngine_JumpInTime(void)
 			
 			
 			//Play all frames
-		//	printf("[dEngine_JumpInTime] t=%d.\n",simulationTime);
+		//	Log_Printf("[dEngine_JumpInTime] t=%d.\n",simulationTime);
 			dEngine_HostFrame();
 		}
 		

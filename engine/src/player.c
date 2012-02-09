@@ -381,7 +381,7 @@ void P_FireBullet(player_t* player,float deltaX, float deltaY)
     bullet->expirationTime = simulationTime + bulletConfig.ttl ;
 	 
     
-  //  printf("newbslot=%u\n",player->nextBulletSlotIndice);
+  // Log_Printf("newbslot=%u\n",player->nextBulletSlotIndice);
 }
 
 void P_FireOneBullet(player_t* player)
@@ -970,7 +970,7 @@ void P_PrepareBulletSprites(void)
 		}
         
         //printf("bulletDiag='%s'",bulletdiagnostic);
-       // printf("0=%d 1=%d\n",player->bullets[0].expirationTime,player->bullets[1].expirationTime);
+       //Log_Printf("0=%d 1=%d\n",player->bullets[0].expirationTime,player->bullets[1].expirationTime);
 	}
 }
 

@@ -37,15 +37,20 @@ void FS_InitFilesystem( void )
 	char *p;
 	p = getenv("RD");
 	sprintf( fs_gamedir, "%s", p );
-	//printf("[Filesystem] Base    directory initialized (%s).\n",fs_gamedir);
+	//Log_Printf("[Filesystem] Base    directory initialized (%s).\n",fs_gamedir);
 	
 	p = getenv("WD");\
 	sprintf( fs_writableDir, "%s", p );
-	//printf("[Filesystem] Writable directory initialized (%s).\n",fs_writableDir);
+	//Log_Printf("[Filesystem] Writable directory initialized (%s).\n",fs_writableDir);
+
+
 	
-	//printf("[Filesystem] Base directory = '%s'.\n",fs_gamedir);
-	
-	printf("[Filesystem] Initialized.\n");
+		
+	Log_Init();
+
+	Log_Printf("SHMUP :\n");
+	Log_Printf("===========\n");
+	Log_Printf("[Filesystem] Initialized.\n");
 }
 
 char*	FS_GameWritableDir(void)
@@ -78,7 +83,7 @@ filehandle_t* FS_OpenFile( const char *filename, char* mode  )
 	isWriting=0;
 	for(i= 0  ; mode && i < strlen(mode)  ; i++)
 	{
-		if (mode[i] == 'w')
+		if (mode[i] == 'w' || mode[i] == 'a')
 		{
 			isWriting = 1;
 			break;
@@ -87,7 +92,10 @@ filehandle_t* FS_OpenFile( const char *filename, char* mode  )
 	
 	
 	if (isWriting)
+	{
 		pathBase = FS_GameWritableDir();
+		
+	}
 	else 
 		pathBase = FS_Gamedir();
 		
@@ -95,79 +103,111 @@ filehandle_t* FS_OpenFile( const char *filename, char* mode  )
 	
 	fd = fopen( netpath, mode );
 	if ( !fd  ) {
-		printf("[FS_OpenFile] Could not open file '%s'\n",netpath);
+		Log_Printf("[FS_OpenFile] Could not open file '%s'\n",netpath);
 		return NULL;
 	}
 	
 	
+
 	hFile = (filehandle_t*) calloc(1, sizeof( filehandle_t ) );
     //Useless since calloc already zero memory allocated.
 	//memset( hFile, 0, sizeof( filehandle_t ) );
 	
-	
+	if (isWriting)
+		hFile->isWritable = 1;
+
+	//Get filesize.
 	pos = ftell (fd);
 	fseek (fd, 0, SEEK_END);
 	end = ftell (fd);
 	fseek (fd, pos, SEEK_SET);
 	hFile->filesize = end;
 	
-	//if (!strcmp("data/scenes/techDemo.scene", filename))
-	//{
-	//	printf("techDemo.scene filesize = %d",hFile->filesize);
-	//}
+
 	
     
-    //This should be done in an external method.
+    hFile->hFile = fd;
+	
+	
+	
+		
+
+	return hFile;
+}
+
+int FS_UploadToRAM( filehandle_t *hFile)
+{
+
+	//This should be done in an external method.
 	hFile->filedata = calloc( hFile->filesize,sizeof(char) );
 	
-	fread(hFile->filedata, sizeof(char),hFile->filesize, fd);
+	if (!hFile->filedata)
+	{
+		//Out of memory....
+		Log_Printf("[FS_UploadToRAM] Unable to load file '%s' to RAM.\n");
+		return 0;
+	}
+	fread(hFile->filedata, sizeof(char),hFile->filesize, hFile->hFile);
 	
 	hFile->ptrStart =  hFile->ptrCurrent = (PW8)hFile->filedata;
 	hFile->ptrEnd =  (PW8)hFile->filedata + hFile->filesize;
 	hFile->bLoaded = 1;
-	hFile->isWritable = isWriting;
-	hFile->hFile = fd;
-	//printf("Closing file: '%s'\n",netpath);
+	hFile->isWritable = 0;
 	
-	if (!hFile->isWritable)
-		fclose( fd );
-	
-	return hFile;
+	return 1;
 }
 
-SW32 FS_ReadFile( void *buffer, W32 size, W32 count, filehandle_t *fhandle )
+
+SW32 FS_Write( const void * buffer, W32 size, W32 count, filehandle_t * stream )
+{
+	if (stream->bLoaded)
+	{
+		Log_Printf("Writing to a file in RAM is not supported. Use the filehandle_t pointer instead.\n");
+		exit(0);
+		return 0;
+	}
+
+	return fwrite(buffer,size,count,stream->hFile);
+}
+
+SW32 FS_Read( void *buffer, W32 size, W32 count, filehandle_t *fhandle )
 {		
 	W8	*buf = (PW8)buffer;
 	size_t i;
 	
-    //Trying to read more than what is remaining.
-	if( (size * count) > (fhandle->ptrEnd - fhandle->ptrCurrent) )
-	{
-		SW32 read;
-		
-		read = (fhandle->ptrEnd - fhandle->ptrCurrent);
-		
-		for( i = 0 ; i < (fhandle->ptrEnd - fhandle->ptrCurrent) ; ++i )
+	if (fhandle->bLoaded){
+
+		//Trying to read more than what is remaining.
+		if( (size * count) > (fhandle->ptrEnd - fhandle->ptrCurrent) )
 		{
-			buf[ i ] = fhandle->ptrCurrent[ i ];
+			SW32 read;
+		
+			read = (fhandle->ptrEnd - fhandle->ptrCurrent);
+		
+			for( i = 0 ; i < (fhandle->ptrEnd - fhandle->ptrCurrent) ; ++i )
+			{
+				buf[ i ] = fhandle->ptrCurrent[ i ];
+			}
+		
+			fhandle->ptrCurrent = fhandle->ptrEnd;
+		
+			return( read );
 		}
-		
-		fhandle->ptrCurrent = fhandle->ptrEnd;
-		
-		return( read );
-	}
-	else
-	{
-		for( i = 0 ; i < (size * count) ; ++i, fhandle->ptrCurrent++ )
+		else
 		{
-			buf[ i ] = *fhandle->ptrCurrent;
-		}
+			for( i = 0 ; i < (size * count) ; ++i, fhandle->ptrCurrent++ )
+			{
+				buf[ i ] = *fhandle->ptrCurrent;
+			}
 		
-		return( (size * count) / size );
-	}
+			return( (size * count) / size );
+		}
 	
-	/* should never get here */
-	return -1;
+		/* should never get here */
+		return -1;
+	}
+
+	return fread(buffer,size,count,fhandle->hFile);
 }
 
 SW32 FS_GetFileSize( filehandle_t *fhandle )
@@ -178,6 +218,7 @@ SW32 FS_GetFileSize( filehandle_t *fhandle )
 
 void FS_CloseFile( filehandle_t *fhandle )
 {
+	//If the file was uploaded to RAM we need to free the buffer.
 	if( fhandle->filedata )
 	{
 		
@@ -185,8 +226,8 @@ void FS_CloseFile( filehandle_t *fhandle )
 		fhandle->filedata = NULL;
 	}
 	
-	if(	fhandle->isWritable)
-		fclose( fhandle->hFile);
+	
+	fclose( fhandle->hFile);
 	
 	free( fhandle );
 }

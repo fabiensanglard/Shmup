@@ -51,19 +51,19 @@ void TEXT_PrintCache(void)
 	int i;
 	tex_cache_bucket_t* curr;
 	
-	printf("	--Texture cache--\n");
+	Log_Printf("	--Texture cache--\n");
 	
 	for (i=0; i< HASH_MAX_VALUE; i++) 
 	{
 		curr = tex_hashtable[i];
 		while (curr != NULL) 
 		{
-			printf("	Tex (%d) = '%s' id=%d\n",i,curr->texture->path,curr->texture->textureId);
+			Log_Printf("	Tex (%d) = '%s' id=%d\n",i,curr->texture->path,curr->texture->textureId);
 			curr=curr->next;
 		}
 	}
 	
-	printf("	--END Texture cache END --\n");
+	Log_Printf("	--END Texture cache END --\n");
 	
 }
 
@@ -174,7 +174,7 @@ void TEX_PutTexture(texture_t* texture)
 	}
 	else
 	{
-		//printf("[MTL parser] Collision detected, while inserting '%s'.\n",mtlName);
+		//Log_Printf("[MTL parser] Collision detected, while inserting '%s'.\n",mtlName);
 		bucket = tex_hashtable[hashValue];
 		
 		while (bucket->next)
@@ -270,7 +270,7 @@ void TEX_LoadFromDiskAndUploadToGPU(texture_t* tmpTex)
 	
 	if (tmpTex->format == TEXTURE_TYPE_UNKNOWN)
 	{
-		printf("[Texture loader] Texture type for %s is UNKNOWN !!\n",tmpTex->path);
+		Log_Printf("[Texture loader] Texture type for %s is UNKNOWN !!\n",tmpTex->path);
 	}
 	
 	//Upload to GPU
@@ -287,14 +287,14 @@ void TEX_MakeAvailable(texture_t* tmpTex)
 	if (tmpTex == NULL)
 		return;
 	
-	//printf("TEX_MakeAvailable %s\n",tmpTex->path);
+	//Log_Printf("TEX_MakeAvailable %s\n",tmpTex->path);
 	
 	
 	//Check if this texture is in cache
 	cacheTest = TEX_GetTexture(tmpTex->path);
 	if (cacheTest != NULL)
 	{
-		//printf("TEX_MakeAvailable cache it returning.\n");
+		//Log_Printf("TEX_MakeAvailable cache it returning.\n");
 		*tmpTex = *cacheTest;
 		
 		if (tmpTex->memLocation != TEXT_MEM_LOC_VRAM)
@@ -305,7 +305,7 @@ void TEX_MakeAvailable(texture_t* tmpTex)
 	
 	if (tmpTex->memLocation == TEXT_MEM_LOC_VRAM)
 	{
-		//printf("TEX_MakeAvailable already in vram, returning.\n");
+		//Log_Printf("TEX_MakeAvailable already in vram, returning.\n");
 		return ;
 	}
 	
@@ -324,7 +324,7 @@ void TEX_UnloadTexture(texture_t* texture)
 
 	if (!texture)
 	{
-		printf("[TEX_UnloadTexture] Nothing to unload.\n");
+		Log_Printf("[TEX_UnloadTexture] Nothing to unload.\n");
 		return;
 	}
 	
