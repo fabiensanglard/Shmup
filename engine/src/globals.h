@@ -26,8 +26,9 @@
 #ifndef ED_GLOBAL
 #define ED_GLOBAL
 
-
+#if !defined(ANDROID)
 typedef unsigned int uint ;
+#endif
 typedef unsigned char uchar ;
 typedef unsigned char ubyte ;
 typedef unsigned short ushort ;

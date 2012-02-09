@@ -34,14 +34,16 @@
 
 
 #include "target.h"
-#if defined (SHMUP_TARGET_WINDOWS)
+#if defined(SHMUP_TARGET_WINDOWS)
 	#include "GLES/gl.h"
-#elif defined (SHMUP_TARGET_MACOSX)
+#elif defined(SHMUP_TARGET_MACOSX)
     #include "OpenGL/gl.h"
     #define glOrthof glOrtho
     #define glFogx glFogf
-#elif defined (SHMUP_TARGET_IOS)
+#elif defined(SHMUP_TARGET_IOS)
 	#include <OpenGLES/ES1/gl.h>
+#elif defined(ANDROID)
+    #include <GLES/gl.h>
 #endif
 
 

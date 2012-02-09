@@ -40,9 +40,14 @@ void initProgrRenderer(renderer_t* renderer){ printf("Shader renderer is not imp
 #include "config.h"
 #include "player.h"
 #include "enemy.h"
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
 
+#if defined(ANDROID)
+    #include <GLES2/gl2.h>
+    #include <GLES2/gl2ext.h>	
+#else
+    #include <OpenGLES/ES2/gl.h>
+    #include <OpenGLES/ES2/glext.h>
+#endif
 
 
 matrix_t projectionMatrix;

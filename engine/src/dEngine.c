@@ -66,6 +66,8 @@ void dEngine_ReadConfig(void)
 	filehandle_t* config;
 	int currentSceneId=0;
 	
+    
+    
 	config = FS_OpenFile("data/config.cfg", "rt");
 	
 	
@@ -309,10 +311,10 @@ void dEngine_WriteScreenshot(char* directory)
 	
 }
 
-
-
-void dEngine_Init()
+void dEngine_Init(void) 
 {
+    printf("dEngine Initialization...\n");
+    
 	ENT_InitCacheSystem();
 	TEXT_InitCacheSystem();
 	MAT_InitCacheSystem();

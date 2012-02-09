@@ -23,6 +23,8 @@
  *
  */
 
+#if !defined (ANDROID)
+
 #include "sounds.h"
 #include <limits.h>
 #include "dEngine.h"
@@ -427,4 +429,10 @@ void SND_FinalizeRecord(void)
 #endif
 }
 
+#else
+int SND_Init(void){return 1;}
+void SND_UpdateRecord(void){}
+void SND_FinalizeRecord(void){}
+void SND_PlaySound(int sndId){}
+#endif
 
