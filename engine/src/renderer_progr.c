@@ -213,7 +213,7 @@ GLuint LoadShader(const char *shaderSrcPath, GLenum type, uchar props)
 	GLchar* sources[9];
 	uchar i;
 	int j;
-	const filehandle_t* shaderFile;
+    filehandle_t* shaderFile;
 	
 	Log_Printf("Loading %s\n",shaderSrcPath);
 	

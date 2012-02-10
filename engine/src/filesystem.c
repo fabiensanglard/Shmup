@@ -210,11 +210,6 @@ SW32 FS_Read( void *buffer, W32 size, W32 count, filehandle_t *fhandle )
 	return fread(buffer,size,count,fhandle->hFile);
 }
 
-SW32 FS_GetFileSize( filehandle_t *fhandle )
-{
-	return fhandle->filesize;
-}
-
 
 void FS_CloseFile( filehandle_t *fhandle )
 {
@@ -232,68 +227,6 @@ void FS_CloseFile( filehandle_t *fhandle )
 	free( fhandle );
 }
 
-
-W32 FS_FileSeek( filehandle_t *fhandle, SW32 offset, W32 origin )
-{
-	switch( origin )
-	{
-		case SEEK_SET:
-			if( offset < 0 || offset > fhandle->filesize )
-			{
-				return 1;
-			}
-			
-			fhandle->ptrCurrent = fhandle->ptrStart + offset;
-			break;
-			
-		case SEEK_END:
-			if( offset > 0 )
-			{
-				return 1;
-			}
-			
-			// offset is negative 
-			if( (int)(fhandle->filesize + offset) < 0  )
-			{
-				return 1;
-			}
-			
-			// offset is negative 
-			fhandle->ptrCurrent = fhandle->ptrEnd + offset;
-			break;
-			
-		case SEEK_CUR:
-			if( offset < 0 )
-			{
-				// offset is negative
-				if( ((fhandle->ptrCurrent - fhandle->ptrStart) + offset) < 0 )
-				{
-					return 1;
-				}
-			}
-			
-			if( offset > 0 )
-			{
-				if( offset > (fhandle->ptrEnd - fhandle->ptrCurrent) )
-				{
-					return 1;
-				}
-			}
-			
-			fhandle->ptrCurrent += offset;
-			break;
-			
-		default:
-			return 1;
-	}
-	
-	return 0;
-}
-
-SW32 FS_FileTell( filehandle_t *fhandle )
-{
-	return( fhandle->ptrCurrent - fhandle->ptrStart );
-}
 
 /*
  -----------------------------------------------------------------------------
@@ -328,60 +261,6 @@ void *FS_GetLoadedFilePointer( filehandle_t *fhandle, W32 origin )
 	return NULL;
 }
 
-
-
-
-void FS_StripExtension( const char *in, char *out )
-{
-	while( *in && *in != '.' )
-	{
-		*out++ = *in++;
-	}
-	
-	*out = '\0'; // NUL-terminate string.
-}
-
-char *FS_FileExtension( const char *in )
-{
-	static char exten[ 8 ];
-	char*		j;
-	char*       i;
-	
-	i = (char*)in + strlen(in);
-	j = (char*)exten + 7;
-	
-	exten[7] = '\0';
-	
-	while(*i != '.')
-	{
-		j--;
-		i--;
-		*j = *i;
-		//in--;
-	}
-	j++;
-	
-	//exten[7] = '\0'; // NUL-terminate string.
-	
-	return j;
-}
-
-void FS_DirectoryPath(  char *in, char *out )
-{
-	char *s;
-	
-	s = in + strlen( in ) ;
-	out += strlen( in ) ;
-	
-	while( s != in && *s != '/' && *s != '\\')
-	{
-		s--;
-		out--;
-	}
-	
-	while( s != in-1)
-		*out-- = *s--;
-}
 
 char* FS_GetExtensionAddress(char* string)
 {

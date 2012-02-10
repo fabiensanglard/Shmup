@@ -13,7 +13,13 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <windows.h>
+#include "target.h"
+#if defined (SHMUP_TARGET_WINDOWS)
+    #include <windows.h>
+#else
+    typedef unsigned char byte;
+    #include <stdlib.h>
+#endif
 #include "unzip.h"
 //#include "cmdlib.h"
 
@@ -2073,7 +2079,7 @@ extern int unzReadCurrentFile  (unzFile file, void *buf, unsigned len)
 		return UNZ_PARAMERROR;
 
 
-	if ((pfile_in_zip_read_info->read_buffer == NULL))
+	if (pfile_in_zip_read_info->read_buffer == NULL)
 		return UNZ_END_OF_LIST_OF_FILE;
 	if (len==0)
 		return 0;

@@ -55,7 +55,9 @@
 //__APPLE__
 #endif
 
-//#define SHMUP_TARGET_MACOSX
+#ifdef ANDROID
+    #define SHMUP_TARGET_ANDROID
+#endif
 
 //macosx_target_h
 #endif

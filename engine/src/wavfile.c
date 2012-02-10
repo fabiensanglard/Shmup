@@ -150,7 +150,7 @@ char LoadWavInfo( const char *filename, unsigned char **wav, soundInfo_t *info )
 	
 	
 	data = (PW8)FS_GetLoadedFilePointer( hFile, SEEK_SET );
-	wavlength = FS_GetFileSize( hFile );
+	wavlength = hFile->filesize;
 	
 	iff_data = data;
 	iff_end = data + wavlength;

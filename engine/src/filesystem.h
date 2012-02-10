@@ -59,7 +59,7 @@ typedef signed long		SW32,   *PSW32;
 typedef struct
 	{
         
-		FILE *hFile;
+		void* hFile;
 		
 		/* Following is used when the file is loaded into memory */
 		int bLoaded;				/* Was file loaded into memory? */
@@ -79,27 +79,23 @@ typedef struct
 
 void	FS_InitFilesystem(void);
 
-char*	FS_GameWritableDir(void);
 char*	FS_Gamedir(void);
 
 filehandle_t* FS_OpenFile( const char *filename, char* mode  );
-int FS_UploadToRAM( filehandle_t *fhandle);
+
+int FS_UploadToRAM(filehandle_t *fhandle);
+
 void FS_CloseFile( filehandle_t *fhandle );
+
 SW32 FS_Read( void *buffer, W32 size, W32 count, filehandle_t *fhandle );
+
 SW32 FS_Write( const void * buffer, W32 size, W32 count, filehandle_t * stream );
 
-W32 FS_FileSeek( filehandle_t *fhandle, SW32 offset, W32 origin );
 
-SW32 FS_GetFileSize( filehandle_t *fhandle );
-SW32 FS_FileTell( filehandle_t *fhandle );
 void *FS_GetLoadedFilePointer( filehandle_t *fhandle, W32 origin );
 
-void FS_StripExtension( const char *in, char *out );
-char *FS_FileExtension( const char *in );
-void FS_DirectoryPath(   char *in, char *out );
-
 char* FS_GetExtensionAddress(char* string);
-//char* FS_GetDocumentPath(void);
+
 
 
 char* FS_GetFilenameOnly(char* string);

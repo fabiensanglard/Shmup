@@ -15,11 +15,14 @@
 
 - (void) initEngine{
     
-    NSString *myPath = [[NSBundle mainBundle] bundlePath];
+    
     
     //Distributioin value
-    //setenv( "RD", [myPath cString], 1 );
-	
+    /*
+    NSString *myPath = [[NSBundle mainBundle] bundlePath];
+    setenv( "RD", [myPath cString], 1 );
+	*/
+    
     // XCode dev value
     setenv( "RD",".", 1 );
     
