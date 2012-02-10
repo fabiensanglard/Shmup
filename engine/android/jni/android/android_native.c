@@ -29,10 +29,11 @@ void png_zip_read(png_structp png_ptr, png_bytep data, png_size_t length)
   FS_Read(data,1, length,file);
 }
 
-void abort_textureLoading_(const char * s, ...)
+void abort_textureLoading_(const char * s, char* param)
 {
-  Log_Printf("%s", s);
-  abort();
+
+  Log_Printf(s, param);
+  exit(0);
 }
 
 void loadNativePNG(texture_t* tmpTex)
@@ -65,7 +66,7 @@ void loadNativePNG(texture_t* tmpTex)
   //LOGI("[Android Main] Opening %s", realPath);
 
 	if ( !file  )
-		abort_textureLoading_("Could not open file '%s'\n",tmpTex->path);
+		abort_textureLoading_("[read_png_file] Could not open file '%s'\n",tmpTex->path);
 
 	FS_Read(header,1, 8,file);
 
@@ -76,14 +77,14 @@ void loadNativePNG(texture_t* tmpTex)
 	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 
 	if (png_ptr == NULL)
-		abort_textureLoading_("[read_png_file] png_create_read_struct failed");
+		abort_textureLoading_("[read_png_file] png_create_read_struct failed","");
 
 	info_ptr = png_create_info_struct(png_ptr);
 	if (info_ptr == NULL)
-		abort_textureLoading_("[read_png_file] png_create_info_struct failed");
+		abort_textureLoading_("[read_png_file] png_create_info_struct failed","");
 
 	if (setjmp(png_jmpbuf(png_ptr)))
-		abort_textureLoading_("[read_png_file] Error during init_io");
+		abort_textureLoading_("[read_png_file] Error during init_io","");
 
 	png_set_read_fn(png_ptr, NULL, png_zip_read);
 	png_set_sig_bytes(png_ptr, 8);

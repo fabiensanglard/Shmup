@@ -179,7 +179,7 @@ void World_OpenScene(char* filename)
 	camera.pathFilename[0] = 0;
 	
 	sceneFile = FS_OpenFile(filename, "rt");
-	FS_UploadToRAM(sceneFile);
+	
 
 	if (!sceneFile)
 	{
@@ -189,6 +189,8 @@ void World_OpenScene(char* filename)
 	
 	Log_Printf("[World_OpenScene] Found scene: '%s'.\n",filename);
 	
+    FS_UploadToRAM(sceneFile);
+    
 	LE_pushLexer();
 	LE_init(sceneFile);
 	

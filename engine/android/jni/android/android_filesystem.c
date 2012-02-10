@@ -5,6 +5,7 @@
 #define  LOG_TAG    		"net.fabiensanglard.native"
 #include <android/log.h>
 #define printf(fmt,args...) __android_log_print(ANDROID_LOG_INFO  ,LOG_TAG, fmt, ##args)
+#include "../../../src/log.h"
 
 //For struct android_app
 #include <android_native_app_glue.h>
@@ -24,18 +25,7 @@ void FS_AndroidPreInitFileSystem(struct android_app* state){
 	activity = state->activity;
 	assetManager = activity->assetManager;
 
-	/*
-	//Make sure the directory where we will be writing (logs, replays) exists.
-	const char* assetURL;
-	AAssetDir* directory = AAssetManager_openDir(assetManager,"assets");
 
-	while(assetURL = AAssetDir_getNextFileName(directory))
-		printf(assetURL);
-
-	fflush(stdout);
-
-	AAssetDir_close(directory);
-	*/
 }
 
 void	FS_InitFilesystem(void){
@@ -43,20 +33,63 @@ void	FS_InitFilesystem(void){
 
 }
 
-char*	FS_Gamedir(void){
-	return NULL;
+void FS_ListDirectory(const char* path){
+
+
+		//Make sure the directory where we will be writing (logs, replays) exists.
+		const char* assetURL;
+		char* cursor;
+		char directoryPath[256];
+		AAssetDir* directory = AAssetManager_openDir(assetManager,path);
+
+		strcpy(directoryPath,path);
+		cursor = &directoryPath[strlen(directoryPath)-1];
+		while(*(cursor-1) != '/')
+			cursor--;
+		cursor--;
+		*cursor = '\0';
+
+		Log_Printf("Listing directory: '%s'",directoryPath);
+
+		while(assetURL = AAssetDir_getNextFileName(directory))
+			Log_Printf(assetURL);
+
+		fflush(stdout);
+
+		AAssetDir_close(directory);
+
 }
 
+//Since all assets are accesssed via the asset manager we don't need a fully qualified path. Only a path relative to the "assets" folder directory.
+char*	FS_Gamedir(void){
+	return "";
+}
+
+int fopenedCount=0;
 filehandle_t* FS_OpenFile( const char *filename, char* mode  ){
 
-	char androidFilename[256];
+	const char* androidFilename;
 	AAsset* asset;
 	filehandle_t* file;
 
-	strcpy(androidFilename,"assets/");
-	strcat(androidFilename,filename);
+	Log_Printf("Currently %d files are open.",fopenedCount);
 
-	asset = AAssetManager_open(assetManager, filename,AASSET_MODE_BUFFER);
+	androidFilename = filename;
+	//Hack, some of the assets URL feature a leading '/', we need to adjust it so we don't have a // in the final URL.
+	if (androidFilename[0] == '/')
+		androidFilename++ ;
+
+	asset = AAssetManager_open(assetManager, androidFilename,AASSET_MODE_UNKNOWN);
+
+	if (!asset){
+		Log_Printf("Unable to load file '%s'.\n",androidFilename);
+		FS_ListDirectory(androidFilename);
+		return NULL;
+	}
+
+	fopenedCount++;
+
+	Log_Printf("Loaded file '%s'.\n",androidFilename);
 
 	file = calloc(1,sizeof(filehandle_t));
 	file->hFile = asset;
@@ -92,6 +125,7 @@ void FS_CloseFile( filehandle_t *fhandle ){
 
 		free( fhandle );
 
+		fopenedCount--;
 }
 
 SW32 FS_Read(         void *buffer, W32 size, W32 count, filehandle_t * fhandle ){

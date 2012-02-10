@@ -11,6 +11,12 @@
  * I cannot get the assetManage and AAssetManager_openDir to work, all I can see is three files in "/": androidManifest.xml, classes.dex and ressources.arsc
  * It seems AAssetManager_openDir only list files. So "" returned nothings and so did "assets", "assets/data" did return
  * my two files.
+ *
+ * Getting closer to completion now. It seems the native AAssetManager_open refuses to load PNGs since they are already compressed.
+ * http://ponystyle.com/blog/2010/03/26/dealing-with-asset-compression-in-android-apps/, aapt (Android Asset Packaging Tool) is messing them up.
+ *
+ * I was completely wrong about AAssetManager_open it can load anything, we just have to omit "assets" at the beginning and start with "data" right away.
+ *
 */
 #include <stdio.h>
 #include <jni.h>
@@ -25,13 +31,15 @@
 
 #include "../../../src/dEngine.h"
 
+#include "android_display.h"
+
 #define  LOG_TAG    		"net.fabiensanglard.native"
 #define  LOGI(...)  		__android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #define  LOGW(...)  		__android_log_print(ANDROID_LOG_WARN,LOG_TAG,__VA_ARGS__)
 #define  LOGE(...)  		__android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #define printf(fmt,args...) __android_log_print(ANDROID_LOG_INFO  ,LOG_TAG, fmt, ##args)
 
-
+int gameOn = 0;
 
 #include "android/asset_manager.h"
 #include "android/native_activity.h"
@@ -65,9 +73,9 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
     //struct engine* engine = (struct engine*)app->userData;
 
     ANativeActivity*    activity  ;
-            		AAssetManager*      assetManager;
-            		activity = state->activity;
-            			assetManager = activity->assetManager;
+    AAssetManager*      assetManager;
+    activity = state->activity;
+    assetManager = activity->assetManager;
 
     switch (cmd) {
         case APP_CMD_SAVE_STATE:
@@ -75,31 +83,24 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
             break;
         case APP_CMD_INIT_WINDOW:
         	printf("APP_CMD_INIT_WINDOW");
+        	window = state->window;
+        	engine_init_display();
+        	engine_draw_frame();
 
             break;
         case APP_CMD_TERM_WINDOW:
         	printf("APP_CMD_TERM_WINDOW");
             // The window is being hidden or closed, clean it up.
-
+        	engine_term_display();
+        	gameOn = 0;
             break;
         case APP_CMD_GAINED_FOCUS:
-
-
         	printf("APP_CMD_GAINED_FOCUS");
-        	/*
-        					ListDirectory(assetManager,"");
-        	        		ListDirectory(assetManager,".");
-        	        		ListDirectory(assetManager,"/");
-        	        		ListDirectory(assetManager,"assets");
-        	        		ListDirectory(assetManager,"assets/data");
-        	        		ListDirectory(assetManager,"data");
-        	        		ListDirectory(assetManager,"ressources.arsc");
-        	        		//ListDirectory(assetManager,'');
-
-        	        		 */
             break;
         case APP_CMD_LOST_FOCUS:
         	printf("APP_CMD_LOST_FOCUS");
+        	engine_term_display();
+        	gameOn = 0;
             break;
     }
 }
@@ -108,6 +109,14 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
 void FS_AndroidPreInitFileSystem(struct android_app* application);
 
 
+int32_t getTickCount() {
+	struct timespec now;
+	clock_gettime(CLOCK_MONOTONIC, &now);
+	return now.tv_sec*1000000000LL + now.tv_nsec;
+}
+
+#define FRAMES_PER_SECOND 60
+#define  SKIP_TICKS (1000 / FRAMES_PER_SECOND)
 
 /**
  * This is the main entry point of a native application that is using
@@ -121,47 +130,25 @@ void android_main(struct android_app* state) {
 	state->onAppCmd = engine_handle_cmd;
 	state->onInputEvent = engine_handle_input;
 
-	LOGE("Hello, Native World-13!\n");
-
 
 
 	LOGE("[FS_AndroidPreInitFileSystem]\n");
 
 
 
-
-
-
-
-
 	FS_AndroidPreInitFileSystem(state);
 
-	/*
-        // XCode dev value
-    setenv( "RD",".", 1 );
-    
-    
-	setenv( "WD","/sdcard/", 1 );
-    
-    //printf("Workin directory: '%s'.\n",getenv("PWD"));
-   // NSLog(@"Working directory: '%@'.\n",);
-    
-	renderer.statsEnabled = 0;
-	renderer.materialQuality = MATERIAL_QUALITY_HIGH;
-    
-    
-    IO_Init();
-    
-    renderer.glBuffersDimensions[WIDTH] = self.frame.size.width;
-    renderer.glBuffersDimensions[HEIGHT] = self.frame.size.height;
-    engine.licenseType = LICENSE_FULL;
-
-*/
 	//Init everything except for the rendering system.
 
+	renderer.materialQuality = MATERIAL_QUALITY_HIGH;
 	dEngine_Init();
 
-	   while (1) {
+	gameOn = 1;
+
+	int32_t next_game_tick = getTickCount();
+	int sleep_time = 0;
+	//Loop for ever, pump event and dispatch them.
+	   while (gameOn) {
 	        // Read all pending events.
 	        int ident;
 	        int events;
@@ -177,15 +164,18 @@ void android_main(struct android_app* state) {
 	                source->process(state, source);
 	            }
 
-	            // If a sensor has data, process it now.
-	            if (ident == LOOPER_ID_USER) {
-
+	            engine_draw_frame();
+	            next_game_tick += SKIP_TICKS;
+	            sleep_time = next_game_tick - getTickCount();
+	            if( sleep_time >= 0 ) {
+	                 sleep( sleep_time );
 	            }
 
 	            // Check if we are exiting.
 	            if (state->destroyRequested != 0) {
 
-	                return;
+	                break;
+	                gameOn = 0;
 	            }
 	        }
 
