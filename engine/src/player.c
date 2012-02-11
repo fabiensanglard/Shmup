@@ -39,7 +39,8 @@
 #include "renderer.h"
 #include "native_services.h"
 
-unsigned char numPlayerRespawn[] = {6,3,1};
+//WARNING...if THIS IS CHANGED
+unsigned char numPlayerRespawn[] = {PLAYER_NUM_LIVES,3,1};
 
 #define SHOW_POINTER_DURATION 5000
 
@@ -1373,7 +1374,7 @@ void P_Die(uchar playerId)
 			event->payload = eventReqScene;
 			EV_AddEvent(event);
              
-			engine.requiredSceneId = 0 ;
+			
 			
 		}
         

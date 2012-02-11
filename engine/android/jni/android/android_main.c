@@ -20,6 +20,14 @@
  *
  *  A very annoying thing with Eclipse NDK is that we compile with ndk-build which is outside Eclipse. In order to have Eclipse detect
  *  that the .so lib has been recompiled I had to check Preferences -> General -> Workspace - > "refresh using native hooks or polling"
+ *
+ *  Just fixed a bug on Android. It was the consequence of a char wraparound. The wrap around was not an issue on signed char (windowd,ios and macosx).
+ *  ...but it was a real problem on Android (crashing the game).
+ *
+ *
+ *  TODO: Fix the main loop and make it runs at 60Hz
+ *  TODO: Add OpenAL support.
+ *  TODO: Add music playback support
 */
 #include <stdio.h>
 #include <jni.h>
