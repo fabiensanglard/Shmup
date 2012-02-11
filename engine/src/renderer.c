@@ -116,7 +116,14 @@ void SRC_CalcViewPortDimensions(void)
 	//Center the active surface (defined by the viewport width and height) on the screen.
 	renderer.viewPortDimensions[VP_X] = (renderer.glBuffersDimensions[WIDTH] - renderer.viewPortDimensions[VP_WIDTH]) / 2;
 	renderer.viewPortDimensions[VP_Y] = (renderer.glBuffersDimensions[HEIGHT] - renderer.viewPortDimensions[VP_HEIGHT]) / 2;
-	
+    
+    /*
+    Log_Printf("Viewport[x,y,width,height]=[%d,%d,%d,%d]\n",
+               renderer.viewPortDimensions[VP_X],
+               renderer.viewPortDimensions[VP_Y],
+               renderer.viewPortDimensions[VP_WIDTH],
+               renderer.viewPortDimensions[VP_HEIGHT]);
+	*/
 }
 
 void SRC_OnResizeScreen(int width, int height){
@@ -185,7 +192,6 @@ void SCR_BindMethods(int rendererType)
 		initProgrRenderer(&renderer);
 	}
 	
-	//scrFont.path = malloc(sizeof(char)*(strlen(STATS_FONT_PATH)+1));
 	strcpy(scrFont.path,STATS_FONT_PATH);
 	TEX_MakeStaticAvailable(&scrFont);
 }

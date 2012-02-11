@@ -38,4 +38,7 @@ LOCAL_SRC_FILES :=\
 	
 LOCAL_LDLIBS := -lz
 
+# Thumb-2 is floating-point capable and intruction are smaller: No more ARM 
+#LOCAL_ARM_MODE   := arm
+
 include $(BUILD_STATIC_LIBRARY)

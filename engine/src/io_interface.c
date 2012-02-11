@@ -80,17 +80,18 @@ void IO_PushEvent(io_event_s* event){
 			//printf("HIT ! %d.\n",minIndex);
 			if (event->type == IO_EVENT_ENDED) 
 			{
-				touch->down = 0;
+				//touch->down = 0;
 				//printf("%d UP\n",minIndex);
+                touch->down = 1;
+				touch->dist[X] = MIN(1,(event->position[X] - touches[minIndex].iphone_coo_SysPos[X])/touches[minIndex].iphone_size);
+				touch->dist[Y] = MIN(1,(touches[minIndex].iphone_coo_SysPos[Y] - event->position[Y])/touches[minIndex].iphone_size);
 			}
 			else 
 			{
 				if (event->type == IO_EVENT_BEGAN) 
 				{
-				}
-				touch->down = 1;
-				touch->dist[X] = MIN(1,(event->position[X] - touches[minIndex].iphone_coo_SysPos[X])/touches[minIndex].iphone_size);
-				touch->dist[Y] = MIN(1,(touches[minIndex].iphone_coo_SysPos[Y] - event->position[Y])/touches[minIndex].iphone_size);
+				
+                }
 			}
 		}
 	

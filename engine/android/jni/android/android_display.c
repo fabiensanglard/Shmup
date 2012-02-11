@@ -7,6 +7,7 @@ ANativeWindow* window=0;
 
 #include "../../../src/dEngine.h"
 #include "../../../src/log.h"
+#include "../../../src/renderer.h"
 
 /**
  * Initialize an EGL context for the current display.
@@ -25,9 +26,9 @@ int engine_init_display(void) {
 	 */
 	const EGLint attribs[] = {
 			EGL_SURFACE_TYPE ,/*=*/ EGL_WINDOW_BIT,
-			EGL_BLUE_SIZE    ,/*=*/ 8,
-			EGL_GREEN_SIZE   ,/*=*/ 8,
-			EGL_RED_SIZE     ,/*=*/ 8,
+			EGL_BLUE_SIZE    ,/*=*/ 5,
+			EGL_GREEN_SIZE   ,/*=*/ 6,
+			EGL_RED_SIZE     ,/*=*/ 5,
             EGL_DEPTH_SIZE   ,/*=*/ 8,
 			EGL_NONE
 	};
@@ -36,27 +37,57 @@ int engine_init_display(void) {
 	EGLConfig config;
 	EGLSurface surface;
 	EGLContext context;
+	EGLBoolean result;
+
 
 	EGLDisplay display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+	if (display == EGL_NO_DISPLAY)
+	{
+		Log_Printf("Unable to obtain a proper EGLDisplay.\n");
+		return 0;
+	}
 
-	eglInitialize(display, 0, 0);
+	EGLint major, minor;
+	result = eglInitialize(display, &major, &minor);
+	if (result == EGL_FALSE)
+	{
+		Log_Printf("Unable to initialize EGLDisplay.\n");
+		return 0;
+	}
+
+	Log_Printf("EGLDisplay initialized: v%d.%d.\n",major,minor);
 
 	/* Here, the application chooses the configuration it desires. In this
-	 * sample, we have a very simplified selection process, where we pick
-	 * the first EGLConfig that matches our criteria */
-	eglChooseConfig(display, attribs, &config, 1, &numConfigs);
+	 * sample, we have a very simplified selection process, where we ask for
+	 * the first EGLConfig to be returned in the "config" array*/
+	result = eglChooseConfig(display, attribs, &config, 1, &numConfigs);
+	if (result == EGL_FALSE)
+	{
+		Log_Printf("eglChooseConfig failed to retrive a config that matched our criterias.\n");
+		return 0;
+	}
 
 	/* EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is
 	 * guaranteed to be accepted by ANativeWindow_setBuffersGeometry().
 	 * As soon as we picked a EGLConfig, we can safely reconfigure the
 	 * ANativeWindow buffers to match, using EGL_NATIVE_VISUAL_ID. */
-	eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+	result = eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+	if (result == EGL_FALSE)
+		{
+			Log_Printf("Unable to retrieve EGL_NATIVE_VISUAL_ID .\n");
+			return 0;
+		}
 
+	//Finally tie the window with the format we want.
 	ANativeWindow_setBuffersGeometry(window, 0, 0, format);
 
+
 	surface = eglCreateWindowSurface(display, config, window, NULL);
+
 	context = eglCreateContext(display, config, NULL, NULL);
 
+	//binds context to the current rendering thread and to the draw and read surfaces
+	// We use the same surface for draw and read
 	if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
 		Log_Printf("Unable to eglMakeCurrent");
 		return -1;
@@ -78,13 +109,15 @@ int engine_init_display(void) {
 	renderer.glBuffersDimensions[WIDTH] = w;
 	renderer.glBuffersDimensions[HEIGHT] = h;
 
-	IO_Init();
+
 
   	dEngine_InitDisplaySystem(engineParameters);
 
+  	SRC_OnResizeScreen(w,h);
+
     renderer.props |= PROP_FOG ;
 
-	return 0;
+	return 1;
 }
 
 
@@ -119,11 +152,11 @@ int engine_init_display(void) {
 	 // Do we have somewhere to draw ?
 	if (engineDisplay == NULL)
 	{
-		Log_Printf("[engine_draw_frame] Cannot draw.\n");
+		//Log_Printf("[engine_draw_frame] Cannot draw.\n");
 		return;
 	}
 
-	Log_Printf("[engine_draw_frame] Drawing.\n");
+	//Log_Printf("[engine_draw_frame] Drawing.\n");
 	dEngine_HostFrame();
 
 	eglSwapBuffers(engineDisplay, engineSurface);

@@ -40,7 +40,12 @@ extern texture_t pointersTexture;
 
 #define BULLET_DEFAULT_ENERGY 1
 #define MAX_NUM_PLAYERS 2
-#define PLAYER_NUM_LIVES 3
+
+//#define PLAYER_NUM_LIVES 3
+
+//For debug purposes...
+#define PLAYER_NUM_LIVES 1
+
 #define PLAYER_SPEED_MS (3/1000.0f)
 #define PLAYER_INVUL_TIME_MS 3700
 #define PLAYER_RESPAWN_REPLACMENT 1700.0f

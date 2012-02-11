@@ -33,8 +33,6 @@
 #include "event.h"
 #include "native_services.h"
 
-#define FONT_PATH "/data/menu/font.png"
-//#define HOME_ATLAS "/data/menu/homeAtlas4bpp.pvr"
 #define HOME_ATLAS "/data/menu/homeAtlas.png"
 
 menu_screen_t menuScreens[10];
@@ -50,9 +48,11 @@ void MENU_FreeRessources(void)
 	
 }
 
+
 void MENU_LoadRessources(void)
 {
 	TEX_MakeStaticAvailable(&textureAtlas);
+ 
 }
 
 signed char MENU_Get(void)

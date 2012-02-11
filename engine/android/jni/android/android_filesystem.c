@@ -65,14 +65,14 @@ char*	FS_Gamedir(void){
 	return "";
 }
 
-int fopenedCount=0;
+
 filehandle_t* FS_OpenFile( const char *filename, char* mode  ){
 
 	const char* androidFilename;
 	AAsset* asset;
 	filehandle_t* file;
 
-	Log_Printf("Currently %d files are open.",fopenedCount);
+
 
 	androidFilename = filename;
 	//Hack, some of the assets URL feature a leading '/', we need to adjust it so we don't have a // in the final URL.
@@ -87,9 +87,9 @@ filehandle_t* FS_OpenFile( const char *filename, char* mode  ){
 		return NULL;
 	}
 
-	fopenedCount++;
 
-	Log_Printf("Loaded file '%s'.\n",androidFilename);
+
+	//Log_Printf("Loaded file '%s'.\n",androidFilename);
 
 	file = calloc(1,sizeof(filehandle_t));
 	file->hFile = asset;
@@ -125,7 +125,7 @@ void FS_CloseFile( filehandle_t *fhandle ){
 
 		free( fhandle );
 
-		fopenedCount--;
+
 }
 
 SW32 FS_Read(         void *buffer, W32 size, W32 count, filehandle_t * fhandle ){

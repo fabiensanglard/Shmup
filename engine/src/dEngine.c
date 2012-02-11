@@ -385,8 +385,6 @@ void dEngine_LoadScene(int sceneId)
 {
 	event_t* ev;
 	
-	Log_Printf("[dEngine_LoadScene] sceneid=(%d)\n",sceneId);
-	
 	COM_StopRecording();
 
 	engine.showFingers=0;
@@ -457,6 +455,7 @@ void dEngine_LoadScene(int sceneId)
 
 void dEngine_FreeSceneRessources(void)
 {
+    
 	//A LOT A LOT OF THINGS TO FREE HERE !!!!
 	// Scenes
 	EV_CleanAllRemainingEvents();

@@ -302,6 +302,13 @@ void TEX_MakeAvailable(texture_t* tmpTex)
 		
 		return;
 	}
+    
+    
+    
+    
+    //Nope, it was not in the cache.
+    
+    
 	
 	if (tmpTex->memLocation == TEXT_MEM_LOC_VRAM)
 	{

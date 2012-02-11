@@ -17,6 +17,9 @@
  *
  * I was completely wrong about AAssetManager_open it can load anything, we just have to omit "assets" at the beginning and start with "data" right away.
  *
+ *
+ *  A very annoying thing with Eclipse NDK is that we compile with ndk-build which is outside Eclipse. In order to have Eclipse detect
+ *  that the .so lib has been recompiled I had to check Preferences -> General -> Workspace - > "refresh using native hooks or polling"
 */
 #include <stdio.h>
 #include <jni.h>
@@ -30,6 +33,8 @@
 #include <android_native_app_glue.h>
 
 #include "../../../src/dEngine.h"
+#include "../../../src/io_interface.h"
+#include "../../../src/menu.h"
 
 #include "android_display.h"
 
@@ -66,6 +71,55 @@ void ListDirectory(AAssetManager*      assetManager, const char* dirName){
 
 
 static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
+
+	size_t i;
+	int nSourceId = AInputEvent_getSource( event );
+	size_t pointerCount =  AMotionEvent_getPointerCount(event);
+
+
+	for (i = 0; i < pointerCount; i++){
+
+		size_t pointerId = AMotionEvent_getPointerId(event, i);
+		size_t action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
+
+		if (action == AMOTION_EVENT_ACTION_UP){
+			 //printf("[event] AMOTION_EVENT_ACTION_UP");
+			 io_event_s shmupEvent;
+			 shmupEvent.type = IO_EVENT_ENDED;
+			 shmupEvent.position[X] = AMotionEvent_getX( event, i ); ;
+			 shmupEvent.position[Y] = AMotionEvent_getY( event, i ); ;
+			 IO_PushEvent(&shmupEvent);
+		}
+		else if (action == AMOTION_EVENT_ACTION_DOWN){
+			//printf("[event] AMOTION_EVENT_ACTION_DOWN");
+			io_event_s shmupEvent;
+			shmupEvent.type = IO_EVENT_BEGAN;
+			shmupEvent.position[X] = AMotionEvent_getX( event, i ); ;
+			shmupEvent.position[Y] = AMotionEvent_getY( event, i ); ;
+			IO_PushEvent(&shmupEvent);
+		}
+		else if (action == AMOTION_EVENT_ACTION_MOVE){
+			io_event_s shmupEvent;
+			shmupEvent.type = IO_EVENT_MOVED;
+			shmupEvent.position[X] = AMotionEvent_getX( event, i ); ;
+			shmupEvent.position[Y] = AMotionEvent_getY( event, i ); ;
+			shmupEvent.previousPosition[X] = AMotionEvent_getHistoricalX(event,i,0);
+			shmupEvent.previousPosition[Y] = AMotionEvent_getHistoricalY(event,i,0);
+			IO_PushEvent(&shmupEvent);
+		}
+		else
+			;//printf("[event] UNKNOW ACTION");
+
+	}
+
+	if (pointerCount == 5)
+	{
+		if (engine.requiredSceneId != 0 && engine.sceneId != 0){
+			MENU_Set(MENU_HOME);
+			engine.requiredSceneId=0;
+		}
+	}
+
         return 1;
 }
 
@@ -86,7 +140,6 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
         	window = state->window;
         	engine_init_display();
         	engine_draw_frame();
-
             break;
         case APP_CMD_TERM_WINDOW:
         	printf("APP_CMD_TERM_WINDOW");
@@ -102,6 +155,19 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
         	engine_term_display();
         	gameOn = 0;
             break;
+        case APP_CMD_WINDOW_RESIZED:
+        	printf("APP_CMD_WINDOW_RESIZED");
+        	//window = state->window;
+        	//engine_term_display();
+        	//engine_init_display();
+        	break;
+        case APP_CMD_CONFIG_CHANGED:
+        	printf("APP_CMD_CONFIG_CHANGED");
+        	window = state->window;
+        	engine_term_display();
+        	engine_init_display();
+        	break;
+
     }
 }
 
@@ -147,39 +213,43 @@ void android_main(struct android_app* state) {
 
 	int32_t next_game_tick = getTickCount();
 	int sleep_time = 0;
+
+	int ident;
+	int events;
+	struct android_poll_source* source;
 	//Loop for ever, pump event and dispatch them.
-	   while (gameOn) {
-	        // Read all pending events.
-	        int ident;
-	        int events;
-	        struct android_poll_source* source;
 
-	        // If not animating, we will block forever waiting for events.
-	        // If animating, we loop until all events are read, then continue
-	        // to draw the next frame of animation.
-	        while ((ident=ALooper_pollAll(0 , NULL, &events, (void**)&source)) >= 0) {
-
-	            // Process this event.
-	            if (source != NULL) {
-	                source->process(state, source);
-	            }
-
-	            engine_draw_frame();
-	            next_game_tick += SKIP_TICKS;
-	            sleep_time = next_game_tick - getTickCount();
-	            if( sleep_time >= 0 ) {
-	                 sleep( sleep_time );
-	            }
-
-	            // Check if we are exiting.
-	            if (state->destroyRequested != 0) {
-
-	                break;
-	                gameOn = 0;
-	            }
-	        }
-
-	    }
+	while (gameOn)
+	{
+	    // Read all pending events.
 
 
+		// If not animating, we will block forever waiting for events.
+		// If animating, we loop until all events are read, then continue
+		// to draw the next frame of animation.
+		if ((ident = ALooper_pollAll(0, NULL, &events,(void**)&source)) >= 0)
+		{
+			// Process this event.
+			if (source != NULL)
+					source->process(state, source);
+
+		}
+
+
+		engine_draw_frame();
+
+		next_game_tick += SKIP_TICKS;
+		sleep_time = next_game_tick - getTickCount();
+		if( sleep_time >= 0 ) {
+			//printf("Sleeping for %d.\n",sleep_time);
+			// usleep( sleep_time );
+		}
+
+		// Check if we are exiting.
+		if (state->destroyRequested != 0) {
+
+			break;
+			gameOn = 0;
+		}
+	 }
 }

@@ -645,10 +645,15 @@ void COM_StopRecording(void)
 		return;
 		
 	engine.playback.record = 0;
-		
+	
+    Log_Printf("[COM_StopRecording] WARNING Writing command record to disk is DISABLED !!!\n");
+    
+	/*
 	Log_Printf("[COM_StopRecording] Writing command record to disk.\n");
 	//printf("[COM_StartScene] Allocating %lu kb for inputs recording.\n",NUM_RECORD_FRAMES*sizeof(commandHistoryElem_t)/1024);
 	
+    
+    
 	ioFileHandle = FS_OpenFile(engine.playback.filename,"wb");
 	FS_UploadToRAM(ioFileHandle);
 
@@ -663,7 +668,7 @@ void COM_StopRecording(void)
 	FS_Write(&int_numPlayers,sizeof(int),1, ioFileHandle);
 	FS_Write(recordCommands, sizeof(command_t), NUM_RECORD_FRAMES, ioFileHandle);
 	FS_CloseFile(ioFileHandle);
-
+*/
 	
 	
 }

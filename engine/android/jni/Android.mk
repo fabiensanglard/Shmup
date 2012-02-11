@@ -38,7 +38,8 @@ SHMUP_ENGINE:= $(subst $(toRemove),$(empty),$(SHMUP_ENGINE))
 #toRemove:= unzip.c
 #SHMUP_ENGINE:= $(subst $(toRemove),$(empty),$(SHMUP_ENGINE))
 
-
+# Thumb-2 is floating-point capable and intruction are smaller: No more ARM 
+#LOCAL_ARM_MODE   := arm
 
 #Combining the two list into one
 LOCAL_SRC_FILES = $(ANDROID_SHMUP) $(SHMUP_ENGINE) 
