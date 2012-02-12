@@ -73,7 +73,7 @@ void MD5_GenerateLightingInfo (md5_mesh_t* mesh)
 	tangentWeightAccumulator=	calloc(mesh->numWeights, sizeof(vec3_t));
 
 	
-	//printf("\nGenerating normal and tangents.\n");
+	//Log_Printf("\nGenerating normal and tangents.\n");
 
 	
 	//Generate the normal and tangent per face
@@ -142,9 +142,9 @@ void MD5_GenerateLightingInfo (md5_mesh_t* mesh)
 		
 		
 		normalize(normalAccumulator[verticesCounter]);
-//		printf("normalized accumulated normal [%d][%.2f,%.2f,%.2f]\n",verticesCounter,normalAccumulator[verticesCounter][0],normalAccumulator[verticesCounter][1],normalAccumulator[verticesCounter][2]);
+//		Log_Printf("normalized accumulated normal [%d][%.2f,%.2f,%.2f]\n",verticesCounter,normalAccumulator[verticesCounter][0],normalAccumulator[verticesCounter][1],normalAccumulator[verticesCounter][2]);
 		normalize(tangentAccumulator[verticesCounter]);
-//		printf("normalized accumulated tangent [%d][%.2f,%.2f,%.2f]\n",verticesCounter,tangentAccumulator[verticesCounter][0],tangentAccumulator[verticesCounter][1],tangentAccumulator[verticesCounter][2]);
+//		Log_Printf("normalized accumulated tangent [%d][%.2f,%.2f,%.2f]\n",verticesCounter,tangentAccumulator[verticesCounter][0],tangentAccumulator[verticesCounter][1],tangentAccumulator[verticesCounter][2]);
 	}
 	
 	//Now we have all the normal for this model, but need to transform them in bone space for re-usage
@@ -197,7 +197,7 @@ void MD5_GenerateSkin (md5_mesh_t* mesh, md5_bone_t* bones)
 
 	vertex_t* currentVertex;
 	
-	//printf("\nGenerating weight positions.\n");
+	//Log_Printf("\nGenerating weight positions.\n");
 	
 	// Generate weight position in modelSpace
 	weight = mesh->weights;
@@ -208,8 +208,8 @@ void MD5_GenerateSkin (md5_mesh_t* mesh, md5_bone_t* bones)
 		vectorAdd(weight->modelSpacePos,bone->position,weight->modelSpacePos);
 		
 		
-//		printf("weight[%d].pos=[%.2f,%.2f,%.2f]\n",i,bone->position[0],bone->position[1],bone->position[2]);
-//		printf("weight[%d].pos=[%.2f,%.2f,%.2f]\n",i,weight->modelSpacePos[0],weight->modelSpacePos[1],weight->modelSpacePos[2]);
+//		Log_Printf("weight[%d].pos=[%.2f,%.2f,%.2f]\n",i,bone->position[0],bone->position[1],bone->position[2]);
+//		Log_Printf("weight[%d].pos=[%.2f,%.2f,%.2f]\n",i,weight->modelSpacePos[0],weight->modelSpacePos[1],weight->modelSpacePos[2]);
 		
 		Quat_rotateShortPoint (bone->orientation, weight->boneSpaceNormal, weight->modelSpaceNormal);
 		Quat_rotateShortPoint (bone->orientation, weight->boneSpaceTangent,weight->modelSpaceTangent);
@@ -243,16 +243,16 @@ void MD5_GenerateSkin (md5_mesh_t* mesh, md5_bone_t* bones)
 
 		}
 		
-//		printf("currentVertex[%d].pos=[%.2f,%.2f,%.2f]\n",i,currentVertex->pos[0],currentVertex->pos[1],currentVertex->pos[2]);
+//		Log_Printf("currentVertex[%d].pos=[%.2f,%.2f,%.2f]\n",i,currentVertex->pos[0],currentVertex->pos[1],currentVertex->pos[2]);
 		
 		//Need to normalize normal
 		normalize(normalAccumulator);
 		vectorScale(normalAccumulator,32767,currentVertex->normal);
-//		printf("currentVertex[%d].normal=[%hu,%hu,%hu]\n",i,currentVertex->normal[0],currentVertex->normal[1],currentVertex->normal[2]);
+//		Log_Printf("currentVertex[%d].normal=[%hu,%hu,%hu]\n",i,currentVertex->normal[0],currentVertex->normal[1],currentVertex->normal[2]);
 
 		normalize(tangentAccumulator);
 		vectorScale(tangentAccumulator,32767,currentVertex->tangent);
-//		printf("currentVertex[%d].tangent=[%hu,%hu,%hu]\n",i,currentVertex->tangent[0],currentVertex->tangent[1],currentVertex->tangent[2]);	
+//		Log_Printf("currentVertex[%d].tangent=[%hu,%hu,%hu]\n",i,currentVertex->tangent[0],currentVertex->tangent[1],currentVertex->tangent[2]);	
 		
 		currentVertex++;
     }
@@ -285,7 +285,7 @@ void MD5_ReadMesh(md5_mesh_t* mesh)
 		{
 		
 			mesh->numVertices = LE_readReal();
-			//printf("[MD5_ReadMesh] Found numverts: %d.\n",mesh->numVertices);
+			//Log_Printf("[MD5_ReadMesh] Found numverts: %d.\n",mesh->numVertices);
 			mesh->vertices = (md5_vertex_t*)calloc(mesh->numVertices, sizeof(md5_vertex_t));
 			vertex = mesh->vertices;
 			for(j=0; j< mesh->numVertices ; j++,vertex++)
@@ -297,7 +297,7 @@ void MD5_ReadMesh(md5_mesh_t* mesh)
 				vertex->start = LE_readReal();
 				vertex->count = LE_readReal();
 				
-				//printf("MD5 Read vertex: uv[%hu,%hu] st,count[%d,%d]\n",vertex->st[0],vertex->st[2],vertex->start,vertex->count);
+				//Log_Printf("MD5 Read vertex: uv[%hu,%hu] st,count[%d,%d]\n",vertex->st[0],vertex->st[2],vertex->start,vertex->count);
 				
 			}
 			
@@ -307,7 +307,7 @@ void MD5_ReadMesh(md5_mesh_t* mesh)
 		{
 			
 			mesh->numTriangles = LE_readReal();
-			//printf("[MD5_ReadMesh] Found numtris: %d.\n",mesh->numTriangles);
+			//Log_Printf("[MD5_ReadMesh] Found numtris: %d.\n",mesh->numTriangles);
 			
 			mesh->triangles = (md5_triangle_t*)calloc(mesh->numTriangles, sizeof(md5_triangle_t));
 			triangle = mesh->triangles;
@@ -319,7 +319,7 @@ void MD5_ReadMesh(md5_mesh_t* mesh)
 				triangle->index[1] = LE_readReal();
 				triangle->index[2] = LE_readReal();
 				
-				//printf("MD5 Read tri: [%hu,%hu,%hu]\n",triangle->index[0],triangle->index[1],triangle->index[2]);
+				//Log_Printf("MD5 Read tri: [%hu,%hu,%hu]\n",triangle->index[0],triangle->index[1],triangle->index[2]);
 			}
 		}
 		else
@@ -327,7 +327,7 @@ void MD5_ReadMesh(md5_mesh_t* mesh)
 		{
 			
 			mesh->numWeights = LE_readReal();
-			//printf("[MD5_ReadMesh] Found numweights: %d.\n",mesh->numWeights);
+			//Log_Printf("[MD5_ReadMesh] Found numweights: %d.\n",mesh->numWeights);
 			
 			mesh->weights = (md5_weight_t*)calloc(mesh->numWeights, sizeof(md5_weight_t));
 			weight = mesh->weights;
@@ -341,7 +341,7 @@ void MD5_ReadMesh(md5_mesh_t* mesh)
 				weight->boneSpacePos[1] = LE_readReal();
 				weight->boneSpacePos[2] = LE_readReal();
 				
-				//printf("MD5 Read weight: Boneid[%d] f[%.2f]  boneSpace[%.2f,%.2f,%.2f]\n",weight->boneId,weight->bias,weight->boneSpacePos[0],weight->boneSpacePos[1],weight->boneSpacePos[2]);
+				//Log_Printf("MD5 Read weight: Boneid[%d] f[%.2f]  boneSpace[%.2f,%.2f,%.2f]\n",weight->boneId,weight->bias,weight->boneSpacePos[0],weight->boneSpacePos[1],weight->boneSpacePos[2]);
 			}
 		}
 		
@@ -408,7 +408,7 @@ void MD5_GenerateModelSpaceBBox(md5_mesh_t* mesh )
 	}
 	
 	
-	//printf("Bounding box: min=[%f,%f,%f],max=[%f,%f,%f].\n",entity->modelSpacebbox.min[0],entity->modelSpacebbox.min[1],entity->modelSpacebbox.min[2],entity->modelSpacebbox.max[0],entity->modelSpacebbox.max[1],entity->modelSpacebbox.max[2]);
+	//Log_Printf("Bounding box: min=[%f,%f,%f],max=[%f,%f,%f].\n",entity->modelSpacebbox.min[0],entity->modelSpacebbox.min[1],entity->modelSpacebbox.min[2],entity->modelSpacebbox.max[0],entity->modelSpacebbox.max[1],entity->modelSpacebbox.max[2]);
 }
 
 #define TRACE_BLOCK 0
@@ -424,7 +424,8 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 	 
 	
 	fhandle = FS_OpenFile(filename, "rt");
-	
+	FS_UploadToRAM(fhandle);
+
 	if (!fhandle)
 	{
 		return 0;
@@ -436,7 +437,7 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 	
 	mesh->memLocation = MD5_MEMLOC_RAM;
 	
-	//printf("[MD5_LoadEntity] Loading MD5 '%s' .\n",filename); 
+	//Log_Printf("[MD5_LoadEntity] Loading MD5 '%s' .\n",filename); 
 
 	
 	
@@ -449,7 +450,7 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 			versionNumber = LE_readReal();
 			if (versionNumber != 10)
 			{
-				printf ("[MD5_Loader ERROR] : %s has a bad model version (%d)\n",filename,versionNumber);
+				Log_Printf ("[MD5_Loader ERROR] : %s has a bad model version (%d)\n",filename,versionNumber);
 				return 0;
 			}
 		}
@@ -458,28 +459,28 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 		{
 			mesh->numBones = LE_readReal();
 			mesh->bones = (md5_bone_t*)calloc(mesh->numBones,sizeof(md5_bone_t));
-			//printf("[MD5_LoadEntity] Found numJoints: %d.\n",mesh->numBones);
+			//Log_Printf("[MD5_LoadEntity] Found numJoints: %d.\n",mesh->numBones);
 		}
 		else
 		if (!strcmp("mesh", LE_getCurrentToken()))
 		{
-			//printf("[MD5_LoadEntity] Found mesh.\n");
+			//Log_Printf("[MD5_LoadEntity] Found mesh.\n");
 			MD5_ReadMesh(mesh);  
 		}
 		else
 		if (!strcmp("numMeshes", LE_getCurrentToken()))
 		{
-			//printf("[MD5_LoadEntity] Found numMeshes.\n");
+			//Log_Printf("[MD5_LoadEntity] Found numMeshes.\n");
 			if(LE_readReal() > 1)
 			{
-				printf("[MD5_Loader ERROR] %s has more than one mesh: Not supported.\n",filename);
+				Log_Printf("[MD5_Loader ERROR] %s has more than one mesh: Not supported.\n",filename);
 				return 0;
 			}
 		}		   
 		else
 		if (!strcmp("joints", LE_getCurrentToken()))
 		{
-			//printf("[MD5_LoadEntity] Found joints.\n");
+			//Log_Printf("[MD5_LoadEntity] Found joints.\n");
 			MD5_ReadJoints(mesh->bones,mesh->numBones);
 		}		   
 		   
@@ -508,9 +509,9 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 		currentVertex->text[1] = mesh->vertices[verticesCounter].st[1];
 	}
 	
-	//printf("[MD5 Loader] %d vertices.\n",mesh->numVertices);
-	//printf("[MD5 Loader] %d triangles.\n",mesh->numTriangles);
-	//printf("[MD5 Loader] %d indices.\n",mesh->numIndices);
+	//Log_Printf("[MD5 Loader] %d vertices.\n",mesh->numVertices);
+	//Log_Printf("[MD5 Loader] %d triangles.\n",mesh->numTriangles);
+	//Log_Printf("[MD5 Loader] %d indices.\n",mesh->numIndices);
 	
 	
 	
@@ -526,10 +527,10 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 	if (!strcmp(filename,"data/models/misc/FRA200L.obj.md5mesh"))
 	{
 		currentVertex = mesh->vertexArray;
-		printf("Listing Vertices.\n");
+		Log_Printf("Listing Vertices.\n");
 		for (i=0; i < mesh->numVertices ; i++,currentVertex++) 
 		{
-			printf("vertex: %d/%d  (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
+			Log_Printf("vertex: %d/%d  (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
 				   i,
 				   mesh->numVertices-1,   
 				   currentVertex->normal[0],
@@ -544,10 +545,10 @@ char MD5_LoadMesh(md5_mesh_t* mesh, const char* filename)
 		}
 
 
-		printf("Listing indices.\n");
+		Log_Printf("Listing indices.\n");
 		for(i=0;  i < mesh->numIndices ; i++)
 		{
-			printf("indice: %d/%d, vertex: %hu   (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
+			Log_Printf("indice: %d/%d, vertex: %hu   (norm: %hd , %hd , %hd ) (text: %hd , %hd ) (pos: %f , %f , %f )\n",
 				   i,
 				   mesh->numIndices-1,   
 					mesh->indices[i],

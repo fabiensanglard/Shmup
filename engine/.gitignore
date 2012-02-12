@@ -1,3 +1,7 @@
+*.a
+*.so
+obj
+libs
 *.xcworkspace
 DerivedData
 *.dll

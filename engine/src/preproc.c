@@ -34,7 +34,9 @@
 #include "world.h"
 #include "timer.h"
 
-FILE* logFile=0;
+int logPreproc;
+
+
 
 #ifndef min
 #define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
@@ -137,7 +139,7 @@ void PREPROC_ClipPolygon(prec_face_t* face)
 	
 	if (face->hs_numVertices < 3)
 	{
-		//printf("W clipping discared entire face.\n");
+		//Log_Printf("W clipping discared entire face.\n");
 		return;
 	}
 	
@@ -193,7 +195,7 @@ void PREPROC_ClipPolygon(prec_face_t* face)
 	
 	if (face->hs_numVertices < 3)
 	{
-		//printf("TOP clipping discared entire face.\n");
+		//Log_Printf("TOP clipping discared entire face.\n");
 		return;
 	}
 	
@@ -250,7 +252,7 @@ void PREPROC_ClipPolygon(prec_face_t* face)
 	
 	if (face->hs_numVertices < 3)
 	{
-		//printf("DOWN clipping discared entire face.\n");
+		//Log_Printf("DOWN clipping discared entire face.\n");
 		return;
 	}
 	
@@ -307,7 +309,7 @@ void PREPROC_ClipPolygon(prec_face_t* face)
 	
 	if (face->hs_numVertices < 3)
 	{
-		//printf("LEFT clipping discared entire face.\n");
+		//Log_Printf("LEFT clipping discared entire face.\n");
 		return;
 	}
 	
@@ -364,7 +366,7 @@ void PREPROC_ClipPolygon(prec_face_t* face)
 	
 	if (face->hs_numVertices < 3)
 	{
-		//printf("RIGHT clipping discared entire face.\n");
+		//Log_Printf("RIGHT clipping discared entire face.\n");
 		return;
 	}
 	
@@ -420,7 +422,7 @@ void PREPROC_ClipPolygon(prec_face_t* face)
 	
 	if (face->hs_numVertices < 3)
 	{
-		//printf("NEAR clipping discared entire face.\n");
+		//Log_Printf("NEAR clipping discared entire face.\n");
 		return;
 	}
 	
@@ -476,7 +478,7 @@ void PREPROC_ClipPolygon(prec_face_t* face)
 	
 	if (face->hs_numVertices < 3)
 	{
-		//printf("FAR clipping discared entire face.\n");
+		//Log_Printf("FAR clipping discared entire face.\n");
 		return;
 	}
 	
@@ -497,7 +499,7 @@ prec_camera_frame_t* PREPROC_ReadFrameFromFile(void)
 	frame = calloc(1,sizeof(prec_camera_frame_t));
 	
 	
-	//printf("PREPROC_ReadFrameFromFile");
+	//Log_Printf("PREPROC_ReadFrameFromFile");
 	
 	LE_readToken(); //time
 	frame->time = LE_readReal();
@@ -590,7 +592,7 @@ void PREPROC_ExpandCameraWayPoints(prec_camera_frame_t* startFrame,prec_camera_f
 		interpolationFactor = (newFrame->time - startFrame->time) / (float)timeDifference;
 		PREPROC_InterpolateFrames(startFrame,endFrame,interpolationFactor,newFrame->position,newFrame->orientation);
 		
-		printf("Expanded frame t=%d\n",newFrame->time);
+		Log_Printf("Expanded frame t=%d\n",newFrame->time);
 		
 		currentFrame = newFrame;
 		extraAccuracyTimeStep += 0.6666667f;
@@ -645,7 +647,7 @@ void PREPROC_ComputeSignedArea(prec_face_t* face)
 	//In order to avoid modulo, copy first vertex after the last one.
 	if (face->ss_numVertices >= PREC_FACE_MAX_VERTICES)
 	{
-		printf("CAM_ComputeSignedArea too many vertices.\n");
+		Log_Printf("CAM_ComputeSignedArea too many vertices.\n");
 		exit(0);
 	}
 	vector2Copy(face->ss_vertices[0],face->ss_vertices[face->ss_numVertices]);
@@ -689,10 +691,7 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 	
 	Quat_ConvertToMat3x3(quatMatrix, frame->orientation);
 	
-	if (logFile)
-		fprintf(logFile, "PREPROC_PopulateRawFaceSet: processing frame t=%d.\n",frame->time);
-	
-	printf( "PREPROC_PopulateRawFaceSet: processing frame t=%d.\n",frame->time);
+	Log_Printf( "PREPROC_PopulateRawFaceSet: processing frame t=%d.\n",frame->time);
 	
 	up[0] = quatMatrix[3];
 	up[1] = quatMatrix[4];
@@ -716,12 +715,12 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 	
 	
 	
-	//printf("Frame t=%d:\n",frame->time);
+	//Log_Printf("Frame t=%d:\n",frame->time);
 	
-//	printf("Matrix orientation:\n");
+//	Log_Printf("Matrix orientation:\n");
 //	matrix_print3x3(quatMatrix);
 	
-	//printf("Matrix pv.\n");	matrix_print(pv);
+	//Log_Printf("Matrix pv.\n");	matrix_print(pv);
 	
 	// Sorting entities from near to far to increase early face area rejection rate
 	sortedIndex = malloc(num_map_entities * sizeof(entity_sort_t)) ;
@@ -738,19 +737,19 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 	
 	
 	
-	if (logFile)
+	if (logPreproc)
 	{
-		fprintf(logFile,"-----------------\n");
+		Log_Printf("-----------------\n");
 		for( i = 0 ; i < 4 ; i++)		//Column dest
 		{
 			for( j = 0 ; j < 4 ; j++)	//Row dest
 			{
 				// m1 j row * m2 i column
-				fprintf(logFile," %.4f ", pv[i+j*4]);
+				Log_Printf(" %.4f ", pv[i+j*4]);
 			}
-			fprintf(logFile,"\n");
+			Log_Printf("\n");
 		}
-		fprintf(logFile,"-----------------\n");
+		Log_Printf("-----------------\n");
 	}
 	
 	for(i=0 ; i < num_map_entities ; i++)
@@ -759,7 +758,8 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 				
 		mesh = entity->model;
 		
-		if (logFile)fprintf(logFile, "	Processing entity : %d.\n",i);
+		if (logPreproc)
+			Log_Printf("	Processing entity : %d.\n",i);
 		
 		face.objectId = sortedIndex[i].indexId ;
 		
@@ -770,7 +770,7 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 		//Test entity bbox against camera frustrum
 		if (INT_OUT == COLL_CheckBoxAgainstFrustrum(entity->worldSpacebbox,frustrum) )
 		{
-			//printf("	Entity %hu  is not in the view frustrum : discard.\n",i);
+			//Log_Printf("	Entity %hu  is not in the view frustrum : discard.\n",i);
 			continue;
 		}
 		
@@ -797,11 +797,11 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 			face.ms_vertices[1][3] = 1;
 			face.ms_vertices[2][3] = 1;			
 			
-			if (logFile)
+			if (logPreproc)
 			{
-				fprintf(logFile, "	face %hd ms_vertices[0] = %f, %f. %f %f.\n",face.faceId,face.ms_vertices[0][X],face.ms_vertices[0][Y],face.ms_vertices[0][Z],face.ms_vertices[0][W]);
-				fprintf(logFile, "	face %hd ms_vertices[1] = %f, %f. %f %f.\n",face.faceId,face.ms_vertices[1][X],face.ms_vertices[1][Y],face.ms_vertices[1][Z],face.ms_vertices[1][W]);
-				fprintf(logFile, "	face %hd ms_vertices[2] = %f, %f. %f %f.\n",face.faceId,face.ms_vertices[2][X],face.ms_vertices[2][Y],face.ms_vertices[2][Z],face.ms_vertices[3][W]);	
+				Log_Printf("	face %hd ms_vertices[0] = %f, %f. %f %f.\n",face.faceId,face.ms_vertices[0][X],face.ms_vertices[0][Y],face.ms_vertices[0][Z],face.ms_vertices[0][W]);
+				Log_Printf("	face %hd ms_vertices[1] = %f, %f. %f %f.\n",face.faceId,face.ms_vertices[1][X],face.ms_vertices[1][Y],face.ms_vertices[1][Z],face.ms_vertices[1][W]);
+				Log_Printf("	face %hd ms_vertices[2] = %f, %f. %f %f.\n",face.faceId,face.ms_vertices[2][X],face.ms_vertices[2][Y],face.ms_vertices[2][Z],face.ms_vertices[3][W]);	
 			}
 			
 			//Project points into face
@@ -816,7 +816,8 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 			PREPROC_ClipPolygon(&face);
 			
 			
-			if (logFile) fprintf(logFile, "	face %hd after polygon clipping: has %uhd vertices.\n",face.faceId, face.hs_numVertices);
+			if (logPreproc) 
+				Log_Printf("	face %hd after polygon clipping: has %uhd vertices.\n",face.faceId, face.hs_numVertices);
 			
 			//Perspective divide
 			face.ss_numVertices = 0;
@@ -838,7 +839,7 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 #ifdef PREPROC_INTRO
 				;
 #else
-				if (logFile) fprintf(logFile, "	face %hd is invisible (not facing or out of screen %i) area=%f.\n",face.faceId,face.ss_numVertices,face.area);
+				if (logPreproc) Log_Printf("	face %hd is invisible (not facing or out of screen %i) area=%f.\n",face.faceId,face.ss_numVertices,face.area);
 				continue;
 #endif
 			}
@@ -849,13 +850,13 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 			/*
 			 if (COLL_CheckAgainstUnitCube(&face) == INT_OUT)
 			 {
-			 //printf("	Entity %d, Face %hu is not in the view frustrum : discard.\n",i,face.indexId);
-			 //printf("		Face %hu Size area: %f\n",j,face.area);
+			 //Log_Printf("	Entity %d, Face %hu is not in the view frustrum : discard.\n",i,face.indexId);
+			 //Log_Printf("		Face %hu Size area: %f\n",j,face.area);
 			 continue;
 			 }
 			 */
 			
-			if (logFile) fprintf(logFile, "	face %hd is visible.\n",face.faceId);
+			if (logPreproc) Log_Printf("	face %hd is visible.\n",face.faceId);
 			
 			PREPROC_InsertFaceIntoVisSet(&face,frame->visSet.visFaces, &frame->visSet.numVisFaces );
 			
@@ -863,7 +864,7 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 	}
 	
 	
-	//printf("Frame t=%d has %d faces visibles.\n",frame->time,frame->visSet.numVisFaces);
+	//Log_Printf("Frame t=%d has %d faces visibles.\n",frame->time,frame->visSet.numVisFaces);
 	
 	free(sortedIndex);
 	
@@ -873,7 +874,7 @@ void PREPROC_PopulateRawFaceSet(prec_camera_frame_t* frame)
 
 void PREPROC_SaveFramesToCP2Binary(char* filename, camera_frame_t* firstFrame)
 {
-	FILE* fileHandle;
+	filehandle_t* fileHandle;
 	char newFileName[256];
 	char* magicNumber = "CP2B" ;
 	int num_frames= 0 ;
@@ -892,11 +893,11 @@ void PREPROC_SaveFramesToCP2Binary(char* filename, camera_frame_t* firstFrame)
 	strcat(newFileName, FS_GetFilenameOnly(filename));
 
 	
-	fileHandle = fopen(newFileName, "wb");
+	fileHandle = FS_OpenFile(newFileName, "wb");
 	
 	if (!fileHandle)
 	{
-		printf("[CAM_SaveFramesToCP2Binary] Failed saving binary cp2.\n");
+		Log_Printf("[CAM_SaveFramesToCP2Binary] Failed saving binary cp2.\n");
 		return;
 	}
 	
@@ -908,32 +909,32 @@ void PREPROC_SaveFramesToCP2Binary(char* filename, camera_frame_t* firstFrame)
 	}
 	
 	//Write magic number (CP2B)
-	fwrite(magicNumber, 1, 4, fileHandle);
+	FS_Write(magicNumber, 1, 4, fileHandle);
 	
 	//Number of frames
-	fwrite(&num_frames, sizeof(num_frames), 1, fileHandle);
+	FS_Write(&num_frames, sizeof(num_frames), 1, fileHandle);
 	
 	frame = firstFrame;
 	for(i=0 ; i < num_frames ; i++)
 	{
-		fwrite(&frame->time, sizeof(frame->time), 1, fileHandle);
+		FS_Write(&frame->time, sizeof(frame->time), 1, fileHandle);
 		
 		fbuffer[0] = frame->position[X];
 		fbuffer[1] = frame->position[Y];
 		fbuffer[2] = frame->position[Z];
-		fwrite(fbuffer, sizeof(float), 3, fileHandle);
+		FS_Write(fbuffer, sizeof(float), 3, fileHandle);
 		
 		fbuffer[0] = frame->orientation[X];
 		fbuffer[1] = frame->orientation[Y];
 		fbuffer[2] = frame->orientation[Z];
 		fbuffer[3] = frame->orientation[W];		
-		fwrite(fbuffer, sizeof(float), 4, fileHandle);
+		FS_Write(fbuffer, sizeof(float), 4, fileHandle);
 		
 		worldVisSet = &frame->visUpdate;
 		
-		fwrite(&worldVisSet->isKey, sizeof(uchar), 1, fileHandle);
+		FS_Write(&worldVisSet->isKey, sizeof(uchar), 1, fileHandle);
 		
-		fwrite(&worldVisSet->numVisSets, sizeof(ushort), 1, fileHandle);
+		FS_Write(&worldVisSet->numVisSets, sizeof(ushort), 1, fileHandle);
 	
 		if (frame->visUpdate.isKey)
 		{
@@ -942,14 +943,14 @@ void PREPROC_SaveFramesToCP2Binary(char* filename, camera_frame_t* firstFrame)
 			{
 				entityVisSet = &worldVisSet->visSets[j];
 				
-				fwrite(&entityVisSet->entityId, sizeof(ushort), 1, fileHandle);
+				FS_Write(&entityVisSet->entityId, sizeof(ushort), 1, fileHandle);
 				
-				fwrite(&entityVisSet->numIndices, sizeof(ushort), 1, fileHandle);
+				FS_Write(&entityVisSet->numIndices, sizeof(ushort), 1, fileHandle);
 				
 				//for(k=0;  k < entityVisSet->numIndices ; k++)
 				//	fwrite(entityVisSet->indices[k], sizeof(ushort), 1, fileHandle);
 				
-				fwrite(entityVisSet->indices, sizeof(ushort), entityVisSet->numIndices, fileHandle);
+				FS_Write(entityVisSet->indices, sizeof(ushort), entityVisSet->numIndices, fileHandle);
 			}
 		}
 		else 
@@ -959,13 +960,13 @@ void PREPROC_SaveFramesToCP2Binary(char* filename, camera_frame_t* firstFrame)
 			{
 				entityVisSet = &worldVisSet->visSets[j];
 				
-				fwrite(&entityVisSet->entityId, sizeof(ushort), 1, fileHandle);
+				FS_Write(&entityVisSet->entityId, sizeof(ushort), 1, fileHandle);
 				
-				fwrite(&entityVisSet->numFacesToAdd, sizeof(ushort), 1, fileHandle);
-				fwrite(entityVisSet->facesToAdd, sizeof(ushort), entityVisSet->numFacesToAdd, fileHandle);
+				FS_Write(&entityVisSet->numFacesToAdd, sizeof(ushort), 1, fileHandle);
+				FS_Write(entityVisSet->facesToAdd, sizeof(ushort), entityVisSet->numFacesToAdd, fileHandle);
 				
-				fwrite(&entityVisSet->numFacesToRemove, sizeof(ushort), 1, fileHandle);
-				fwrite(entityVisSet->facesToRemove, sizeof(ushort), entityVisSet->numFacesToRemove, fileHandle);
+				FS_Write(&entityVisSet->numFacesToRemove, sizeof(ushort), 1, fileHandle);
+				FS_Write(entityVisSet->facesToRemove, sizeof(ushort), entityVisSet->numFacesToRemove, fileHandle);
 				
 			}
 		}
@@ -977,9 +978,9 @@ void PREPROC_SaveFramesToCP2Binary(char* filename, camera_frame_t* firstFrame)
 		frame = frame->next;
 	}
 	
-	fclose(fileHandle);
+	FS_CloseFile(fileHandle);
 	Timer_resetTime();
-	printf("[PREPROC_SaveFramesToCP2Binary] Wrote %u keyFrames and %u deltaFrames.\n",keyFrameCounter,nonKeyFrameCounter);
+	Log_Printf("[PREPROC_SaveFramesToCP2Binary] Wrote %u keyFrames and %u deltaFrames.\n",keyFrameCounter,nonKeyFrameCounter);
 }
 
 
@@ -997,13 +998,16 @@ ushort*						indicesPerObjectId;
  }
  
 
-void printIndexes(FILE*	debug)
+void printIndexes(filehandle_t*	debug)
 {
-	int i,j;
-	
+	int     i;
+	int     j;
+	char    debugString[256];
+
 	for (i=0 ; i <  num_map_entities ; i++) 
 	{
-		fprintf(debug,"indicesPerObjectId[%d]=%hu.\n",i,indicesPerObjectId[i]);
+		sprintf(debugString,"indicesPerObjectId[%d]=%hu.\n",i,indicesPerObjectId[i]);
+		FS_Write(debugString,1,strlen(debugString),debug);	
 	}
 	
 	
@@ -1014,7 +1018,10 @@ void printIndexes(FILE*	debug)
 			continue;
 		
 		for (j=0 ; j < map[i].model->numIndices ; j+=3)
-			fprintf(debug,"entityIndiceToModelIndice[%d][%d]=%hu\n",i,j,entityIndiceToModelIndice[i][j]);
+		{
+			sprintf(debugString,"entityIndiceToModelIndice[%d][%d]=%hu\n",i,j,entityIndiceToModelIndice[i][j]);
+			FS_Write(debugString,1,strlen(debugString),debug);	
+		}
 	}
 
 	for (i=0 ; i <  num_map_entities ; i++) 
@@ -1023,7 +1030,10 @@ void printIndexes(FILE*	debug)
 			continue;
 		
 		for (j=0 ; j < map[i].model->numIndices ; j+=3)
-			fprintf(debug,"modelIndiceToEntityIndice[%d][%d]=%hu\n",i,j,modelIndiceToEntityIndice[i][j]);
+		{
+			sprintf(debugString,"modelIndiceToEntityIndice[%d][%d]=%hu\n",i,j,modelIndiceToEntityIndice[i][j]);
+			FS_Write(debugString,1,strlen(debugString),debug);	
+		}
 	}
 	
 }
@@ -1053,17 +1063,18 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 	ushort						entId;
 	
 	
-	FILE*						debug;
+	filehandle_t*						debug;
 	char						debugFilename[256];
-	
+	char						debugString[256];
+
 	if (TRACE_CONVERT_FRAME)
 	{
 		
 		sprintf(debugFilename, "/Users/fabiensanglard/tmp/debug/frame-%6d.txt",currentFrame->time);
-		debug = fopen(debugFilename, "wt");
+		debug = FS_OpenFile(debugFilename, "wt");
 	}
 	
-	printf("Converting frame t=%d to camera_frame_t.\n",currentFrame->time);
+	Log_Printf("Converting frame t=%d to camera_frame_t.\n",currentFrame->time);
 	
 	runTimeFrame->time = currentFrame->time;
 	runTimeFrame->next = 0;
@@ -1081,8 +1092,10 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 	if (currentFrame->visSet.isKey)
 	{
 		if (TRACE_CONVERT_FRAME)
-			fprintf(debug, "frame %d is key.\n",runTimeFrame->time);
-		
+		{
+			sprintf(debugString,"frame %d is key.\n",runTimeFrame->time);
+			FS_Write(debugString,1,strlen(debugString),debug);	
+		}
 		
 		worldVisSet->numVisSets = num_map_entities ;
 		worldVisSet->visSets = (entity_visset_t*)calloc(num_map_entities, sizeof(entity_visset_t));
@@ -1129,7 +1142,11 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 			entityIndiceToModelIndice[face->objectId][visSet->numIndices] = face->faceId*3 ;
 
 			if (TRACE_CONVERT_FRAME)
-				fprintf(debug,"	Entity %hu model face %d is at %hu.\n",face->objectId,face->faceId*3,visSet->numIndices);
+			{
+				sprintf(debugString,"	Entity %hu model face %d is at %hu.\n",face->objectId,face->faceId*3,visSet->numIndices);
+				FS_Write(debugString,1,strlen(debugString),debug);	
+			}
+				
 			
 			visSet->numIndices += 3;		
 			
@@ -1143,7 +1160,7 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 		if (TRACE_CONVERT_FRAME)
 		{
 			printIndexes(debug);
-			fclose(debug);
+			FS_CloseFile(debug);
 		}
 	}
 	
@@ -1157,8 +1174,10 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 		
 	{
 		if (TRACE_CONVERT_FRAME)
-			fprintf(debug, "frame %d is NOT key.\n",runTimeFrame->time);
-		
+		{
+			sprintf(debugString,"frame %d is NOT key.\n",runTimeFrame->time);
+			FS_Write(debugString,1,strlen(debugString),debug);	
+		}
 		
 		// Check what needs to be added from the currentFrame, compared to previous
 		for (i=0 ; i < currentFrame->visSet.numVisFaces; i++) 
@@ -1178,8 +1197,11 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 				toBeAdded[numToBeAdded].faceId = currentFrame->visSet.visFaces[i].faceId;
 				
 				if (TRACE_CONVERT_FRAME)
-					fprintf(debug,"	[Add   ] Entity %hu, ModelFace %d.\n",toBeAdded[numToBeAdded].objectId,toBeAdded[numToBeAdded].faceId*3);
-				
+				{
+					sprintf(debugString,"	[Add   ] Entity %hu, ModelFace %d.\n",toBeAdded[numToBeAdded].objectId,toBeAdded[numToBeAdded].faceId*3);
+					FS_Write(debugString,1,strlen(debugString),debug);
+				}
+
 				numToBeAdded++;
 			}
 		}
@@ -1205,8 +1227,10 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 				toBeRemoved[numToBeRemoved].faceId = prevFrame->visSet.visFaces[i].faceId;
 				
 				if (TRACE_CONVERT_FRAME)
-				fprintf(debug,"	[Remove ] Entity %hu, ModelFace %d.\n",toBeRemoved[numToBeRemoved].objectId,toBeRemoved[numToBeRemoved].faceId*3);
-				
+				{
+					sprintf(debugString,"	[Remove ] Entity %hu, ModelFace %d.\n",toBeRemoved[numToBeRemoved].objectId,toBeRemoved[numToBeRemoved].faceId*3);
+					FS_Write(debugString,1,strlen(debugString),debug);
+				}
 				numToBeRemoved++;
 			}
 		}
@@ -1217,9 +1241,11 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 		
 		if (TRACE_CONVERT_FRAME)
 		{
-			fprintf(debug,"numToBeAdded=%hu.\n",numToBeAdded);
-			
-			fprintf(debug,"numToBeRemoved=%hu.\n",numToBeRemoved);
+			sprintf(debugString,"numToBeAdded=%hu.\n",numToBeAdded);
+			FS_Write(debugString,1,strlen(debugString),debug);
+
+			sprintf(debugString,"numToBeRemoved=%hu.\n",numToBeRemoved);
+			FS_Write(debugString,1,strlen(debugString),debug);
 		}
 		
 		for (i=0; i < numToBeRemoved ; i++) 
@@ -1251,8 +1277,10 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 		}
 		
 		if (TRACE_CONVERT_FRAME)
-			fprintf(debug,"num entities to update=%hu.\n",worldVisSet->numVisSets);
-		
+		{
+			sprintf(debugString,"num entities to update=%hu.\n",worldVisSet->numVisSets);
+			FS_Write(debugString,1,strlen(debugString),debug);
+		}
 		worldVisSet->visSets = calloc(worldVisSet->numVisSets, sizeof(entity_visset_t));
 		
 		
@@ -1287,8 +1315,10 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 			visSet = &worldVisSet->visSets [ entityStats[ toBeRemoved[i].objectId  ].indexInVisUpdate ] ;
 			
 			if (TRACE_CONVERT_FRAME)
-				fprintf(debug,"	[toBeRemoved] Entity %hu modelId %d = entity %hu.\n",toBeRemoved[i].objectId ,toBeRemoved[i].faceId*3,modelIndiceToEntityIndice[ toBeRemoved[i].objectId   ][ toBeRemoved[i].faceId*3]);
-			
+			{
+				sprintf(debugString,"	[toBeRemoved] Entity %hu modelId %d = entity %hu.\n",toBeRemoved[i].objectId ,toBeRemoved[i].faceId*3,modelIndiceToEntityIndice[ toBeRemoved[i].objectId   ][ toBeRemoved[i].faceId*3]);
+				FS_Write(debugString,1,strlen(debugString),debug);
+			}	
 			visSet->facesToRemove[ visSet->numFacesToRemove++ ] = modelIndiceToEntityIndice[ toBeRemoved[i].objectId   ][ toBeRemoved[i].faceId*3];
 		}
 		
@@ -1298,8 +1328,10 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 			visSet = &worldVisSet->visSets [ entityStats[ toBeAdded[i].objectId  ].indexInVisUpdate ] ;
 			
 			if (TRACE_CONVERT_FRAME)
-				fprintf(debug,"	[toBeAdded  ] Entity %hu modelId %d.\n",toBeAdded[i].objectId ,toBeAdded[i].faceId*3);
-			
+			{
+				sprintf(debugString,"	[toBeAdded  ] Entity %hu modelId %d.\n",toBeAdded[i].objectId ,toBeAdded[i].faceId*3);
+				FS_Write(debugString,1,strlen(debugString),debug);
+			}
 			visSet->facesToAdd[ visSet->numFacesToAdd++ ] = toBeAdded[i].faceId*3;
 			
 			
@@ -1366,7 +1398,7 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 		if (TRACE_CONVERT_FRAME)
 		{
 			printIndexes(debug);
-			fclose(debug);
+			FS_CloseFile(debug);
 		}
 		
 		
@@ -1377,6 +1409,7 @@ void PREPROC_ConvertPrecToRuntime(prec_camera_frame_t* prevFrame,prec_camera_fra
 	
 	
 }
+
 
 
 
@@ -1401,16 +1434,19 @@ void PREPROC_ConvertCp1Tocp2b(char* cpFilename, char* cp2bFilename, char* logFil
 	
 	entity_t*				entity;
 	
-	printf("[PREPROC_ConvertCp1Tocp2b]");
+	Log_Printf("[PREPROC_ConvertCp1Tocp2b]");
 	
 	file = FS_OpenFile(camera.pathFilename, "rt");
-	
+	FS_UploadToRAM(file);
+
 	if (logFilename)
-		logFile = fopen(logFilename, "wt");
+		logPreproc = 1;
+	else
+		logPreproc = 0;
 	
 	if (!file)
 	{
-		printf("CP file cannot be opened. Aborting.\n");
+		Log_Printf("CP file cannot be opened. Aborting.\n");
 		return;
 	}
 	
@@ -1421,7 +1457,7 @@ void PREPROC_ConvertCp1Tocp2b(char* cpFilename, char* cp2bFilename, char* logFil
 	
 	if (strcmp("cp1", LE_getCurrentToken()))
 	{
-		printf("CP file found but magic number check failed. Aborting.\n");
+		Log_Printf("CP file found but magic number check failed. Aborting.\n");
 		return;
 	}
 		

@@ -41,7 +41,7 @@ void updateLOFB(enemy_t* enemy)
 		//enemy->ss_position[X] =0;//+= 0.002*cosf( (enemy->uniqueId + enemy->timeCounter / (float)2000) * 4 * 2 * M_PI);
 		//enemy->ss_position[Y] =0;//+= 0.002*sinf( (enemy->uniqueId + enemy->timeCounter / (float)2000) * 4 * 2 * M_PI);
 		
-		//printf("lofb !!\n");
+		//Log_Printf("lofb !!\n");
 		
 		//lofb_states[enemy->state](enemy);
 		

@@ -114,7 +114,7 @@ void DumpChunks( void )
 		memcpy( str, iff_pdata, 4 );
 		iff_pdata += 4;
 		iff_chunk_len = Wav_GetLittleLong();
-		printf( "0x%x : %s (%d)\n", (int)(iff_pdata - 4), str, iff_chunk_len );
+		Log_Printf( "0x%x : %s (%d)\n", (int)(iff_pdata - 4), str, iff_chunk_len );
 		iff_pdata += (iff_chunk_len + 1) & ~1;
 		
 	} while( iff_pdata < iff_end );
@@ -143,12 +143,14 @@ char LoadWavInfo( const char *filename, unsigned char **wav, soundInfo_t *info )
 	unsigned long	wavlength;
 	
 	hFile = FS_OpenFile( filename, "r");
+	FS_UploadToRAM(hFile);
+
 	if( ! hFile )
 		return 0;
 	
 	
 	data = (PW8)FS_GetLoadedFilePointer( hFile, SEEK_SET );
-	wavlength = FS_GetFileSize( hFile );
+	wavlength = hFile->filesize;
 	
 	iff_data = data;
 	iff_end = data + wavlength;
@@ -157,7 +159,7 @@ char LoadWavInfo( const char *filename, unsigned char **wav, soundInfo_t *info )
 	Wav_FindChunk( "RIFF" );
 	if( ! (iff_pdata && ! strncmp( (const char *)iff_pdata + 8, "WAVE", 4 ) ) )
 	{
-		printf( "[LoadWavInfo]: Missing RIFF/WAVE chunks (%s)\n", filename );
+		Log_Printf( "[LoadWavInfo]: Missing RIFF/WAVE chunks (%s)\n", filename );
 		FS_CloseFile( hFile );
 		
 		return 0;
@@ -169,7 +171,7 @@ char LoadWavInfo( const char *filename, unsigned char **wav, soundInfo_t *info )
 	Wav_FindChunk("fmt ");
 	if( ! iff_pdata )
 	{
-		printf( "[LoadWavInfo]: Missing fmt chunk (%s)\n", filename );
+		Log_Printf( "[LoadWavInfo]: Missing fmt chunk (%s)\n", filename );
 		FS_CloseFile( hFile );
 		
 		return 0;
@@ -179,7 +181,7 @@ char LoadWavInfo( const char *filename, unsigned char **wav, soundInfo_t *info )
 	
 	if( Wav_GetLittleShort() != 1 )
 	{
-		printf( "[LoadWavInfo]: Microsoft PCM format only (%s)\n", filename );
+		Log_Printf( "[LoadWavInfo]: Microsoft PCM format only (%s)\n", filename );
 		FS_CloseFile( hFile );
 		
 		return 0;
@@ -194,7 +196,7 @@ char LoadWavInfo( const char *filename, unsigned char **wav, soundInfo_t *info )
 	
 	if (info->sample_size != 1 && info->sample_size != 2)
 	{
-		printf( "[LoadWavInfo]: only 8 and 16 bit WAV files supported (%s)\n", filename );
+		Log_Printf( "[LoadWavInfo]: only 8 and 16 bit WAV files supported (%s)\n", filename );
 		FS_CloseFile( hFile );
 		
 		return 0;
@@ -207,7 +209,7 @@ char LoadWavInfo( const char *filename, unsigned char **wav, soundInfo_t *info )
 	Wav_FindChunk( "data" );
 	if( ! iff_pdata )
 	{
-		printf( "[LoadWavInfo]: missing 'data' chunk (%s)\n", filename );
+		Log_Printf( "[LoadWavInfo]: missing 'data' chunk (%s)\n", filename );
 		FS_CloseFile( hFile );
 		
 		return 0;
@@ -218,7 +220,7 @@ char LoadWavInfo( const char *filename, unsigned char **wav, soundInfo_t *info )
 	
 	if( info->samples <= 0 )
 	{
-		printf( "[LoadWavInfo]: file with 0 samples (%s)\n", filename );
+		Log_Printf( "[LoadWavInfo]: file with 0 samples (%s)\n", filename );
 		FS_CloseFile( hFile );
 		
 		return 0;

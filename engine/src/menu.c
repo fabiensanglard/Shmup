@@ -33,8 +33,6 @@
 #include "event.h"
 #include "native_services.h"
 
-#define FONT_PATH "/data/menu/font.png"
-//#define HOME_ATLAS "/data/menu/homeAtlas4bpp.pvr"
 #define HOME_ATLAS "/data/menu/homeAtlas.png"
 
 menu_screen_t menuScreens[10];
@@ -50,9 +48,11 @@ void MENU_FreeRessources(void)
 	
 }
 
+
 void MENU_LoadRessources(void)
 {
 	TEX_MakeStaticAvailable(&textureAtlas);
+ 
 }
 
 signed char MENU_Get(void)
@@ -262,7 +262,7 @@ void MENU_UpdateReplayList(void)
 	numReplayers = Native_RetrieveListOf(replayList);
 	
 	//Free all texts char* for buttons
-	printf("[MENU_UpdateReplayList] MEMORY LEAK HERE !!\n");
+	Log_Printf("[MENU_UpdateReplayList] MEMORY LEAK HERE !!\n");
 	/*
 	if (screen->numButtons > 2 )
 	{
@@ -296,7 +296,7 @@ void MENU_UpdateReplayList(void)
 
 		
 		actId = (replayList[i][0] -48)*10 + (replayList[i][1] -48)  ;
-		printf("actId=%d\n",actId);
+		Log_Printf("actId=%d\n",actId);
 		if (actId >= engine.numScenes)
 			continue;
 		
@@ -317,7 +317,7 @@ void MENU_UpdateReplayList(void)
 void Action_ChangeReplayRecordingState(void* tag)
 {
 	engine.playback.record = !engine.playback.record;
-	printf("[Action_ChangeReplayRecordingState] engine.playback.record=%d\n",engine.playback.record);
+	Log_Printf("[Action_ChangeReplayRecordingState] engine.playback.record=%d\n",engine.playback.record);
 	MENU_UpdateReplayList();
 }
 
@@ -328,7 +328,7 @@ void MENU_Set(signed char menuId)
 	int i;
 	menu_screen_t* currentMenu;
 	
-	//printf("MENU_Set(%d)\n",menuId);
+	//Log_Printf("MENU_Set(%d)\n",menuId);
 	
 	
 	if (currentMenuId != -1)
@@ -531,7 +531,7 @@ void MENU_Init(void)
 	if (menuCreated)
 		return;
 	
-	printf("[Menu System] Initialized.\n");
+	Log_Printf("[Menu System] Initialized.\n");
 	
 	memset(menuScreens,0,sizeof(menuScreens));
 	
@@ -875,7 +875,7 @@ void MENU_Render(void)
 	
 	
 	//First draw all images in the menu
-	//printf("Menu has %d images.\n",currentMenu->numImages);
+	//Log_Printf("Menu has %d images.\n",currentMenu->numImages);
 	for (i=0; i < currentMenu->numImages; i++) 
 	{
 		image = &currentMenu->images[i];
@@ -897,18 +897,18 @@ void MENU_Render(void)
 	
 	
 	//Then draw all buttons images in the menu
-	//printf("Menu has %d buttons.\n",currentMenu->numButtons);
+	//Log_Printf("Menu has %d buttons.\n",currentMenu->numButtons);
 	for (i=0; i < currentMenu->numButtons; i++) 
 	{
 		button = &currentMenu->buttons[i];
 		if (button->touch->down)
 		{
-			//printf("Down.\n");
+			//Log_Printf("Down.\n");
 			memcpy(vertice,button->downVertices,4 * sizeof(xf_colorless_sprite_t));
 		}
 		else
 		{
-			//printf("Down.\n");
+			//Log_Printf("Down.\n");
 			memcpy(vertice,button->upVertices,4 * sizeof(xf_colorless_sprite_t));
 		}
 		indices[0] = numVertices+0;

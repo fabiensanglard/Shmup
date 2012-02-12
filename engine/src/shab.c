@@ -119,12 +119,12 @@ void emitSHABBullet(enemy_t* enemy,float angle)
 	//tmp = bullet->posDiff[X];
 	//cosAngle = cosf(angle);
 	//sinAngle = sinf(angle);
-	//printf("[emitSHABBullet] angle=%.2f\n",angle);
+	//Log_Printf("[emitSHABBullet] angle=%.2f\n",angle);
 	
 	bullet->posDiff[X] = cosf(angle)*SHAB_BULLET_DISTANCE_TTL*SS_H;//bullet->posDiff[X] * cosAngle - bullet->posDiff[Y] *  sinAngle; 
 	bullet->posDiff[Y] = sinf(angle)*SHAB_BULLET_DISTANCE_TTL*SS_H;//tmp                * sinAngle + bullet->posDiff[Y] *  cosAngle;
 	
-	//printf("[emitSHABBullet] posDiffX=%d posDiffY=%d\n",bullet->posDiff[X],bullet->posDiff[Y]);
+	//Log_Printf("[emitSHABBullet] posDiffX=%d posDiffY=%d\n",bullet->posDiff[X],bullet->posDiff[Y]);
 }
 
 
@@ -151,7 +151,7 @@ void updateSHABHelling(enemy_t* enemy)
 		
 		step = ( a2-a1)/enemy->parameters[PARAMETER_SHAB_FIRING_NUM_THREAD];
 		
-		//printf("a1=%.2f, a2=%.2f step=%.2f.\n",a1,a2,step);
+		//Log_Printf("a1=%.2f, a2=%.2f step=%.2f.\n",a1,a2,step);
 		
 		for(angle = a1,i=0; 
 			i <= enemy->parameters[PARAMETER_SHAB_FIRING_NUM_THREAD] ; 
@@ -159,7 +159,7 @@ void updateSHABHelling(enemy_t* enemy)
 		{
 			emitSHABBullet(enemy,angle);
 			SND_PlaySound(SND_ENEMY_SHOT);
-			//printf("emitSHABBullet(%.2f).\n",angle);
+			//Log_Printf("emitSHABBullet(%.2f).\n",angle);
 		}
 		enemy->lastTimeFired = simulationTime;
 		
@@ -221,7 +221,7 @@ void updateSHABHelling(enemy_t* enemy)
 	}
 	//f = (simulationTime -  enemy->lastTimeFired) / (float)SHAB_FIRE_DELAY_MS;
 	
-	//printf("%.2f\n",f);
+	//Log_Printf("%.2f\n",f);
 	
 	//return;
 	

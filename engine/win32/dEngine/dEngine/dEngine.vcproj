@@ -302,6 +302,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\log.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\menu.c"
 					>
 				</File>
@@ -323,6 +327,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\titles.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\unzip.c"
 					>
 				</File>
 			</Filter>
@@ -480,6 +488,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\log.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\menu.h"
 					>
 				</File>
@@ -505,6 +517,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\titles.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\unzip.h"
 					>
 				</File>
 			</Filter>

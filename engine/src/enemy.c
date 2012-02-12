@@ -93,7 +93,7 @@ enemy_t* ENE_Get(void)
 	
 	if (numFreeEnemies == 0)
 	{
-		printf("Enemy pool exhausted (%d). Aborting.\n",MAX_NUM_ENEMIES);
+		Log_Printf("Enemy pool exhausted (%d). Aborting.\n",MAX_NUM_ENEMIES);
 		return &dummyEnemy;
 	}
 	
@@ -183,9 +183,9 @@ void ENE_Precache(void)
 		if (precacheEvent->type == EV_SPAWN_ENEMY)
 		{
 			engine.playerStats.numEnemies++;
-			//printf("precache t=%denemy count %f.\n",precacheEvent->time,engine.playerStats.numEnemies);
+			//Log_Printf("precache t=%denemy count %f.\n",precacheEvent->time,engine.playerStats.numEnemies);
 			eventEnemyPayload = precacheEvent->payload;
-			//printf("Precaching entity: %s.\n",enemyTypePath[eventEnemyPayload->type]);
+			//Log_Printf("Precaching entity: %s.\n",enemyTypePath[eventEnemyPayload->type]);
 			ENT_LoadEntity(&dummy, enemyTypePath[eventEnemyPayload->type],ENT_FULL_DRAW);
 		}
 		precacheEvent = precacheEvent->next;

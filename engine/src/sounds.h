@@ -35,16 +35,20 @@
 #undef USE_OPENAL
 #endif
 
-#ifdef WIN32
-	#include "al.h"
-#else
-	#include "OpenAL/al.h"
-#endif
+
 
 #define SND_PLASMA		0
 #define SND_EXPLOSION	1
 #define SND_GHOST_LAUNCH 2
 #define SND_ENEMY_SHOT 3
+
+#if !defined (ANDROID)
+
+#ifdef WIN32
+#include "al.h"
+#else
+#include "OpenAL/al.h"
+#endif
 
 typedef struct sound_t
 {
@@ -64,6 +68,7 @@ typedef struct sound_t
 	int lastTimePlayed ;
 	
 } sound_t;
+#endif
 
 int SND_Init(void);
 void SND_UpdateRecord(void);

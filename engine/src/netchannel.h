@@ -63,7 +63,7 @@ int NET_Init(void);
 
 #define BUFFER_SIZE 1024
 
-#ifndef WIN32
+#if !defined(WIN32) && !defined(ANDROID) 
 #include <dns_sd.h>
 #include <netdb.h>		
 #include <net/if.h>

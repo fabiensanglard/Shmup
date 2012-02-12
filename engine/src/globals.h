@@ -26,8 +26,9 @@
 #ifndef ED_GLOBAL
 #define ED_GLOBAL
 
-
+#if !defined(ANDROID)
 typedef unsigned int uint ;
+#endif
 typedef unsigned char uchar ;
 typedef unsigned char ubyte ;
 typedef unsigned short ushort ;
@@ -35,6 +36,7 @@ typedef unsigned short ushort ;
 
 
 #include <stdio.h>
+#include "log.h"
 //Doing some memory tracking here
 //#include <stdlib.h>
 #include "trackmem.h"

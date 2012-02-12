@@ -30,7 +30,7 @@
 int forcedTimeIncrement=0;
 void Timer_ForceTimeIncrement(int ms)
 {
-	printf("[Timer] !! WARNING !! Time increment is forced !! WARNING !!.\n");
+	Log_Printf("[Timer] !! WARNING !! Time increment is forced !! WARNING !!.\n");
 	forcedTimeIncrement = ms;
 }
 
@@ -89,7 +89,7 @@ int frameCounter=0;
 float extraPrecision=0;
 void Timer_tick(void)
 {
-	//printf("t=%d\n",simulationTime);
+	//Log_Printf("t=%d\n",simulationTime);
 	
 	if (paused)
 		return;
@@ -131,7 +131,7 @@ void Timer_tick(void)
 		
 	simulationTime += timediff;
 	
-	//printf("%d\n",timediff);
+	//Log_Printf("%d\n",timediff);
 	
 	
 	//Do not use the hard-coded 16fps timediff otherwise we measure time in the simulation.
@@ -154,5 +154,5 @@ void Timer_resetTime(void)
 	simulationTime = 0;
 	extraPrecision=0;
 	timediff=0;
-	printf("[Timer] simulationTime = %d.\n",simulationTime);
+	Log_Printf("[Timer] simulationTime = %d.\n",simulationTime);
 }

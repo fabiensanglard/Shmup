@@ -28,7 +28,7 @@
 
 #include "target.h"
 #if defined (SHMUP_TARGET_WINDOWS) || defined (SHMUP_TARGET_MACOSX)
-void initProgrRenderer(renderer_t* renderer){ printf("Shader renderer is not implemented.\n");exit(0);}
+void initProgrRenderer(renderer_t* renderer){ Log_Printf("Shader renderer is not implemented.\n");exit(0);}
 #else
 
 #include "config.h"
@@ -40,9 +40,14 @@ void initProgrRenderer(renderer_t* renderer){ printf("Shader renderer is not imp
 #include "config.h"
 #include "player.h"
 #include "enemy.h"
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
 
+#if defined(ANDROID)
+    #include <GLES2/gl2.h>
+    #include <GLES2/gl2ext.h>	
+#else
+    #include <OpenGLES/ES2/gl.h>
+    #include <OpenGLES/ES2/glext.h>
+#endif
 
 
 matrix_t projectionMatrix;
@@ -131,7 +136,7 @@ int SRC_UseShader(shader_prog_t* shader)
 	if (shader == 0)
 	{
 		return 0;
-		printf("Shader was null: WTF !\n");
+		Log_Printf("Shader was null: WTF !\n");
 	}
 	
 	//if (shader == currentShader)
@@ -186,13 +191,13 @@ void CreateFBOandShadowMap()
 	status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	
 	switch (status) {
-		case GL_FRAMEBUFFER_COMPLETE:						printf("GL_FRAMEBUFFER_COMPLETE\n");break;
-		case 0x8CDB:										printf("GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT\n");break;
-		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:			printf("GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT\n");break;
-		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:	printf("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT\n");break;
-		case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:			printf("GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS\n");break;			
-		case GL_FRAMEBUFFER_UNSUPPORTED:					printf("GL_FRAMEBUFFER_UNSUPPORTED\n");break;	
-		default:											printf("Unknown issue (%x).\n",status);break;	
+		case GL_FRAMEBUFFER_COMPLETE:						Log_Printf("GL_FRAMEBUFFER_COMPLETE\n");break;
+		case 0x8CDB:										Log_Printf("GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT\n");break;
+		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:			Log_Printf("GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT\n");break;
+		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:	Log_Printf("GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT\n");break;
+		case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:			Log_Printf("GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS\n");break;			
+		case GL_FRAMEBUFFER_UNSUPPORTED:					Log_Printf("GL_FRAMEBUFFER_UNSUPPORTED\n");break;	
+		default:											Log_Printf("Unknown issue (%x).\n",status);break;	
 	}	
 
 	
@@ -208,9 +213,9 @@ GLuint LoadShader(const char *shaderSrcPath, GLenum type, uchar props)
 	GLchar* sources[9];
 	uchar i;
 	int j;
-	const filehandle_t* shaderFile;
+    filehandle_t* shaderFile;
 	
-	printf("Loading %s\n",shaderSrcPath);
+	Log_Printf("Loading %s\n",shaderSrcPath);
 	
 	memset(sources, 0, 9 * sizeof(GLchar*));
 	
@@ -221,17 +226,18 @@ GLuint LoadShader(const char *shaderSrcPath, GLenum type, uchar props)
 	
 	if(shader == 0) 
 	{
-		printf("Failed to created GL shader for '%s'\n",shaderSrcPath);
+		Log_Printf("Failed to created GL shader for '%s'\n",shaderSrcPath);
 		return 0; 
 	}
 	
 	
 	
 	shaderFile = FS_OpenFile(shaderSrcPath,"rt");
-	
+	FS_UploadToRAM(shaderFile);
+
 	if (!shaderFile)
 	{
-		printf("Could not load shader: %s\n",shaderSrcPath);
+		Log_Printf("Could not load shader: %s\n",shaderSrcPath);
 		return 0;
 	}
 	
@@ -253,7 +259,7 @@ GLuint LoadShader(const char *shaderSrcPath, GLenum type, uchar props)
 	sources[8] = (GLchar*)shaderFile->ptrStart;
 	
 	//for(i=0;i<8;i++)
-	//	printf("%s",sources[i]);
+	//	Log_Printf("%s",sources[i]);
 	
 	// Load the shader source 
 	glShaderSource(shader, 9, (const GLchar**)sources, NULL); 
@@ -276,7 +282,7 @@ GLuint LoadShader(const char *shaderSrcPath, GLenum type, uchar props)
 		{ 
 			char* infoLog = malloc(sizeof(char) * infoLen); 
 			glGetShaderInfoLog(shader, infoLen, NULL, infoLog); 
-			printf("Error processing '%s' compiling shader:\n%s\n",shaderSrcPath, infoLog); 
+			Log_Printf("Error processing '%s' compiling shader:\n%s\n",shaderSrcPath, infoLog); 
 			free(infoLog); 
 		} 
 		glDeleteShader(shader); 
@@ -303,7 +309,7 @@ void LoadProgram(shader_prog_t* shaderProg,const char* vertexShaderPath, const c
 	shaderProg->prog = glCreateProgram(); 
 	if(shaderProg->prog == 0) 
 	{
-		printf("Could not create GL program.");
+		Log_Printf("Could not create GL program.");
 		return ; 
 	}
 	
@@ -325,7 +331,7 @@ void LoadProgram(shader_prog_t* shaderProg,const char* vertexShaderPath, const c
 		{ 
 			char* infoLog = malloc(sizeof(char) * infoLen); 
 			glGetProgramInfoLog(shaderProg->prog, infoLen, NULL, infoLog); 
-			printf("Error linking program:\n%s\n", infoLog); 
+			Log_Printf("Error linking program:\n%s\n", infoLog); 
 			
 			free(infoLog); 
 		} 
@@ -339,12 +345,12 @@ void SCR_CheckErrorsF(char* step, char* details)
 {
 	GLenum err = glGetError();
 	switch (err) {
-		case GL_INVALID_ENUM:printf("Error GL_INVALID_ENUM %s, %s\n", step,details); break;
-		case GL_INVALID_VALUE:printf("Error GL_INVALID_VALUE  %s, %s\n", step,details); break;
-		case GL_INVALID_OPERATION:printf("Error GL_INVALID_OPERATION  %s, %s\n", step,details); break;				
-		case GL_OUT_OF_MEMORY:printf("Error GL_OUT_OF_MEMORY  %s, %s\n", step,details); break;			
+		case GL_INVALID_ENUM:Log_Printf("Error GL_INVALID_ENUM %s, %s\n", step,details); break;
+		case GL_INVALID_VALUE:Log_Printf("Error GL_INVALID_VALUE  %s, %s\n", step,details); break;
+		case GL_INVALID_OPERATION:Log_Printf("Error GL_INVALID_OPERATION  %s, %s\n", step,details); break;				
+		case GL_OUT_OF_MEMORY:Log_Printf("Error GL_OUT_OF_MEMORY  %s, %s\n", step,details); break;			
 		case GL_NO_ERROR: break;
-		default : printf("Error UNKNOWN  %s, %s \n", step,details);break;
+		default : Log_Printf("Error UNKNOWN  %s, %s \n", step,details);break;
 	}
 }
 
@@ -473,7 +479,7 @@ void UpLoadTextureToGPU(texture_t* texture)
 	if (texture->format == TEXTURE_GL_RGB ||texture->format == TEXTURE_GL_RGBA)
 	{
 		//glTexParameterf(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-		printf("Warning mipmap for %s were not generated due to no GL_GENERATE_MIPMAP support.\n",texture->path);
+		Log_Printf("Warning mipmap for %s were not generated due to no GL_GENERATE_MIPMAP support.\n",texture->path);
         
         if(texture->format == TEXTURE_GL_RGBA)
         {
@@ -941,7 +947,7 @@ void UpLoadEntityToGPU(entity_t* entity)
 	
 	if (entity == NULL || entity->model == NULL)
 	{
-		printf("Entity was NULL: No vertices to upload.\n");
+		Log_Printf("Entity was NULL: No vertices to upload.\n");
 		return;
 	}
 	
@@ -964,12 +970,12 @@ void UpLoadEntityToGPU(entity_t* entity)
 
 void RenderFXSprites(void)
 {
-	printf("Not implemented (RenderFXSprites).!\n");
+	Log_Printf("Not implemented (RenderFXSprites).!\n");
 }
 
 void DrawControls(void)
 {
-	printf("Not implemented (DrawControls) .!\n");
+	Log_Printf("Not implemented (DrawControls) .!\n");
 }
 
 
@@ -999,25 +1005,25 @@ void StartCleanFrame(void)
 
 void RenderColorlessSprites(xf_colorless_sprite_t* vertices, ushort numIndices,ushort* indices)
 {
-	printf("Not implemented (RenderColorlessSprites) .!\n");
+	Log_Printf("Not implemented (RenderColorlessSprites) .!\n");
 }
 
 
 
 void FadeScreen(float alpha)
 {
-	printf("Not implemented (FadeScreen) .!\n");
+	Log_Printf("Not implemented (FadeScreen) .!\n");
 }
 
 void SetMaterialTextureBlending(char modulate)
 {
-	printf("Not implemented (SetMaterialTextureBlending) .!\n");
+	Log_Printf("Not implemented (SetMaterialTextureBlending) .!\n");
 	
 }
 
 void SetTransparency(float alpha)
 {
-	printf("Not implemented (SetTransparency) .!\n");
+	Log_Printf("Not implemented (SetTransparency) .!\n");
 	
 }
 

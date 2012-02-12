@@ -43,7 +43,7 @@ void VIS_Update(void)
 	wordVisUpdate = &camera.currentFrame->visUpdate;
 	
 	if (TRACE_VISSET)
-		printf("Updating visibilitySet with t=%d and isKey=%d.\n",camera.currentFrame->time,wordVisUpdate->isKey);
+		Log_Printf("Updating visibilitySet with t=%d and isKey=%d.\n",camera.currentFrame->time,wordVisUpdate->isKey);
 	
 	if (wordVisUpdate->isKey)
 	{
@@ -51,18 +51,18 @@ void VIS_Update(void)
 		{
 			entityVisUpdate  = &wordVisUpdate->visSets[i] ;
 	
-			//printf("	Entity:%d, #indices:%hu\n",entityVisUpdate->entityId, entityVisUpdate->numIndices);
+			//Log_Printf("	Entity:%d, #indices:%hu\n",entityVisUpdate->entityId, entityVisUpdate->numIndices);
 			map[entityVisUpdate->entityId].numIndices = entityVisUpdate->numIndices;
 			memcpy(map[entityVisUpdate->entityId].indices, entityVisUpdate->indices, entityVisUpdate->numIndices * sizeof(ushort));	
 			
 			if (TRACE_VISSET)
 			{
-				printf("	For entity %d (numIndices=%hd): \n",entityVisUpdate->entityId,map[entityVisUpdate->entityId].numIndices);
+				Log_Printf("	For entity %d (numIndices=%hd): \n",entityVisUpdate->entityId,map[entityVisUpdate->entityId].numIndices);
 				for (j=0; j <  map[entityVisUpdate->entityId].numIndices ; j++) 
 				{
-					printf("%hd--",map[entityVisUpdate->entityId].indices[j]);
+					Log_Printf("%hd--",map[entityVisUpdate->entityId].indices[j]);
 				}
-				printf("\n");
+				Log_Printf("\n");
 			}
 			
 		}
@@ -94,7 +94,7 @@ void VIS_Update(void)
 				entity->numIndices -= 3;
 				
 //				if (simulationTime == 5072)
-//					printf("Flipping tailing: @%hu -> @%hu.\n",entity->numIndices,entityVisUpdate->facesToRemove[toRemoveCursor]);
+//					Log_Printf("Flipping tailing: @%hu -> @%hu.\n",entity->numIndices,entityVisUpdate->facesToRemove[toRemoveCursor]);
 			
 				vectorCopy( &(entity->indices[entity->numIndices]) ,  &(entity->indices[entityVisUpdate->facesToRemove[toRemoveCursor]]) );
 				
@@ -113,12 +113,12 @@ void VIS_Update(void)
 			
 			if (TRACE_VISSET)
 			{
-				printf("	For entity %d (numIndices=%hd): \n",entityVisUpdate->entityId,map[entityVisUpdate->entityId].numIndices);
+				Log_Printf("	For entity %d (numIndices=%hd): \n",entityVisUpdate->entityId,map[entityVisUpdate->entityId].numIndices);
 				for (j=0; j <  map[entityVisUpdate->entityId].numIndices ; j++) 
 				{
-					printf("%hd--",map[entityVisUpdate->entityId].indices[j]);
+					Log_Printf("%hd--",map[entityVisUpdate->entityId].indices[j]);
 				}
-				printf("\n");
+				Log_Printf("\n");
 			}
 		}
 	}

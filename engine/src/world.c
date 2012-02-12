@@ -85,7 +85,7 @@ void World_ReadMD5s(matrix_t currentMatrix)
 			
 			if (num_map_entities+1 == MAX_NUM_ENTITIES)
 			{
-				printf("Too many entities in the map.\n");
+				Log_Printf("Too many entities in the map.\n");
 				exit(0);
 			}
 			
@@ -93,7 +93,7 @@ void World_ReadMD5s(matrix_t currentMatrix)
 			
 			if (!ENT_LoadEntity(currentEntity,LE_getCurrentToken(),ENT_PARTIAL_DRAW) )
 			{
-				printf("[World_ReadMD5s] Could not load entity: %s.\n",LE_getCurrentToken());
+				Log_Printf("[World_ReadMD5s] Could not load entity: %s.\n",LE_getCurrentToken());
 			}
 			else
 			{				
@@ -118,14 +118,15 @@ void World_Loadmap(char* mapFileName)
 	matrix_t currentMatrix;
 	
 	mapFile = FS_OpenFile(mapFileName, "rt");
-	
+	FS_UploadToRAM(mapFile);
+
 	if (!mapFile)
 	{
-		printf("Map file '%s' cannot be opened.\n",mapFileName);
+		Log_Printf("Map file '%s' cannot be opened.\n",mapFileName);
 		return;
 	}
 	
-	printf("[World_Loadmap] Found map: '%s'.\n",mapFileName);
+	Log_Printf("[World_Loadmap] Found map: '%s'.\n",mapFileName);
 	
 	LE_pushLexer();
 	LE_init(mapFile);
@@ -137,7 +138,7 @@ void World_Loadmap(char* mapFileName)
 		if (!strcmp(LE_getCurrentToken(), "matrix"))
 		{
 			World_ReadMatrix(currentMatrix);
-			//printf("Read matrix:\n");
+			//Log_Printf("Read matrix:\n");
 			//matrix_print(currentMatrix);
 		}
 		else if (!strcmp(LE_getCurrentToken(), "numBackgroundEntities"))
@@ -152,14 +153,14 @@ void World_Loadmap(char* mapFileName)
 			{
 				World_ReadMD5s(currentMatrix);
 				//ENT_DumpEntityCache();
-				//printf("Loaded MD5:%s.\n",LE_getCurrentToken());
+				//Log_Printf("Loaded MD5:%s.\n",LE_getCurrentToken());
 			}
 		}
 	}
 	
 	LE_popLexer();
 	
-	printf("[World_Loadmap] Loaded map with: %d entities.\n",num_map_entities);
+	Log_Printf("[World_Loadmap] Loaded map with: %d entities.\n",num_map_entities);
 }
 
 
@@ -179,14 +180,17 @@ void World_OpenScene(char* filename)
 	
 	sceneFile = FS_OpenFile(filename, "rt");
 	
+
 	if (!sceneFile)
 	{
-		printf("Could not find scene file: %s.\n",filename);
+		Log_Printf("Could not find scene file: %s.\n",filename);
 		return;
 	}
 	
-	printf("[World_OpenScene] Found scene: '%s'.\n",filename);
+	Log_Printf("[World_OpenScene] Found scene: '%s'.\n",filename);
 	
+    FS_UploadToRAM(sceneFile);
+    
 	LE_pushLexer();
 	LE_init(sceneFile);
 	
@@ -379,7 +383,7 @@ void World_OpenScene(char* filename)
 				
 
 				LE_readToken();
-				//printf("lgiht token=%s\n",LE_getCurrentToken());
+				//Log_Printf("lgiht token=%s\n",LE_getCurrentToken());
 			}
 		}
 		else 
@@ -400,19 +404,19 @@ void World_OpenScene(char* filename)
 				if (!strcmp("fov", LE_getCurrentToken()))
 				{
 					camera.fov = LE_readReal();	
-					//printf("[Camera] fov=%.2f\n",camera.fov);
+					//Log_Printf("[Camera] fov=%.2f\n",camera.fov);
 				}
 				else 
 				if (!strcmp("zNear", LE_getCurrentToken()))
 				{
 					camera.zNear = LE_readReal();	
-					//printf("[Camera] zNear=%.2f\n",camera.zNear);
+					//Log_Printf("[Camera] zNear=%.2f\n",camera.zNear);
 				}
 				else 
 				if (!strcmp("zFar", LE_getCurrentToken()))
 				{
 					camera.zFar = LE_readReal();
-					//printf("[Camera] zFar=%.2f\n",camera.zFar);
+					//Log_Printf("[Camera] zFar=%.2f\n",camera.zFar);
 				}
 				else 
 				if (!strcmp("attachAt", LE_getCurrentToken()))
@@ -583,7 +587,7 @@ void World_OpenScene(char* filename)
 					//titleTexture.path = calloc(strlen(LE_getCurrentToken())+1, sizeof(char));
 					strcpy(titleTexture.path,LE_getCurrentToken());
 					TEX_MakeStaticAvailable(&titleTexture);
-				//	printf("titleTexture.textureId=%d\n",titleTexture.textureId);
+				//	Log_Printf("titleTexture.textureId=%d\n",titleTexture.textureId);
 				}
 				else					
 				if (!strcmp("prolog", LE_getCurrentToken()))

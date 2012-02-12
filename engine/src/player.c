@@ -39,7 +39,8 @@
 #include "renderer.h"
 #include "native_services.h"
 
-unsigned char numPlayerRespawn[] = {6,3,1};
+//WARNING...if THIS IS CHANGED
+unsigned char numPlayerRespawn[] = {PLAYER_NUM_LIVES,3,1};
 
 #define SHOW_POINTER_DURATION 5000
 
@@ -381,7 +382,7 @@ void P_FireBullet(player_t* player,float deltaX, float deltaY)
     bullet->expirationTime = simulationTime + bulletConfig.ttl ;
 	 
     
-  //  printf("newbslot=%u\n",player->nextBulletSlotIndice);
+  // Log_Printf("newbslot=%u\n",player->nextBulletSlotIndice);
 }
 
 void P_FireOneBullet(player_t* player)
@@ -970,7 +971,7 @@ void P_PrepareBulletSprites(void)
 		}
         
         //printf("bulletDiag='%s'",bulletdiagnostic);
-       // printf("0=%d 1=%d\n",player->bullets[0].expirationTime,player->bullets[1].expirationTime);
+       //Log_Printf("0=%d 1=%d\n",player->bullets[0].expirationTime,player->bullets[1].expirationTime);
 	}
 }
 
@@ -1268,17 +1269,17 @@ void P_Die(uchar playerId)
 	event_t* event;
 	event_req_menu_t* eventReqMenu;
 	event_req_scene_t* eventReqScene;
+    
+    
 	// Player collided with the enemy
 	// Spawn explosin, smoke and particules
 	FX_GetExplosion(players[playerId].ss_position,IMPACT_TYPE_YELLOW,1,0);
-	Spawn_EntityParticules(players[playerId].ss_position);
-	FX_GetSmoke(players[playerId].ss_position, 0.3, 0.3);
-	
+    Spawn_EntityParticules(players[playerId].ss_position);
+    FX_GetSmoke(players[playerId].ss_position, 0.3, 0.3);
 	SND_PlaySound(SND_EXPLOSION);
 	
 	players[playerId].respawnCounter--;
 
-	
 	
 	
 	//NET_Update peer that we died
@@ -1292,8 +1293,13 @@ void P_Die(uchar playerId)
 	
 	players[playerId].invulnerableFor = PLAYER_INVUL_TIME_MS;
 	
-	
-	if (players[playerId].respawnCounter >= 0)
+    // Nasty wrap-around bug here. If we allow respawnCounter to reache zero it will grap around to MAX_UCHAR...
+    // This only showed up on android because char are unsigned char....while they were signed char on other
+    // compilers used for macosx, windows and ios.
+    
+    //... or even become the maximun negative value depending if the plaftform treat char as signed or unsigned.
+//	if (players[playerId].respawnCounter >= 0)
+	if (players[playerId].respawnCounter  > 0)
 	{
 		//printf("RESPAWN branch lives=%d\n",players[playerId].lives);
 		players[playerId].invulFlickering = 0;
@@ -1320,7 +1326,7 @@ void P_Die(uchar playerId)
 	}
 	else 
 	{
-		//printf("RIP branch lives=%d\n",players[playerId].lives);
+      	//printf("RIP branch lives=%d\n",players[playerId].lives);
 		// Set player's position out of screen
 		players[playerId].ss_position[X] = 0.5f*(playerId-0.5f)*2.f;
 		players[playerId].ss_position[Y] = -1.4;
@@ -1342,12 +1348,16 @@ void P_Die(uchar playerId)
 			((numPlayers == 2) && (players[0].respawnCounter < 0 && players[1].respawnCounter < 0))
            )
 		{
-			MENU_Set(MENU_GAMEOVER);
+			
+            MENU_Set(MENU_GAMEOVER);
+            
+            
 			Native_UploadScore(players[controlledPlayer].score);
 			
 			players[playerId].invulnerableFor = 500000;
 			
-			//Request scene 0 and menu 0 for within 3 seconds from now
+            
+            //Request scene 0 and menu 0 for within 3 seconds from now
 			event = calloc(1, sizeof(event_t));
 			event->type = EV_REQUEST_MENU;
 			event->time = simulationTime + 5000;
@@ -1363,14 +1373,16 @@ void P_Die(uchar playerId)
 			eventReqScene->sceneId = 0;
 			event->payload = eventReqScene;
 			EV_AddEvent(event);
+             
 			
 			
 		}
-		//printf("players[playerId].autopilot.timeCounter=%d\n",players[playerId].autopilot.timeCounter);
+        
 	}
 	
 	
 	P_UpdateSSBoundaries(playerId);
+    
 }
 
 
