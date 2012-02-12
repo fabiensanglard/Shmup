@@ -16,8 +16,8 @@
 - (void) initEngine{
     
     NSString *myPath = [[NSBundle mainBundle] bundlePath];
-    setenv( "RD", [myPath cString], 1 );
-	// setenv( "RD",".", 1 );
+    //setenv( "RD", [myPath cString], 1 );
+	 setenv( "RD",".", 1 );
     
 	setenv( "WD",".", 1 );
     
