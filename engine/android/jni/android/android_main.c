@@ -204,6 +204,7 @@ void android_main(struct android_app* state) {
 	state->onAppCmd = engine_handle_cmd;
 	state->onInputEvent = engine_handle_input;
 
+	SND_Android_Init(state->activity->assetManager);
 
 
 	LOGE("[FS_AndroidPreInitFileSystem]\n");
