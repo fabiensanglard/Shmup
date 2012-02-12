@@ -45,7 +45,7 @@ SHMUP_ENGINE:= $(subst $(toRemove),$(empty),$(SHMUP_ENGINE))
 LOCAL_SRC_FILES = $(ANDROID_SHMUP) $(SHMUP_ENGINE) 
 
 #Compiler flags !!!
-LOCAL_LDLIBS    := -Wall -Wextra -Wmissing-prototypes -llog -landroid -lEGL -lGLESv1_CM -lGLESv2 -z
+LOCAL_LDLIBS    := -Wall -Wextra -Wmissing-prototypes -llog -landroid -lEGL -lGLESv1_CM -lGLESv2 -z -lOpenSLES
 LOCAL_STATIC_LIBRARIES := libzip libpng android_native_app_glue
 
 #Collect all variables since last CLEAR_VARS and compile the shared .so library

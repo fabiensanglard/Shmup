@@ -1,8 +1,12 @@
+
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
-#include <android/native_activity.h>
-#include "../../src/log.h"
+#include <SLES/OpenSLES_AndroidConfiguration.h>
 
+#include <android/native_activity.h>
+
+#include "../../src/log.h"
+#include <assert.h>
 // music.h placeholders
 /*
 void SND_InitSoundTrack(char* filename,unsigned int startAt){}
@@ -14,25 +18,93 @@ void SND_ResumeSoundTrack(void){}
 
 
 
-SLEngineItf engineEngine;
-SLObjectItf fdPlayerObject = NULL;
-SLObjectItf outputMixObject = NULL;
-SLPlayItf fdPlayerPlay;
-SLSeekItf fdPlayerSeek;
+// engine interfaces
+static SLObjectItf engineObject = NULL;
+static SLEngineItf engineEngine;
+
+// output mix interfaces
+static SLObjectItf outputMixObject = NULL;
+static SLEnvironmentalReverbItf outputMixEnvironmentalReverb = NULL;
+
+// buffer queue player interfaces
+static SLObjectItf bqPlayerObject = NULL;
+static SLPlayItf bqPlayerPlay;
+static SLAndroidSimpleBufferQueueItf bqPlayerBufferQueue;
+static SLEffectSendItf bqPlayerEffectSend;
+
+// aux effect on the output mix, used by the buffer queue player
+static const SLEnvironmentalReverbSettings reverbSettings =
+    SL_I3DL2_ENVIRONMENT_PRESET_STONECORRIDOR;
+
+// file descriptor player interfaces
+static SLObjectItf fdPlayerObject = NULL;
+static SLPlayItf fdPlayerPlay;
+static SLSeekItf fdPlayerSeek;
+
+
+void createSoundEngine()
+{
+    SLresult result;
+
+    // create engine
+    result = slCreateEngine(&engineObject, 0, NULL, 0, NULL, NULL);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // realize the engine
+    result = (*engineObject)->Realize(engineObject, SL_BOOLEAN_FALSE);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // get the engine interface, which is needed in order to create other objects
+    result = (*engineObject)->GetInterface(engineObject, SL_IID_ENGINE, &engineEngine);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // create output mix, with environmental reverb specified as a non-required interface
+    const SLInterfaceID ids[1] = {SL_IID_ENVIRONMENTALREVERB};
+    const SLboolean req[1] = {SL_BOOLEAN_FALSE};
+    result = (*engineEngine)->CreateOutputMix(engineEngine, &outputMixObject, 1, ids, req);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // realize the output mix
+    result = (*outputMixObject)->Realize(outputMixObject, SL_BOOLEAN_FALSE);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // get the environmental reverb interface
+    // this could fail if the environmental reverb effect is not available,
+    // either because the feature is not present, excessive CPU load, or
+    // the required MODIFY_AUDIO_SETTINGS permission was not requested and granted
+    result = (*outputMixObject)->GetInterface(outputMixObject, SL_IID_ENVIRONMENTALREVERB,
+            &outputMixEnvironmentalReverb);
+    if (SL_RESULT_SUCCESS == result) {
+        result = (*outputMixEnvironmentalReverb)->SetEnvironmentalReverbProperties(
+                outputMixEnvironmentalReverb, &reverbSettings);
+    }
+    // ignore unsuccessful result codes for environmental reverb, as it is optional for this example
+}
+
+
 
 static AAssetManager* assetManager;
 void SND_Android_Init(AAssetManager* mgr)
 {
 	assetManager = mgr;
+	createSoundEngine();
 }
 
-void SND_InitSoundTrack( char* str,unsigned int startAt)
+
+
+
+
+void SND_InitSoundTrack(const char* soundTrackPath,unsigned int startAt)
 {
     SLresult result;
 
-    char * filename = str;
+    const char * filename = soundTrackPath;
 
-    Log_Printf("[SND_InitSoundTrack] %s.\n",str);
+    //Check if the sound asset path is given with a leading '/' since this is not what Android asset manager expect we need to remove it.
+    if (filename[0] == '/')
+    	filename++;
+
+    Log_Printf("[SND_InitSoundTrack] %s.\n",filename);
 
 
     // use asset manager to open asset by filename
@@ -53,7 +125,7 @@ void SND_InitSoundTrack( char* str,unsigned int startAt)
     assert(0 <= fd);
     AAsset_close(asset);
 
-    // configure audio source
+    // configure audio source with the file descriptor we just obtained.
     SLDataLocator_AndroidFD loc_fd = {SL_DATALOCATOR_ANDROIDFD, fd, start, length};
     SLDataFormat_MIME format_mime = {SL_DATAFORMAT_MIME, NULL, SL_CONTAINERTYPE_UNSPECIFIED};
     SLDataSource audioSrc = {&loc_fd, &format_mime};
@@ -110,3 +182,41 @@ void SND_StopSoundTrack(void)
 
     }
 }
+
+/*
+ void shutdownAudio()
+{
+    // destroy buffer queue audio player object, and invalidate all associated interfaces
+    if (bqPlayerObject != NULL) {
+        (*bqPlayerObject)->Destroy(bqPlayerObject);
+        bqPlayerObject = NULL;
+        bqPlayerPlay = NULL;
+        bqPlayerBufferQueue = NULL;
+        bqPlayerEffectSend = NULL;
+    }
+
+    // destroy file descriptor audio player object, and invalidate all associated interfaces
+    if (fdPlayerObject != NULL) {
+        (*fdPlayerObject)->Destroy(fdPlayerObject);
+        fdPlayerObject = NULL;
+        fdPlayerPlay = NULL;
+        fdPlayerSeek = NULL;
+    }
+
+    // destroy output mix object, and invalidate all associated interfaces
+    if (outputMixObject != NULL) {
+        (*outputMixObject)->Destroy(outputMixObject);
+        outputMixObject = NULL;
+        outputMixEnvironmentalReverb = NULL;
+    }
+
+    // destroy engine object, and invalidate all associated interfaces
+    if (engineObject != NULL) {
+        (*engineObject)->Destroy(engineObject);
+        engineObject = NULL;
+        engineEngine = NULL;
+    }
+}
+*/
+
+

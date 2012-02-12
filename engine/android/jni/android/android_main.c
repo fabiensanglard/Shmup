@@ -81,6 +81,35 @@ void ListDirectory(AAssetManager*      assetManager, const char* dirName){
 static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
 
 	size_t i;
+
+
+	//int32_t ieType = AInputEvent_getType(event);
+//
+	//Log_Printf("AInputEvent_getType = %d\n",ieType);
+
+
+
+	//This only return either AKEY_STATE_UP, AKEY_STATE_DOWN or AKEY_STATE_VIRTUAL
+
+	int32_t keAction =  AKeyEvent_getAction(event);
+	Log_Printf("Received action 0x%X.\n",keAction);
+
+	int32_t keFlags = AKeyEvent_getFlags(event);
+	if (keFlags & AKEY_EVENT_FLAG_FROM_SYSTEM){
+			Log_Printf("AKEY_EVENT_FLAG_FROM_SYSTEM\n");
+			return 0;
+	}
+
+	size_t action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
+
+	if (action != AMOTION_EVENT_ACTION_UP   &&
+		action != AMOTION_EVENT_ACTION_DOWN &&
+		action != AMOTION_EVENT_ACTION_MOVE
+			){
+		Log_Printf("[engine_handle_input] This action is not covered %d.",action);
+		return 0;
+	}
+
 	int nSourceId = AInputEvent_getSource( event );
 	size_t pointerCount =  AMotionEvent_getPointerCount(event);
 
@@ -88,7 +117,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 	for (i = 0; i < pointerCount; i++){
 
 		size_t pointerId = AMotionEvent_getPointerId(event, i);
-		size_t action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
+
 
 		if (action == AMOTION_EVENT_ACTION_UP){
 			 //printf("[event] AMOTION_EVENT_ACTION_UP");
@@ -262,3 +291,4 @@ void android_main(struct android_app* state) {
 		}
 	 }
 }
+
