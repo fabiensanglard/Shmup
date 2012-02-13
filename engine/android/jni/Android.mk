@@ -3,6 +3,7 @@ LOCAL_PATH := $(call my-dir)
 #We need to save LOCAL_PATH since it is likely to be modified by the sub-modules.
 SAVED_PATH := $(LOCAL_PATH)
 
+#Building openal and libpng static libraries
 include $(call all-subdir-makefiles)
 
 #Clear everything and restore LOCAL_PATH
@@ -30,7 +31,7 @@ ANDROID_SHMUP := $(ANDROID_SHMUP:$(LOCAL_PATH)/%=%)
 #Building list of Shmup engines source files.
 SHMUP_ENGINE := $(wildcard $(LOCAL_PATH)/../../src/*.c) 
 SHMUP_ENGINE := $(SHMUP_ENGINE:$(LOCAL_PATH)/%=%) 
-#Android stores asset in a pak file, I had to re-implement the method so let's not include the classic filesystem.c
+#Android stores asset in a compressed pak file, hence we have a special filesystem and we should NOT use the default filesystem.c
 toRemove:= filesystem.c
 empty:=
 SHMUP_ENGINE:= $(subst $(toRemove),$(empty),$(SHMUP_ENGINE))
@@ -44,9 +45,13 @@ SHMUP_ENGINE:= $(subst $(toRemove),$(empty),$(SHMUP_ENGINE))
 #Combining the two list into one
 LOCAL_SRC_FILES = $(ANDROID_SHMUP) $(SHMUP_ENGINE) 
 
+#Adding the path for the openAL headers
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/openal/Include 
+
 #Compiler flags !!!
-LOCAL_LDLIBS    := -Wall -Wextra -Wmissing-prototypes -llog -landroid -lEGL -lGLESv1_CM -lGLESv2 -z -lOpenSLES
-LOCAL_STATIC_LIBRARIES := libzip libpng android_native_app_glue
+LOCAL_LDLIBS    := -Wall -Wextra -Wmissing-prototypes -llog -landroid -lEGL -lGLESv1_CM -lGLESv2 -z -lOpenSLES 
+LOCAL_STATIC_LIBRARIES := libzip libpng android_native_app_glue 
+LOCAL_SHARED_LIBRARIES := libopenal
 
 #Collect all variables since last CLEAR_VARS and compile the shared .so library
 include $(BUILD_SHARED_LIBRARY)

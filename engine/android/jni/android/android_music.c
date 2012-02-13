@@ -41,6 +41,75 @@ static SLObjectItf fdPlayerObject = NULL;
 static SLPlayItf fdPlayerPlay;
 static SLSeekItf fdPlayerSeek;
 
+// this callback handler is called every time a buffer finishes playing
+// pointer and size of the next player buffer to enqueue, and number of remaining buffers
+static short *nextBuffer;
+static unsigned nextSize;
+static int nextCount;
+void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
+{
+    assert(bq == bqPlayerBufferQueue);
+    assert(NULL == context);
+    // for streaming playback, replace this test by logic to find and fill the next buffer
+    if (--nextCount > 0 && NULL != nextBuffer && 0 != nextSize) {
+        SLresult result;
+        // enqueue another buffer
+        result = (*bqPlayerBufferQueue)->Enqueue(bqPlayerBufferQueue, nextBuffer, nextSize);
+        // the most likely other result is SL_RESULT_BUFFER_INSUFFICIENT,
+        // which for this code example would indicate a programming error
+        assert(SL_RESULT_SUCCESS == result);
+    }
+}
+
+void createBufferQueueAudioPlayer()
+{
+    SLresult result;
+
+    // configure audio source
+    SLDataLocator_AndroidSimpleBufferQueue loc_bufq = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE, 2};
+    SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, 1, SL_SAMPLINGRATE_8,
+        SL_PCMSAMPLEFORMAT_FIXED_16, SL_PCMSAMPLEFORMAT_FIXED_16,
+        SL_SPEAKER_FRONT_CENTER, SL_BYTEORDER_LITTLEENDIAN};
+    SLDataSource audioSrc = {&loc_bufq, &format_pcm};
+
+    // configure audio sink
+    SLDataLocator_OutputMix loc_outmix = {SL_DATALOCATOR_OUTPUTMIX, outputMixObject};
+    SLDataSink audioSnk = {&loc_outmix, NULL};
+
+    // create audio player
+    const SLInterfaceID ids[2] = {SL_IID_BUFFERQUEUE, SL_IID_EFFECTSEND};
+    const SLboolean req[2] = {SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE};
+    result = (*engineEngine)->CreateAudioPlayer(engineEngine, &bqPlayerObject, &audioSrc, &audioSnk,
+            2, ids, req);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // realize the player
+    result = (*bqPlayerObject)->Realize(bqPlayerObject, SL_BOOLEAN_FALSE);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // get the play interface
+    result = (*bqPlayerObject)->GetInterface(bqPlayerObject, SL_IID_PLAY, &bqPlayerPlay);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // get the buffer queue interface
+    result = (*bqPlayerObject)->GetInterface(bqPlayerObject, SL_IID_BUFFERQUEUE,
+            &bqPlayerBufferQueue);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // register callback on the buffer queue
+    result = (*bqPlayerBufferQueue)->RegisterCallback(bqPlayerBufferQueue, bqPlayerCallback, NULL);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // get the effect send interface
+    result = (*bqPlayerObject)->GetInterface(bqPlayerObject, SL_IID_EFFECTSEND,
+            &bqPlayerEffectSend);
+    assert(SL_RESULT_SUCCESS == result);
+
+    // set the player's state to playing
+    result = (*bqPlayerPlay)->SetPlayState(bqPlayerPlay, SL_PLAYSTATE_PLAYING);
+    assert(SL_RESULT_SUCCESS == result);
+
+}
 
 void createSoundEngine()
 {
@@ -88,6 +157,7 @@ void SND_Android_Init(AAssetManager* mgr)
 {
 	assetManager = mgr;
 	createSoundEngine();
+	createBufferQueueAudioPlayer();
 }
 
 
@@ -183,7 +253,7 @@ void SND_StopSoundTrack(void)
     }
 }
 
-/*
+
  void shutdownAudio()
 {
     // destroy buffer queue audio player object, and invalidate all associated interfaces
@@ -217,6 +287,6 @@ void SND_StopSoundTrack(void)
         engineEngine = NULL;
     }
 }
-*/
+
 
 

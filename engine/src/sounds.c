@@ -23,7 +23,6 @@
  *
  */
 
-#if !defined (ANDROID)
 
 #include "sounds.h"
 #include <limits.h>
@@ -33,6 +32,9 @@
 #ifdef WIN32
 	#include "al.h"
 	#include "alc.h"
+#elif defined(SHMUP_TARGET_ANDROID)
+    #include <AL/al.h>
+    #include <AL/alc.h>
 #else
 	#include "OpenAL/al.h"
 	#include "OpenAL/alc.h"
@@ -97,6 +99,8 @@ void SND_Load(char* filename,sound_t* sound)
 #else
 	Log_Printf("Warning, not freeing WAV after openAL upload.\n");
 #endif
+    
+    Log_Printf("Sound %d has been loaded.\n",filename);
 }
 
 
@@ -132,6 +136,8 @@ void SND_GetDeviceList( void )
 		// try out enumeration extension
 		deviceList = (char *)alcGetString( NULL, ALC_DEVICE_SPECIFIER );
 		
+         Log_Printf("OpenAL SND_GetDeviceList.\n",deviceList);
+        
 		for( numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices ) 
 		{
 			sound_devices[ numSoundDevices ] = NULL;
@@ -429,10 +435,4 @@ void SND_FinalizeRecord(void)
 #endif
 }
 
-#else
-int SND_Init(void){return 1;}
-void SND_UpdateRecord(void){}
-void SND_FinalizeRecord(void){}
-void SND_PlaySound(int sndId){}
-#endif
 

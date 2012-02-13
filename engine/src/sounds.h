@@ -28,6 +28,7 @@
 
 #include "wavfile.h"
 #include "globals.h"
+#include "target.h"
 
 //WIN32 debug
 #define USE_OPENAL
@@ -42,10 +43,11 @@
 #define SND_GHOST_LAUNCH 2
 #define SND_ENEMY_SHOT 3
 
-#if !defined (ANDROID)
 
 #ifdef WIN32
 #include "al.h"
+#elif defined (SHMUP_TARGET_ANDROID)
+    #include "AL/al.h"
 #else
 #include "OpenAL/al.h"
 #endif
@@ -68,7 +70,7 @@ typedef struct sound_t
 	int lastTimePlayed ;
 	
 } sound_t;
-#endif
+
 
 int SND_Init(void);
 void SND_UpdateRecord(void);

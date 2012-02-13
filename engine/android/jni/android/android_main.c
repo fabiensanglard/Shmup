@@ -83,20 +83,11 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 	size_t i;
 
 
-	//int32_t ieType = AInputEvent_getType(event);
-//
-	//Log_Printf("AInputEvent_getType = %d\n",ieType);
-
-
-
-	//This only return either AKEY_STATE_UP, AKEY_STATE_DOWN or AKEY_STATE_VIRTUAL
-
-	int32_t keAction =  AKeyEvent_getAction(event);
-	Log_Printf("Received action 0x%X.\n",keAction);
-
+	//System input (sound control, back home, ...) are NOT captured.
 	int32_t keFlags = AKeyEvent_getFlags(event);
 	if (keFlags & AKEY_EVENT_FLAG_FROM_SYSTEM){
 			Log_Printf("AKEY_EVENT_FLAG_FROM_SYSTEM\n");
+
 			return 0;
 	}
 
@@ -160,6 +151,13 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
         return 1;
 }
 
+void AND_SHMUP_Finish(){
+	engine_term_display();
+	shutdownAudio();
+	gameOn = 0;
+	exit(0);
+}
+
 static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
     //struct engine* engine = (struct engine*)app->userData;
 
@@ -181,16 +179,14 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
         case APP_CMD_TERM_WINDOW:
         	printf("APP_CMD_TERM_WINDOW");
             // The window is being hidden or closed, clean it up.
-        	engine_term_display();
-        	gameOn = 0;
+
             break;
         case APP_CMD_GAINED_FOCUS:
         	printf("APP_CMD_GAINED_FOCUS");
             break;
         case APP_CMD_LOST_FOCUS:
         	printf("APP_CMD_LOST_FOCUS");
-        	engine_term_display();
-        	gameOn = 0;
+        	AND_SHMUP_Finish();
             break;
         case APP_CMD_WINDOW_RESIZED:
         	printf("APP_CMD_WINDOW_RESIZED");
