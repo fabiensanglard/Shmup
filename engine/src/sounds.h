@@ -30,12 +30,6 @@
 #include "globals.h"
 #include "target.h"
 
-//WIN32 debug
-#define USE_OPENAL
-#ifdef WIN32
-#undef USE_OPENAL
-#endif
-
 
 
 #define SND_PLASMA		0
@@ -43,15 +37,15 @@
 #define SND_GHOST_LAUNCH 2
 #define SND_ENEMY_SHOT 3
 
+#define NUM_SOURCES 8
 
-#ifdef WIN32
-#include "al.h"
-#elif defined (SHMUP_TARGET_ANDROID)
-    #include "AL/al.h"
-#else
-#include "OpenAL/al.h"
-#endif
 
+#define SND_FORMAT_STEREO16 0
+#define SND_FORMAT_MONO16   1
+#define SND_FORMAT_STEREO8  2
+#define SND_FORMAT_MONO8    3
+    
+    
 typedef struct sound_t
 {
 	//uchar loaded;
@@ -60,12 +54,9 @@ typedef struct sound_t
 	soundInfo_t metaData;
 	uchar* data;
 	
+    int format;
+    
 	int size;
-
-
-	ALenum format;
-	ALuint alBuffer;
-
 
 	int lastTimePlayed ;
 	

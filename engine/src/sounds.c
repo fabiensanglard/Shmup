@@ -28,28 +28,19 @@
 #include <limits.h>
 #include "dEngine.h"
 #include "timer.h"
+#include "sound_backend.h"
 
-#ifdef WIN32
-	#include "al.h"
-	#include "alc.h"
-#elif defined(SHMUP_TARGET_ANDROID)
-    #include <AL/al.h>
-    #include <AL/alc.h>
-#else
-	#include "OpenAL/al.h"
-	#include "OpenAL/alc.h"
-#endif
 
 sound_t sounds[8];
 
-#define NUM_SOURCES 8
-ALuint sources[NUM_SOURCES];
 
-ALCcontext* context;
-ALCdevice* device;
 
-void SND_Load(char* filename,sound_t* sound)
+
+
+void SND_Load(char* filename,int soundID)
 {
+    
+    sound_t* sound = &sounds[soundID] ;
 	
 	if (!LoadWavInfo(filename, &sound->data, &sound->metaData ))
 			Log_Printf("[SND_Load] Unable to load sound: '%s'.\n",filename);
@@ -63,12 +54,12 @@ void SND_Load(char* filename,sound_t* sound)
 	{
 		if( sound->metaData.channels == 2 )
 		{
-			sound->format = AL_FORMAT_STEREO16;
+			sound->format = SND_FORMAT_STEREO16;
 			Log_Printf("format=AL_FORMAT_STEREO16.\n");
 		}
 		else
 		{
-			sound->format = AL_FORMAT_MONO16;
+			sound->format = SND_FORMAT_MONO16;
 			Log_Printf("format=AL_FORMAT_MONO16.\n");			
 		}
 	}
@@ -76,12 +67,12 @@ void SND_Load(char* filename,sound_t* sound)
 	{
 		if( sound->metaData.channels == 2 )
 		{
-			sound->format = AL_FORMAT_STEREO8;
+			sound->format = SND_FORMAT_STEREO8;
 			Log_Printf("format=AL_FORMAT_STEREO8.\n");			
 		}
 		else
 		{
-			sound->format = AL_FORMAT_MONO8;
+			sound->format = SND_FORMAT_MONO8;
 			Log_Printf("format=AL_FORMAT_MONO8.\n");
 		}
 	}
@@ -89,9 +80,8 @@ void SND_Load(char* filename,sound_t* sound)
 	//	Log_Printf("format=UNKNOWN.\n");
 	sound->lastTimePlayed = INT_MIN;
 	
+	SND_BACKEND_Upload(sound,soundID);
 	
-	alGenBuffers(1, &sound->alBuffer);
-	alBufferData(sound->alBuffer, sound->format, sound->data, sound->size, sound->metaData.sample_rate );
 	
 #ifndef GENERATE_VIDEO
 	free(sound->data);
@@ -104,114 +94,27 @@ void SND_Load(char* filename,sound_t* sound)
 }
 
 
-void SND_GenerateChannels(void )
-{
-	int i;
-	
-	for (i=0; i < NUM_SOURCES; i++) 
-	{
-		alGenSources(1, &sources[i]);
-	}
-}
+
 
 void SND_LoadsSoundLibrary(void )
 {
-	SND_Load("data/sfx/plasma.wav", &sounds[SND_PLASMA]);
-	SND_Load("data/sfx/explosionShort.wav", &sounds[SND_EXPLOSION]);
-	SND_Load("data/sfx/ghostLauch.wav", &sounds[SND_GHOST_LAUNCH]);
-	SND_Load("data/sfx/enemy_shot.wav", &sounds[SND_ENEMY_SHOT]);
+	SND_Load("data/sfx/plasma.wav", SND_PLASMA);
+	SND_Load("data/sfx/explosionShort.wav", SND_EXPLOSION);
+	SND_Load("data/sfx/ghostLauch.wav", SND_GHOST_LAUNCH);
+	SND_Load("data/sfx/enemy_shot.wav", SND_ENEMY_SHOT);
 }
 
 
-char *deviceList;
-char *sound_devices[ 12 ];
-ushort numSoundDevices, numDefaultSoundDevice;
-void SND_GetDeviceList( void )
-{
-	char deviceName[ 256 ];
-	
-	//my_strlcpy( deviceName, s_device->string, sizeof( deviceName ) );
-	if( alcIsExtensionPresent( NULL,"ALC_ENUMERATION_EXT") == AL_TRUE ) 
-	{	
-		// try out enumeration extension
-		deviceList = (char *)alcGetString( NULL, ALC_DEVICE_SPECIFIER );
-		
-         Log_Printf("OpenAL SND_GetDeviceList.\n",deviceList);
-        
-		for( numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices ) 
-		{
-			sound_devices[ numSoundDevices ] = NULL;
-		}
-		
-		for( numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices )
-		{
-			sound_devices[ numSoundDevices ] = deviceList;
-			if( strcmp( sound_devices[ numSoundDevices ], deviceName ) == 0 )
-			{
-				numDefaultSoundDevice = numSoundDevices;
-			}
-			deviceList += strlen( deviceList );
-			if( deviceList[ 0 ] == 0 )
-			{
-				if( deviceList[ 1 ] == 0 )
-				{
-					break;
-				} 
-				else 
-				{
-					deviceList += 1;
-				}
-			}
-			
-			
-		} // End for numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices
-	}
-	
-}
+
 
 int SND_Init(void)
 {
 	
 	Log_Printf("[SND_Init] Initalizing sound system...\n");
-	SND_GetDeviceList();
 	
-	device = alcOpenDevice( NULL  );
-	if( device == NULL )
-	{
-		Log_Printf( "Failed to Initialize OpenAL\n" );
-		alcDestroyContext( context );
-		context = 0;
-		return 0;
-	}
-	
-	// Create context(s)
-	context = alcCreateContext( device, NULL );
-	if( context == NULL )
-	{
-		Log_Printf( "Failed to initialize OpenAL\n" );
-		alcDestroyContext( context );
-		context = 0;
-		return 0;
-	}
-	
-	
-	
-	// Set active context
-	alcGetError( device );
-	alcMakeContextCurrent( context );
-	if( alcGetError( device ) != ALC_NO_ERROR )
-	{
-		Log_Printf( "Failed to Make Context Current\n" );
-		alcDestroyContext( context );
-		context = 0;
-		return 0;
-	}
-	
-	
-	Log_Printf( "[OpenAL] Context succesfully initialized.\n" );
 		
 
-	SND_GenerateChannels();
+	SND_BACKEND_Init();
 	
 	SND_LoadsSoundLibrary();
 		
@@ -223,37 +126,14 @@ int SND_Init(void)
 //char currentChannel=0;
 void SND_PlaySound(int sndId)
 {
-	//currentChannel points to the first free channel
-	ALuint source;
-	sound_t* sound;
-	
-	if (!engine.soundEnabled)
-		return;
-	
-	source = sources[sndId];
-	sound = &sounds[sndId];
-	
-	sound->lastTimePlayed = simulationTime;
-	//Uploading sounds to buffer
-	
-	//Trying stop as a bug fix (OpenAL drops sounds after a while for now reason.
-	alSourceStop(source);
-	
-	//Log_Printf("Uploading sound %d, sampleRate=%ld\n",sndId,sound->metaData.sample_rate);
-	alSourcef( source, AL_GAIN, 0.6f );
-	alSourcei( source, AL_BUFFER, sound->alBuffer );
-	alSourcei( source, AL_LOOPING, 0 );
-	alSourcei( source, AL_SOURCE_RELATIVE, AL_FALSE );
-	alSourcePlay( source );
-	
-	//Log_Printf("playing sound %d on source %ud with soundBuffer %ud\n",sndId,source,sound->alBuffer);
-	//if( alcGetError( device ) != ALC_NO_ERROR )
-	//{
-	//	Log_Printf("alcGetError()=%d\n",alcGetError( device ) );
-	//}
-	
-	
-	//currentChannel = (++currentChannel & (NUM_SOURCES-1));
+    sound_t* sound;
+    
+    sound = &sounds[sndId];
+    
+    sound->lastTimePlayed = simulationTime;
+    
+    SND_BACKEND_Play(sndId);
+    
 }
 
 
