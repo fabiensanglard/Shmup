@@ -215,26 +215,31 @@ typedef struct CallbackContext_s {
 
 CallbackContext_t openESContextes[NUM_SOURCES+1];
 
-#define AUDIO_DATA_BUFFER_SIZE (4096*2)
+#define AUDIO_DATA_BUFFER_SIZE (1024*20)
 
-void BufferQueueCallback(SLBufferQueueItf queueItf,SLuint32 eventFlags,const void * pBuffer,SLuint32 bufferSize,SLuint32 dataUsed,void *pContext)
+//void BufferQueueCallback(SLBufferQueueItf queueItf,SLuint32 eventFlags,const void * pBuffer,SLuint32 bufferSize,SLuint32 dataUsed,void *pContext)
+void BufferQueueCallback(SLAndroidSimpleBufferQueueItf queueItf, void *pContext)
 {
+	//We are never streaming, the buffer passed contains the full sound...
+	return;
+	/*
    SLresult res;
    CallbackContext_t *pCntxt = pContext;
 
-   Log_Printf("[BufferQueueCallback] bufferSize=%u\n",bufferSize);
-   Log_Printf("[BufferQueueCallback] dataUsed=%u\n",dataUsed);
+
    Log_Printf("[BufferQueueCallback] totalsize of sound=%u\n",pCntxt->size);
    Log_Printf("[BufferQueueCallback] base of sound=0x%X\n",pCntxt->pDataBase);
    Log_Printf("[BufferQueueCallback] ptr  of sound=0x%X\n",pCntxt->pData);
    Log_Printf("[BufferQueueCallback] remaining =%d\n",(pCntxt->pDataBase + pCntxt->size) - pCntxt->pData);
 
    int byteRead ;
-   if ((pCntxt->pDataBase + pCntxt->size) - pCntxt->pData < AUDIO_DATA_BUFFER_SIZE){
+   int bytesLeftInBuffer = (pCntxt->pDataBase + pCntxt->size) - pCntxt->pData;
+
+   if (bytesLeftInBuffer > AUDIO_DATA_BUFFER_SIZE){
 	   byteRead = AUDIO_DATA_BUFFER_SIZE;
    }
    else{
-	   byteRead = (pCntxt->pDataBase + pCntxt->size) - pCntxt->pData ;
+	   byteRead = bytesLeftInBuffer ;
 	   if (byteRead <=0){ //Nothing valid to enqueue
 		   Log_Printf("[BufferQueueCallback] Nothing to enqueue.\n");
 		   pCntxt->pData = pCntxt->pDataBase;
@@ -247,14 +252,10 @@ void BufferQueueCallback(SLBufferQueueItf queueItf,SLuint32 eventFlags,const voi
    res = (*queueItf)->Enqueue(queueItf, pCntxt->pData, byteRead);
    assert(SL_RESULT_SUCCESS == res);
 
-   /* Increase data pointer by appropriate size */
-
-   pCntxt->pData += byteRead;
-
-
-
-
-
+   // Increase data pointer by appropriate size
+   if (SL_RESULT_SUCCESS == res)
+	   pCntxt->pData += byteRead;
+*/
 
 }
 
@@ -268,20 +269,14 @@ void SND_BACKEND_Upload(sound_t* sound, int soundID){
 
 
 	//Create player and its associated dataSource.
-	SLDataLocator_BufferQueue pLocator;
+	SLDataLocator_AndroidSimpleBufferQueue pLocator = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE, 2};
 
-	pLocator.locatorType = SL_DATALOCATOR_BUFFERQUEUE;
-	pLocator.numBuffers = 5;
-
-	Log_Printf("[SND_BACKEND_Upload] pLocator size=%d\n",sound->size);
+	Log_Printf("[SND_BACKEND_Upload] soundID=%d\n",soundID);
 
 	SLDataFormat_PCM pFormat;
 	pFormat.formatType = SL_DATAFORMAT_PCM;
 	pFormat.numChannels = 1;
-
-
 	pFormat.samplesPerSec = sound->metaData.sample_rate * 1000;
-
 	pFormat.bitsPerSample = sound->metaData.sample_size*8;
 	pFormat.containerSize = sound->metaData.sample_size*8; // This is probably used for the stride.
 	pFormat.channelMask = 0;//SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT;
@@ -307,9 +302,9 @@ void SND_BACKEND_Upload(sound_t* sound, int soundID){
 
 
 	//Add the buffer queue stuff
-	CallbackContext_t* context = &openESContextes[soundID-1];
+	CallbackContext_t* context = &openESContextes[soundID];
 	context->size = sound->size;
-	context->pDataBase = context->pData = wavSounds[soundID-1];
+	context->pDataBase = context->pData = wavSounds[soundID];
 
 	Log_Printf("[SND_BACKEND_Upload] totalsize of sound=%u\n",context->size);
 	Log_Printf("[SND_BACKEND_Upload] base of sound=0x%X\n",context->pDataBase);
@@ -328,8 +323,8 @@ void SND_BACKEND_Upload(sound_t* sound, int soundID){
 	assert(SL_RESULT_SUCCESS == result);
 
 
-	result = (*bufferQueueItf)->RegisterCallback(bufferQueueItf, (void*)BufferQueueCallback, context);
-	assert(SL_RESULT_SUCCESS == result);
+//	result = (*bufferQueueItf)->RegisterCallback(bufferQueueItf, (void*)BufferQueueCallback, context);
+//	assert(SL_RESULT_SUCCESS == result);
 
 
 }
@@ -337,7 +332,7 @@ void SND_BACKEND_Upload(sound_t* sound, int soundID){
 void SND_BACKEND_Play(int soundID){
 
 
-	Log_Printf("[SND_BACKEND_Play].\n");
+	//Log_Printf("[SND_BACKEND_Play] %d.\n",soundID);
 
 		CallbackContext_t* context = &openESContextes[soundID];
 
@@ -366,21 +361,35 @@ void SND_BACKEND_Play(int soundID){
 		result = (*playerInterface)->SetPlayState(playerInterface,SL_PLAYSTATE_STOPPED);
 		assert(SL_RESULT_SUCCESS == result);
 
-		//We need to reset the context pointer as well
-		context->pData = context->pDataBase;
 
 
-		//Enqueue a buffer right away...
+
+		// Enqueue a buffer right away since it seems that the callback is only called when a buffer finish playing.
+		// we need a first one to init the pumping
+
 		SLBufferQueueItf bufferQueueItf;
 		result = (*player)->GetInterface(player, SL_IID_BUFFERQUEUE, (void*)&bufferQueueItf);
 		assert(SL_RESULT_SUCCESS == result);
-		int sizeToEnqueue = AUDIO_DATA_BUFFER_SIZE > context->size ? context->size : AUDIO_DATA_BUFFER_SIZE ;
-		result = (*bufferQueueItf)->Enqueue(bufferQueueItf, context->pData, sizeToEnqueue);
+
+		result = (*bufferQueueItf)->Clear(bufferQueueItf);
 		assert(SL_RESULT_SUCCESS == result);
-		context->pData += sizeToEnqueue;
+
+		//We need to reset the context pointer as well
+	//	context->pData = context->pDataBase;
 
 		result = (*playerInterface)->SetPlayState(playerInterface,SL_PLAYSTATE_PLAYING);
 		assert(SL_RESULT_SUCCESS == result);
+
+		int sizeToEnqueue = context->size;//AUDIO_DATA_BUFFER_SIZE > context->size ? context->size : AUDIO_DATA_BUFFER_SIZE ;
+		//Log_Printf("[SND_BACKEND_Play] Will Queued %d bytes for sound %d.\n",sizeToEnqueue,soundID);
+		result = (*bufferQueueItf)->Enqueue(bufferQueueItf, context->pDataBase, sizeToEnqueue);
+		assert(SL_RESULT_SUCCESS == result);
+		//Log_Printf("[SND_BACKEND_Play] Did Queued %d bytes for sound %d.\n",sizeToEnqueue,soundID);
+
+	//	context->pData += sizeToEnqueue;
+
+
+
 }
 
 //SNAP SL_DATALOCATOR_ADDRESS are not support with a SL_DATALOCATOR_OUTPUTMIX associated to the sink.
