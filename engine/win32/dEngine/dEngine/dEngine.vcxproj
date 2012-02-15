@@ -146,7 +146,6 @@
     <ClInclude Include="..\..\..\src\dEngine.h" />
     <ClInclude Include="..\..\..\src\log.h" />
     <ClInclude Include="..\..\..\src\sound_backend.h" />
-    <ClInclude Include="..\..\..\src\unzip.h" />
     <ClInclude Include="..\..\..\src\vis.h" />
     <ClInclude Include="..\..\..\src\world.h" />
     <ClInclude Include="..\..\..\src\renderer.h" />

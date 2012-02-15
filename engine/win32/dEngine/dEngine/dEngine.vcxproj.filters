@@ -347,9 +347,6 @@
     <ClInclude Include="..\..\..\src\log.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\unzip.h">
-      <Filter>Header Files\utils</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\sound_backend.h">
       <Filter>Header Files\audio</Filter>
     </ClInclude>

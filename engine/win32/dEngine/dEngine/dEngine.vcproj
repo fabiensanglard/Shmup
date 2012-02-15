@@ -329,10 +329,6 @@
 					RelativePath="..\..\..\src\titles.c"
 					>
 				</File>
-				<File
-					RelativePath="..\..\..\src\unzip.c"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="win32"
