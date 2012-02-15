@@ -386,6 +386,10 @@
 				Name="audio"
 				>
 				<File
+					RelativePath="..\..\..\src\sound_openAL.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\sounds.c"
 					>
 				</File>
@@ -607,6 +611,10 @@
 			<Filter
 				Name="audio"
 				>
+				<File
+					RelativePath="..\..\..\src\sound_backend.h"
+					>
+				</File>
 				<File
 					RelativePath="..\..\..\src\sounds.h"
 					>
