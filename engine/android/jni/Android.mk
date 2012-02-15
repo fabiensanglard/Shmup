@@ -35,9 +35,9 @@ SHMUP_ENGINE := $(SHMUP_ENGINE:$(LOCAL_PATH)/%=%)
 toRemove:= filesystem.c
 empty:=
 SHMUP_ENGINE:= $(subst $(toRemove),$(empty),$(SHMUP_ENGINE))
-#We don't need unzip.c on this platform either
-#toRemove:= unzip.c
-#SHMUP_ENGINE:= $(subst $(toRemove),$(empty),$(SHMUP_ENGINE))
+#We don't need sound_openAL.c on since the audio backend is implemented with OpenSL
+toRemove:= sound_openAL.c
+SHMUP_ENGINE:= $(subst $(toRemove),$(empty),$(SHMUP_ENGINE))
 
 # Thumb-2 is floating-point capable and intruction are smaller: No more ARM 
 #LOCAL_ARM_MODE   := arm

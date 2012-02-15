@@ -28,6 +28,17 @@
  *  TODO: Fix the main loop and make it runs at 60Hz
  *  TODO: Add OpenAL support.
  *  TODO: Add music playback support
+ *
+ *  Super crap, the OpenES 1.1 implementation does not support an SL_DATALOCATOR_ADDRESS data locator with an SL_DATALOCATOR_OUTPUTMIX mixer:
+ *  Source data locator 0x2 not supported with SL_DATALOCATOR_OUTPUTMIX sink !!
+ *
+ *  I have to redo the sound system with buffer queue...
+ *
+ *  Enqueue from SLBufferQueueItf is using the 1.0.1 spec. So the Android implementation is neither 1.0.1 nor 1.1, somewhere inbetween and not really there
+ *  either since it doesn't implement any of the profile.......What was the point to adopt a standard ?!?!?
+ *
+ *  OpenSL spec code sample are broken and buggy (stack allocated context ??!!, the context address is not even passed to the callback)
+ *
 */
 #include <stdio.h>
 #include <jni.h>
@@ -153,7 +164,8 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 
 void AND_SHMUP_Finish(){
 	engine_term_display();
-	shutdownAudio();
+	//shutdownAudio();
+	Log_Printf("Warning the audio system is not being shutdown.");
 	gameOn = 0;
 	exit(0);
 }

@@ -90,7 +90,7 @@ void SND_Load(char* filename,int soundID)
 	Log_Printf("Warning, not freeing WAV after openAL upload.\n");
 #endif
     
-    Log_Printf("Sound %d has been loaded.\n",filename);
+    Log_Printf("Sound %s has been loaded (%d bytes).\n",filename,sound->size);
 }
 
 
