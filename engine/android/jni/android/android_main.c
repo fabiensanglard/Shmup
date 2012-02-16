@@ -112,7 +112,27 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 		return 0;
 	}
 
-	int nSourceId = AInputEvent_getSource( event );
+
+	if (action == AMOTION_EVENT_ACTION_UP)
+	{
+		 //printf("[event] AMOTION_EVENT_ACTION_UP");
+		 io_event_s shmupEvent;
+		 shmupEvent.type = IO_EVENT_ENDED;
+		 shmupEvent.position[X] = AMotionEvent_getX( event, 0 ); ;
+		 shmupEvent.position[Y] = AMotionEvent_getY( event, 0 ); ;
+		 IO_PushEvent(&shmupEvent);
+		 return;
+	}
+	else if (action == AMOTION_EVENT_ACTION_DOWN){
+		//printf("[event] AMOTION_EVENT_ACTION_DOWN");
+		io_event_s shmupEvent;
+		shmupEvent.type = IO_EVENT_BEGAN;
+		shmupEvent.position[X] = AMotionEvent_getX( event, 0 ); ;
+		shmupEvent.position[Y] = AMotionEvent_getY( event, 0 ); ;
+		IO_PushEvent(&shmupEvent);
+		return;
+	}
+
 	size_t pointerCount =  AMotionEvent_getPointerCount(event);
 
 
@@ -120,34 +140,15 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 
 		size_t pointerId = AMotionEvent_getPointerId(event, i);
 
+		io_event_s shmupEvent;
+		shmupEvent.type = IO_EVENT_MOVED;
+		shmupEvent.position[X] = AMotionEvent_getX( event, i ); ;
+		shmupEvent.position[Y] = AMotionEvent_getY( event, i ); ;
+		shmupEvent.previousPosition[X] = AMotionEvent_getHistoricalX(event,i,0);
+		shmupEvent.previousPosition[Y] = AMotionEvent_getHistoricalY(event,i,0);
+		Log_Printf("[engine_handle_input] Move %d.\n",i);
+		IO_PushEvent(&shmupEvent);
 
-		if (action == AMOTION_EVENT_ACTION_UP){
-			 //printf("[event] AMOTION_EVENT_ACTION_UP");
-			 io_event_s shmupEvent;
-			 shmupEvent.type = IO_EVENT_ENDED;
-			 shmupEvent.position[X] = AMotionEvent_getX( event, i ); ;
-			 shmupEvent.position[Y] = AMotionEvent_getY( event, i ); ;
-			 IO_PushEvent(&shmupEvent);
-		}
-		else if (action == AMOTION_EVENT_ACTION_DOWN){
-			//printf("[event] AMOTION_EVENT_ACTION_DOWN");
-			io_event_s shmupEvent;
-			shmupEvent.type = IO_EVENT_BEGAN;
-			shmupEvent.position[X] = AMotionEvent_getX( event, i ); ;
-			shmupEvent.position[Y] = AMotionEvent_getY( event, i ); ;
-			IO_PushEvent(&shmupEvent);
-		}
-		else if (action == AMOTION_EVENT_ACTION_MOVE){
-			io_event_s shmupEvent;
-			shmupEvent.type = IO_EVENT_MOVED;
-			shmupEvent.position[X] = AMotionEvent_getX( event, i ); ;
-			shmupEvent.position[Y] = AMotionEvent_getY( event, i ); ;
-			shmupEvent.previousPosition[X] = AMotionEvent_getHistoricalX(event,i,0);
-			shmupEvent.previousPosition[Y] = AMotionEvent_getHistoricalY(event,i,0);
-			IO_PushEvent(&shmupEvent);
-		}
-		else
-			;//printf("[event] UNKNOW ACTION");
 
 	}
 
