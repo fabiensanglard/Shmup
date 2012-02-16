@@ -57,7 +57,7 @@
 #include "../../../src/timer.h"
 
 #include "android_display.h"
-#include "android_filesystem.h"
+//#include "android_filesystem.h"
 
 #define  LOG_TAG    		"net.fabiensanglard.shmup"
 #define  LOGI(...)  		__android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
@@ -144,11 +144,11 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 
 		io_event_s shmupEvent;
 		shmupEvent.type = IO_EVENT_MOVED;
-		shmupEvent.position[X] = AMotionEvent_getX( event, i ); ;
-		shmupEvent.position[Y] = AMotionEvent_getY( event, i ); ;
+		shmupEvent.position[X] = AMotionEvent_getX( event, i );
+		shmupEvent.position[Y] = AMotionEvent_getY( event, i );
 		shmupEvent.previousPosition[X] = AMotionEvent_getHistoricalX(event,i,0);
 		shmupEvent.previousPosition[Y] = AMotionEvent_getHistoricalY(event,i,0);
-		Log_Printf("[engine_handle_input] Move %d.\n",i);
+		Log_Printf("[engine_handle_input] Pos [%.0f %.0f] prev [%.0f %.0f]\n",shmupEvent.position[X],shmupEvent.position[Y],shmupEvent.previousPosition[X],shmupEvent.previousPosition[Y]);
 		IO_PushEvent(&shmupEvent);
 
 
@@ -247,6 +247,8 @@ void android_main(struct android_app* state) {
 	//Init everything except for the rendering system.
 
 	renderer.materialQuality = MATERIAL_QUALITY_HIGH;
+	renderer.statsEnabled = 0;
+
 	dEngine_Init();
 
 	gameOn = 1;
@@ -279,7 +281,7 @@ void android_main(struct android_app* state) {
 
 		useconds_t timeToSleep = timediff - (frameEnd-frameStart);
 
-		LOGE("[android_main] tts=%u\n",timeToSleep);
+		//LOGE("[android_main] tts=%u\n",timeToSleep);
 
 		timeToSleep *= 1000;
 

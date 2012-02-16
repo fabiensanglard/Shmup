@@ -20,17 +20,16 @@
     //Distributioin value
     /*
     NSString *myPath = [[NSBundle mainBundle] bundlePath];
-<<<<<<< HEAD
+
     //setenv( "RD", [myPath cString], 1 );
 	 setenv( "RD",".", 1 );
-=======
+
     setenv( "RD", [myPath cString], 1 );
 	*/
     
     // XCode dev value
     setenv( "RD",".", 1 );
-    
->>>>>>> 40fdc450aa1ecf5a854ee02f9b618de54774ad27
+
     
 	setenv( "WD",".", 1 );
     

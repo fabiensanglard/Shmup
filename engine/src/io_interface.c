@@ -129,8 +129,9 @@ void IO_PushEvent(io_event_s* event){
 				{
 					//printf("m\n");
 					touches[BUTTON_MOVE].down = 1;
-					touches[BUTTON_MOVE].dist[X] = (event->position[X] - event->previousPosition[X])*40/(float)320;
-					touches[BUTTON_MOVE].dist[Y] = (event->position[Y] - event->previousPosition[Y])*-40/(float)480;
+                    //Used to be +80 for X and -80 for Y
+					touches[BUTTON_MOVE].dist[X] = (event->position[X] - event->previousPosition[X])*80/(float)320;
+					touches[BUTTON_MOVE].dist[Y] = (event->position[Y] - event->previousPosition[Y])*-80/(float)480;
 					
 				}
 				if (event->type == IO_EVENT_BEGAN)

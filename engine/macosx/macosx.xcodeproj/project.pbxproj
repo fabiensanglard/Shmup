@@ -67,6 +67,7 @@
 		2DB4A9EC14DD40E7002D6FB9 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB4A9EB14DD40E7002D6FB9 /* ApplicationServices.framework */; };
 		2DCD835514DF8C5300963799 /* WindowsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD835414DF8C5300963799 /* WindowsDelegate.m */; };
 		2DCD835714DF9F9200963799 /* blackWhiteIconiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD835614DF9F9200963799 /* blackWhiteIconiPad.png */; };
+		2DEE50E014EC8D8E0049D078 /* sound_openAL.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DEE50DF14EC8D8E0049D078 /* sound_openAL.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +197,8 @@
 		2DCD835314DF8C5300963799 /* WindowsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowsDelegate.h; sourceTree = "<group>"; };
 		2DCD835414DF8C5300963799 /* WindowsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowsDelegate.m; sourceTree = "<group>"; };
 		2DCD835614DF9F9200963799 /* blackWhiteIconiPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackWhiteIconiPad.png; path = ../blackWhiteIconiPad.png; sourceTree = "<group>"; };
+		2DEE50DE14EC8D8E0049D078 /* sound_backend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sound_backend.h; path = ../src/sound_backend.h; sourceTree = "<group>"; };
+		2DEE50DF14EC8D8E0049D078 /* sound_openAL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sound_openAL.c; path = ../src/sound_openAL.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +293,8 @@
 		2D000D0414D8C1530021DC8D /* engine */ = {
 			isa = PBXGroup;
 			children = (
+				2DEE50DE14EC8D8E0049D078 /* sound_backend.h */,
+				2DEE50DF14EC8D8E0049D078 /* sound_openAL.c */,
 				2D000D5814D8C1610021DC8D /* camera.c */,
 				2D000D5714D8C1610021DC8D /* camera.h */,
 				2D000D5614D8C1610021DC8D /* collisions.c */,
@@ -524,6 +529,7 @@
 				2DCD835514DF8C5300963799 /* WindowsDelegate.m in Sources */,
 				2D0A69EF14E4919500186D47 /* log.c in Sources */,
 				2D0A69F014E4919500186D47 /* unzip.c in Sources */,
+				2DEE50E014EC8D8E0049D078 /* sound_openAL.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
