@@ -119,28 +119,31 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 
 	size_t action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
 
-	//System input (sound control, back home, ...) are NOT captured.
+	//System input (sound control, back home, ...).
 	int32_t keFlags = AKeyEvent_getFlags(event);
 	if (keFlags & AKEY_EVENT_FLAG_FROM_SYSTEM){
 			Log_Printf("AKEY_EVENT_FLAG_FROM_SYSTEM\n");
-			int32_t keyCode = AKeyEvent_getKeyCode(event);
 
+
+			int32_t keyCode = AKeyEvent_getKeyCode(event);
+			/* The only system input we are interested in is the BACK button:
+			 * - If we are in the action phase it will bring us back to the main
+			 * menu.
+			 * - If we are in the menu, we exit the application
+			 */
 			if (keyCode == AKEYCODE_BACK && action == AMOTION_EVENT_ACTION_UP)
 			{
 				Log_Printf("engine_handle_input keyCode=%d\n",keyCode);
 				if (engine.sceneId == 0){
-					Log_Printf("Menu is 0, exiting\n");
 					AND_SHMUP_Finish();
 					return 1;
 				}
-				else
-				{
-					if (engine.requiredSceneId != 0 && engine.sceneId != 0){
-							MENU_Set(MENU_HOME);
-							engine.requiredSceneId=0;
-							return 1;
-						}
+				else if (engine.requiredSceneId != 0 && engine.sceneId != 0){
+					MENU_Set(MENU_HOME);
+					engine.requiredSceneId=0;
+					return 1;
 				}
+
 			}
 			return 0;
 	}
@@ -151,7 +154,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 		action != AMOTION_EVENT_ACTION_DOWN &&
 		action != AMOTION_EVENT_ACTION_MOVE
 			){
-		Log_Printf("[engine_handle_input] This action is not covered %d.",action);
+		Log_Printf("[engine_handle_input] This action is not recognized (%d).",action);
 		return 0;
 	}
 
