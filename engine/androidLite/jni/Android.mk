@@ -12,17 +12,17 @@ LOCAL_PATH := $(SAVED_PATH)
 
 
 # Define ANDROID among other things. This is mandatory so Shmup engine can compile properly.
-LOCAL_CFLAGS += -DANDROID -DNATIVE_ACTIVITY -DANDROID_LOG_TAG='"net.fabiensanglard.shmup"'
+LOCAL_CFLAGS += -DANDROID -DNATIVE_ACTIVITY -DANDROID_LOG_TAG='"net.fabiensanglard.shmupLite"'
 
 #Set the name of the libX.so (libshmup.so)
-LOCAL_MODULE    := shmup
+LOCAL_MODULE    := shmupLite
 
 
 
 
 
 #Building list of files specific to Android
-ANDROID_SHMUP := $(wildcard $(LOCAL_PATH)/android/*.c) 
+ANDROID_SHMUP := $(wildcard $(LOCAL_PATH)/../../android/jni/android/*.c) 
 ANDROID_SHMUP := $(ANDROID_SHMUP:$(LOCAL_PATH)/%=%) 
 
 

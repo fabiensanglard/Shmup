@@ -65,9 +65,15 @@
 #include "../../../src/timer.h"
 
 #include "android_display.h"
-//#include "android_filesystem.h"
+#include "android_filesystem.h"
 
-#define  LOG_TAG    		"net.fabiensanglard.shmup"
+// ANDROID_LOG_TAG must be defined via a compiler flag in Android.mk. This is done so
+// Shmup and ShmupLite can use the same codebase.
+#ifndef ANDROID_LOG_TAG
+	#define ANDROID_LOG_TAG "ANDROID_LOG_TAG was undefined."
+#endif
+
+#define  LOG_TAG    		ANDROID_LOG_TAG
 #define  LOGI(...)  		__android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #define  LOGW(...)  		__android_log_print(ANDROID_LOG_WARN,LOG_TAG,__VA_ARGS__)
 #define  LOGE(...)  		__android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
@@ -158,7 +164,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 		 shmupEvent.position[X] = AMotionEvent_getX( event, 0 ); ;
 		 shmupEvent.position[Y] = AMotionEvent_getY( event, 0 ); ;
 		 IO_PushEvent(&shmupEvent);
-		 return;
+		 return 1;
 	}
 	else if (action == AMOTION_EVENT_ACTION_DOWN){
 		//printf("[event] AMOTION_EVENT_ACTION_DOWN");
@@ -167,12 +173,11 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 		shmupEvent.position[X] = AMotionEvent_getX( event, 0 ); ;
 		shmupEvent.position[Y] = AMotionEvent_getY( event, 0 ); ;
 		IO_PushEvent(&shmupEvent);
-		return;
+		return 1;
 	}
 
+
 	size_t pointerCount =  AMotionEvent_getPointerCount(event);
-
-
 	for (i = 0; i < pointerCount; i++){
 
 		size_t pointerId = AMotionEvent_getPointerId(event, i);
@@ -185,18 +190,8 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 		shmupEvent.previousPosition[Y] = AMotionEvent_getHistoricalY(event,i,0);
 	//	Log_Printf("[engine_handle_input] Pos [%.0f %.0f] prev [%.0f %.0f]\n",shmupEvent.position[X],shmupEvent.position[Y],shmupEvent.previousPosition[X],shmupEvent.previousPosition[Y]);
 		IO_PushEvent(&shmupEvent);
-
-
 	}
-/*
-	if (pointerCount == 5)
-	{
-		if (engine.requiredSceneId != 0 && engine.sceneId != 0){
-			MENU_Set(MENU_HOME);
-			engine.requiredSceneId=0;
-		}
-	}
-*/
+
         return 1;
 }
 
