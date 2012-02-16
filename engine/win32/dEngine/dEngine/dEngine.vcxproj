@@ -99,6 +99,7 @@
     <ClCompile Include="..\..\..\src\event.c" />
     <ClCompile Include="..\..\..\src\log.c" />
     <ClCompile Include="..\..\..\src\math.c" />
+    <ClCompile Include="..\..\..\src\sound_openAL.c" />
     <ClCompile Include="..\..\..\src\unzip.c" />
     <ClCompile Include="..\..\..\src\vis.c" />
     <ClCompile Include="..\..\..\src\world.c" />
@@ -144,7 +145,7 @@
     <ClInclude Include="..\..\..\src\commands.h" />
     <ClInclude Include="..\..\..\src\dEngine.h" />
     <ClInclude Include="..\..\..\src\log.h" />
-    <ClInclude Include="..\..\..\src\unzip.h" />
+    <ClInclude Include="..\..\..\src\sound_backend.h" />
     <ClInclude Include="..\..\..\src\vis.h" />
     <ClInclude Include="..\..\..\src\world.h" />
     <ClInclude Include="..\..\..\src\renderer.h" />

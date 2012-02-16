@@ -207,6 +207,9 @@
     <ClCompile Include="..\..\..\src\unzip.c">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\sound_openAL.c">
+      <Filter>Source Files\audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\camera.h">
@@ -344,8 +347,8 @@
     <ClInclude Include="..\..\..\src\log.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\unzip.h">
-      <Filter>Header Files\utils</Filter>
+    <ClInclude Include="..\..\..\src\sound_backend.h">
+      <Filter>Header Files\audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

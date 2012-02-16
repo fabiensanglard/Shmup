@@ -163,14 +163,14 @@ void SND_BACKEND_Play(int sndId){
     
     //currentChannel points to the first free channel
 	ALuint source;
-	
+	ALint alBuffer ;
 	
 	if (!engine.soundEnabled)
 		return;
 	
 	source = sources[sndId];
     
-    ALint alBuffer = alMetadatas[sndId].alBuffer;
+    alBuffer = alMetadatas[sndId].alBuffer;
 
 	
 	

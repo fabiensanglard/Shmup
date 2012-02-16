@@ -54,10 +54,12 @@
 #include "../../../src/dEngine.h"
 #include "../../../src/io_interface.h"
 #include "../../../src/menu.h"
+#include "../../../src/timer.h"
 
 #include "android_display.h"
+#include "android_filesystem.h"
 
-#define  LOG_TAG    		"net.fabiensanglard.native"
+#define  LOG_TAG    		"net.fabiensanglard.shmup"
 #define  LOGI(...)  		__android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #define  LOGW(...)  		__android_log_print(ANDROID_LOG_WARN,LOG_TAG,__VA_ARGS__)
 #define  LOGE(...)  		__android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
@@ -218,17 +220,8 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
 }
 
 
-void FS_AndroidPreInitFileSystem(struct android_app* application);
 
 
-int32_t getTickCount() {
-	struct timespec now;
-	clock_gettime(CLOCK_MONOTONIC, &now);
-	return now.tv_sec*1000000000LL + now.tv_nsec;
-}
-
-#define FRAMES_PER_SECOND 60
-#define  SKIP_TICKS (1000 / FRAMES_PER_SECOND)
 
 /**
  * This is the main entry point of a native application that is using
@@ -258,8 +251,6 @@ void android_main(struct android_app* state) {
 
 	gameOn = 1;
 
-	int32_t next_game_tick = getTickCount();
-	int sleep_time = 0;
 
 	int ident;
 	int events;
@@ -282,14 +273,21 @@ void android_main(struct android_app* state) {
 
 		}
 
-
+		int frameStart = E_Sys_Milliseconds();
 		engine_draw_frame();
+		int frameEnd = E_Sys_Milliseconds();
 
-		next_game_tick += SKIP_TICKS;
-		sleep_time = next_game_tick - getTickCount();
-		if( sleep_time >= 0 ) {
+		useconds_t timeToSleep = timediff - (frameEnd-frameStart);
+
+		LOGE("[android_main] tts=%u\n",timeToSleep);
+
+		timeToSleep *= 1000;
+
+
+
+		if( timeToSleep > 0 ) {
 			//printf("Sleeping for %d.\n",sleep_time);
-			// usleep( sleep_time );
+			usleep( timeToSleep );
 		}
 
 		// Check if we are exiting.
