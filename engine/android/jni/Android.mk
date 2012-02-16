@@ -45,9 +45,6 @@ SHMUP_ENGINE:= $(subst $(toRemove),$(empty),$(SHMUP_ENGINE))
 #Combining the two list into one
 LOCAL_SRC_FILES = $(ANDROID_SHMUP) $(SHMUP_ENGINE) 
 
-#Adding the path for the openAL headers
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/openal/Include 
-
 #Compiler flags !!!
 LOCAL_LDLIBS    := -Wall -Wextra -Wmissing-prototypes -llog -landroid -lEGL -lGLESv1_CM -lGLESv2 -z -lOpenSLES 
 LOCAL_STATIC_LIBRARIES := libzip libpng android_native_app_glue 

@@ -108,10 +108,6 @@ void IO_PushEvent(io_event_s* event){
 			event->position[X] = ( event->position[X]- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
 			event->position[Y] = ( event->position[Y]- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
 			
-			event->previousPosition[X] = ( event->previousPosition[X]- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
-			event->previousPosition[Y] = ( event->previousPosition[Y]- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
-			
-			
 			
 			
 			
@@ -127,6 +123,11 @@ void IO_PushEvent(io_event_s* event){
 			
 				if (event->type == IO_EVENT_MOVED) 
 				{
+                    
+                    event->previousPosition[X] = ( event->previousPosition[X]- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
+                    event->previousPosition[Y] = ( event->previousPosition[Y]- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
+                    
+                    
 					//printf("m\n");
 					touches[BUTTON_MOVE].down = 1;
                     //Used to be +80 for X and -80 for Y

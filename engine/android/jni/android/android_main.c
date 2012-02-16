@@ -25,9 +25,9 @@
  *  ...but it was a real problem on Android (crashing the game).
  *
  *
- *  TODO: Fix the main loop and make it runs at 60Hz
- *  TODO: Add OpenAL support.
- *  TODO: Add music playback support
+ *  TODO: X Fix the main loop and make it runs at 60Hz
+ *  TODO: - Add OpenAL support.
+ *  TODO: X Add music playback support
  *
  *  Super crap, the OpenES 1.1 implementation does not support an SL_DATALOCATOR_ADDRESS data locator with an SL_DATALOCATOR_OUTPUTMIX mixer:
  *  Source data locator 0x2 not supported with SL_DATALOCATOR_OUTPUTMIX sink !!
@@ -39,6 +39,14 @@
  *
  *  OpenSL spec code sample are broken and buggy (stack allocated context ??!!, the context address is not even passed to the callback)
  *
+ *  TODO: X Build sound system with OpenSL EL
+ *  TODO: X Change package to have net.fabiensanglard.shmup.
+ *  TODO:   Fix inputs, the ship is not moving fast enough on Android
+ *  TODO:   On Android, add a link to the full version.
+ *  TODO:   Fix bug when demo is requested and it starts a new game.
+ *  TODO:   Fix score bug.
+ *  TODO:   Increase scores.
+ *  TODO: X Add back to menu functionality.
 */
 #include <stdio.h>
 #include <jni.h>
@@ -66,6 +74,14 @@
 #define printf(fmt,args...) __android_log_print(ANDROID_LOG_INFO  ,LOG_TAG, fmt, ##args)
 
 int gameOn = 0;
+void AND_SHMUP_Finish(){
+	engine_term_display();
+	//shutdownAudio();
+	Log_Printf("Warning the audio system is not being shutdown.");
+	gameOn = 0;
+	exit(0);
+}
+
 
 #include "android/asset_manager.h"
 #include "android/native_activity.h"
@@ -95,16 +111,35 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 
 	size_t i;
 
+	size_t action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
 
 	//System input (sound control, back home, ...) are NOT captured.
 	int32_t keFlags = AKeyEvent_getFlags(event);
 	if (keFlags & AKEY_EVENT_FLAG_FROM_SYSTEM){
 			Log_Printf("AKEY_EVENT_FLAG_FROM_SYSTEM\n");
+			int32_t keyCode = AKeyEvent_getKeyCode(event);
 
+			if (keyCode == AKEYCODE_BACK && action == AMOTION_EVENT_ACTION_UP)
+			{
+				Log_Printf("engine_handle_input keyCode=%d\n",keyCode);
+				if (engine.sceneId == 0){
+					Log_Printf("Menu is 0, exiting\n");
+					AND_SHMUP_Finish();
+					return 1;
+				}
+				else
+				{
+					if (engine.requiredSceneId != 0 && engine.sceneId != 0){
+							MENU_Set(MENU_HOME);
+							engine.requiredSceneId=0;
+							return 1;
+						}
+				}
+			}
 			return 0;
 	}
 
-	size_t action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
+
 
 	if (action != AMOTION_EVENT_ACTION_UP   &&
 		action != AMOTION_EVENT_ACTION_DOWN &&
@@ -148,12 +183,12 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 		shmupEvent.position[Y] = AMotionEvent_getY( event, i );
 		shmupEvent.previousPosition[X] = AMotionEvent_getHistoricalX(event,i,0);
 		shmupEvent.previousPosition[Y] = AMotionEvent_getHistoricalY(event,i,0);
-		Log_Printf("[engine_handle_input] Pos [%.0f %.0f] prev [%.0f %.0f]\n",shmupEvent.position[X],shmupEvent.position[Y],shmupEvent.previousPosition[X],shmupEvent.previousPosition[Y]);
+	//	Log_Printf("[engine_handle_input] Pos [%.0f %.0f] prev [%.0f %.0f]\n",shmupEvent.position[X],shmupEvent.position[Y],shmupEvent.previousPosition[X],shmupEvent.previousPosition[Y]);
 		IO_PushEvent(&shmupEvent);
 
 
 	}
-
+/*
 	if (pointerCount == 5)
 	{
 		if (engine.requiredSceneId != 0 && engine.sceneId != 0){
@@ -161,17 +196,11 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 			engine.requiredSceneId=0;
 		}
 	}
-
+*/
         return 1;
 }
 
-void AND_SHMUP_Finish(){
-	engine_term_display();
-	//shutdownAudio();
-	Log_Printf("Warning the audio system is not being shutdown.");
-	gameOn = 0;
-	exit(0);
-}
+
 
 static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
     //struct engine* engine = (struct engine*)app->userData;
@@ -278,6 +307,7 @@ void android_main(struct android_app* state) {
 		int frameStart = E_Sys_Milliseconds();
 		engine_draw_frame();
 		int frameEnd = E_Sys_Milliseconds();
+		//LOGE("[android_main] FRAME\n");
 
 		useconds_t timeToSleep = timediff - (frameEnd-frameStart);
 
