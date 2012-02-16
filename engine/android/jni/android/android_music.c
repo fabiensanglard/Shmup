@@ -1,3 +1,77 @@
+/*
+ OpenSL available on 2.3.3
+
+Android  "API Levels" :
+=======================
+android-3      -> Official Android 1.5   system images
+android-4      -> Official Android 1.6   system images
+android-5      -> Official Android 2.0   system images
+android-6      -> Official Android 2.0.1 system images
+android-7      -> Official Android 2.1   system images
+android-8      -> Official Android 2.2   system images
+android-9      -> Official Android 2.3   system images
+android-10     -> Official Android 2.3.3 system images
+android-11     -> Official Android 3.0   system images
+android-12     -> Official Android 3.1   system images
+android-13     -> Official Android 3.2   system images
+android-14     -> Official Android 4.0   system images
+android-15     -> Official Android 4.0.3 system images
+
+NDK Compatibility :
+===================
+
+android-3:
+    - C library: (<stdlib.h>, <stdio.h>, etc...)
+    - <math.h>
+    - Minimal C++: (<cstddef>,<new>,<utility>,<stl_pair.h>)
+    - Android logs: liblog.so
+    - zlib: (<zlib.h> and <zconf.h>)
+    - ld dynamic linker: <dlfcn.h>
+
+android-4:
+    - OpenGL ES 1.0 & OpenGL ES 1.1 (on GPU equipped phones)
+           - <GLES/gl.h>
+           - <GLES/glext.h>
+
+android-5:
+    - OpenGL ES 2.0
+         - <GLES2/gl2.h>
+         - <GLES2/gl2ext.h>
+
+android-8:
+    - jnigraphics lib (Access framebuffer of the phone)
+    -
+
+android-9:
+    - EGL lib (EGL config, eglSwapBuffers)
+         - <EGL/egl.h>
+         - <EGL/eglext.h>
+    - OpenSL ES
+         - <SLES/OpenSLES.h>
+         - <SLES/OpenSLES_Platform.h>
+         - <SLES/OpenSLES_Android.h>
+         - <SLES/OpenSLES_AndroidConfiguration.h>
+
+    - Android native application
+
+
+android-14:
+     - OpenMAX AL (native multimedia) WARNING, this has nothing to do with OpenAL !!!
+         -  <OMXAL/OpenMAXAL.h>
+         -  <OMXAL/OpenMAXAL_Platform.h>
+     - OpenSL ES can now decoded to PCM
+
+
+Based on those, Shmup should target Android API level 9. OpenAL and music playback should be implementabl on top of OpenSL.
+It seems Android-10 is fixing a lot of issues in Android-9, also according to the stats from Google (http://developer.android.com/resources/dashboard/platform-versions.html)
+There is very little to gain to go with 9:
+
+Let's go with Android-10 (2.3.3 )
+
+ADB USB Drivers is an absolute pain on Windows (works out of the box on MacOS X).
+Eclipse C/C++ support is nice.
+*/
+
 
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
