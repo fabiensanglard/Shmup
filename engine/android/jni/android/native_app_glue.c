@@ -147,7 +147,8 @@ static void process_input(struct android_app* app, struct android_poll_source* s
             return;
         }
         int32_t handled = 0;
-        if (app->onInputEvent != NULL) handled = app->onInputEvent(app, event);
+        if (app->onInputEvent != NULL)
+        	handled = app->onInputEvent(app, event);
         AInputQueue_finishEvent(app->inputQueue, event, handled);
     } else {
         LOGW("Failure reading next input event: %s\n", strerror(errno));
@@ -175,8 +176,7 @@ static void* android_app_entry(void* param) {
     android_app->inputPollSource.process = process_input;
 
     ALooper* looper = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
-    ALooper_addFd(looper, android_app->msgread, LOOPER_ID_MAIN, ALOOPER_EVENT_INPUT, NULL,
-            &android_app->cmdPollSource);
+    ALooper_addFd(looper, android_app->msgread, LOOPER_ID_MAIN, ALOOPER_EVENT_INPUT, NULL,&android_app->cmdPollSource);
     android_app->looper = looper;
 
     pthread_mutex_lock(&android_app->mutex);
@@ -194,8 +194,8 @@ static void* android_app_entry(void* param) {
 // Native activity interaction (called from main thread)
 // --------------------------------------------------------------------
 
-static struct android_app* android_app_create(ANativeActivity* activity,
-        void* savedState, size_t savedStateSize) {
+static struct android_app* android_app_create(ANativeActivity* activity, void* savedState, size_t savedStateSize) {
+
     struct android_app* android_app = (struct android_app*)malloc(sizeof(struct android_app));
     memset(android_app, 0, sizeof(struct android_app));
     android_app->activity = activity;

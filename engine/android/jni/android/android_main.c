@@ -47,6 +47,18 @@
  *  TODO:   Fix score bug.
  *  TODO:   Increase scores.
  *  TODO: X Add back to menu functionality.
+ *
+ *
+ *  Testing on Samsung Galaxy Tab. Everything is fine except for the control, moving is almost impossible. Time to dive into ALooper,Input Method Framework (IMF) and native_app_glue.
+ *  It seems the design of Looper is very close to Windows Message Loop (http://msdn.microsoft.com/en-us/library/ms644928%28VS.85%29.aspx):
+ *
+ *  http://webcache.googleusercontent.com/search?q=cache%3aJUl_wh4lTkgJ%3arxwen.blogspot.com/2010/08/looper-and-handler-in-android.html%20complete%20tutorial%20looper%20in%20android&cd=8&hl=en&ct=clnk
+ *
+ *  Fixed issues: Rely on historicalEvent in order to trace move gesture is really really a BAD IDEA. I am tracing movement myself now.
+ *  TODO: X Fix user input (I though I was missing events but actually I was using the wrong API method to trace mouvments.
+ *  TODO:   Lower sound effects or Increase music sound volume
+ *  TODO:   Build Shmup Lite
+ *
 */
 #include <stdio.h>
 #include <jni.h>
@@ -112,8 +124,8 @@ void ListDirectory(AAssetManager*      assetManager, const char* dirName){
 }
 
 
-
-static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
+io_event_s shmupEvent;
+int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
 
 	size_t i;
 
@@ -154,7 +166,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 		action != AMOTION_EVENT_ACTION_DOWN &&
 		action != AMOTION_EVENT_ACTION_MOVE
 			){
-		Log_Printf("[engine_handle_input] This action is not recognized (%d).",action);
+	//	Log_Printf("[engine_handle_input] This action is not recognized (%d).",action);
 		return 0;
 	}
 
@@ -162,38 +174,46 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 	if (action == AMOTION_EVENT_ACTION_UP)
 	{
 		 //printf("[event] AMOTION_EVENT_ACTION_UP");
-		 io_event_s shmupEvent;
+
 		 shmupEvent.type = IO_EVENT_ENDED;
-		 shmupEvent.position[X] = AMotionEvent_getX( event, 0 ); ;
-		 shmupEvent.position[Y] = AMotionEvent_getY( event, 0 ); ;
+		 shmupEvent.position[X] = AMotionEvent_getX( event, 0 );
+		 shmupEvent.position[Y] = AMotionEvent_getY( event, 0 );
+	//	 Log_Printf("[engine_handle_input] UP   Pos [%.0f %.0f] \n",shmupEvent.position[X],shmupEvent.position[Y]);
+
 		 IO_PushEvent(&shmupEvent);
 		 return 1;
 	}
 	else if (action == AMOTION_EVENT_ACTION_DOWN){
 		//printf("[event] AMOTION_EVENT_ACTION_DOWN");
-		io_event_s shmupEvent;
+
 		shmupEvent.type = IO_EVENT_BEGAN;
-		shmupEvent.position[X] = AMotionEvent_getX( event, 0 ); ;
-		shmupEvent.position[Y] = AMotionEvent_getY( event, 0 ); ;
+		shmupEvent.position[X] = AMotionEvent_getX( event, 0 );
+		shmupEvent.position[Y] = AMotionEvent_getY( event, 0 );
+		shmupEvent.previousPosition[X] = shmupEvent.position[X];
+		shmupEvent.previousPosition[Y] = shmupEvent.position[Y];
+	//	Log_Printf("[engine_handle_input] DOWN Pos [%.0f %.0f] \n",shmupEvent.position[X],shmupEvent.position[Y]);
 		IO_PushEvent(&shmupEvent);
 		return 1;
 	}
 
 
-	size_t pointerCount =  AMotionEvent_getPointerCount(event);
-	for (i = 0; i < pointerCount; i++){
+	// We don't care about multi-touch so no need to look at other fingers: Removing this loop
+	// ...we will always look at the pointerId=0 since it is the first finger to have touched the screen.
 
-		size_t pointerId = AMotionEvent_getPointerId(event, i);
+	//size_t pointerCount =  AMotionEvent_getPointerCount(event);
+	//for (i = 0; i < pointerCount; i++){
 
-		io_event_s shmupEvent;
+		//size_t pointerId = AMotionEvent_getPointerId(event, i);
+
+
 		shmupEvent.type = IO_EVENT_MOVED;
-		shmupEvent.position[X] = AMotionEvent_getX( event, i );
-		shmupEvent.position[Y] = AMotionEvent_getY( event, i );
-		shmupEvent.previousPosition[X] = AMotionEvent_getHistoricalX(event,i,0);
-		shmupEvent.previousPosition[Y] = AMotionEvent_getHistoricalY(event,i,0);
-	//	Log_Printf("[engine_handle_input] Pos [%.0f %.0f] prev [%.0f %.0f]\n",shmupEvent.position[X],shmupEvent.position[Y],shmupEvent.previousPosition[X],shmupEvent.previousPosition[Y]);
+		shmupEvent.previousPosition[X] = shmupEvent.position[X] ;
+		shmupEvent.previousPosition[Y] = shmupEvent.position[Y] ;
+		shmupEvent.position[X] = AMotionEvent_getX( event, 0 );
+		shmupEvent.position[Y] = AMotionEvent_getY( event, 0 );
+
 		IO_PushEvent(&shmupEvent);
-	}
+	//}
 
         return 1;
 }
@@ -294,18 +314,24 @@ void android_main(struct android_app* state) {
 		// If not animating, we will block forever waiting for events.
 		// If animating, we loop until all events are read, then continue
 		// to draw the next frame of animation.
-		if ((ident = ALooper_pollAll(0, NULL, &events,(void**)&source)) >= 0)
+		while ((ident = ALooper_pollAll(0, NULL, &events,(void**)&source)) >= 0)
 		{
 			// Process this event.
 			if (source != NULL)
 					source->process(state, source);
 
+			// Check if we are exiting.
+			if (state->destroyRequested != 0) {
+
+				break;
+				gameOn = 0;
+			}
 		}
 
 		int frameStart = E_Sys_Milliseconds();
 		engine_draw_frame();
 		int frameEnd = E_Sys_Milliseconds();
-		//LOGE("[android_main] FRAME\n");
+	//	LOGE("[android_main] FRAME\n");
 
 		useconds_t timeToSleep = timediff - (frameEnd-frameStart);
 
@@ -320,12 +346,7 @@ void android_main(struct android_app* state) {
 			usleep( timeToSleep );
 		}
 
-		// Check if we are exiting.
-		if (state->destroyRequested != 0) {
 
-			break;
-			gameOn = 0;
-		}
 	 }
 }
 
