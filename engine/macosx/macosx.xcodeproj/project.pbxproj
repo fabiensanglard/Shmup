@@ -188,6 +188,7 @@
 		2D0A69EC14E4919400186D47 /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = log.h; path = ../src/log.h; sourceTree = "<group>"; };
 		2D0A69ED14E4919400186D47 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = ../src/unzip.c; sourceTree = "<group>"; };
 		2D0A69EE14E4919500186D47 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = ../src/unzip.h; sourceTree = "<group>"; };
+		2D0A6A0F14EE4A3F00186D47 /* native_URL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = native_URL.h; path = ../src/native_URL.h; sourceTree = "<group>"; };
 		2D3189BC14DDFA8B00A76D89 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		2DB4A9E214DD2E37002D6FB9 /* io_interface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = io_interface.c; path = ../src/io_interface.c; sourceTree = "<group>"; };
 		2DB4A9E314DD2E37002D6FB9 /* io_interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = io_interface.h; path = ../src/io_interface.h; sourceTree = "<group>"; };
@@ -386,6 +387,7 @@
 				2D000D1214D8C1610021DC8D /* wavfile.h */,
 				2D000D1114D8C1610021DC8D /* world.c */,
 				2D000D1014D8C1610021DC8D /* world.h */,
+				2D0A6A0F14EE4A3F00186D47 /* native_URL.h */,
 			);
 			name = engine;
 			sourceTree = "<group>";

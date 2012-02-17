@@ -32,6 +32,7 @@
 #include "netchannel.h"
 #include "event.h"
 #include "native_services.h"
+#include "target.h"
 
 #define HOME_ATLAS "/data/menu/homeAtlas.png"
 
@@ -456,6 +457,12 @@ void Action_ConfigureMultiplayer(void* tag)
 	engine.difficultyLevel = DIFFICULTY_NORMAL;
 }
 
+#include "native_URL.h"
+void Action_GoBuyFullVersion(void* tag)
+{
+    goToURL("http://google.com");
+}
+
 void replayLastGame(void){}
 void doNothing(void){}
 
@@ -767,12 +774,26 @@ void MENU_Init(void)
 	buttonDim[HEIGHT] = 64 * 2;
 	MENU_CreateButton(currentMenu, "Network", 3, Action_ConfigureMultiplayer,NULL, buttonPos, buttonDim);
 	
-	buttonPos[X] = 160 ; 
-	buttonPos[Y] = (-SS_COO_SYST_HEIGHT + 370);
-	buttonDim[WIDTH] = (159 * 2);
-	buttonDim[HEIGHT] = 64 * 2;
 	if (engine.gameCenterPossible)
-		MENU_CreateButton(currentMenu, "GameCenter", 3, Action_PreGoToGameCenter,NULL, buttonPos, buttonDim);
+    {
+        buttonPos[X] = 160 ; 
+        buttonPos[Y] = (-SS_COO_SYST_HEIGHT + 370);
+        buttonDim[WIDTH] = (159 * 2);
+        buttonDim[HEIGHT] = 64 * 2;
+        MENU_CreateButton(currentMenu, "GameCenter", 3, Action_PreGoToGameCenter,NULL, buttonPos, buttonDim);
+    }
+    
+//On Android and limited edition we have a button to help go to the game.    
+#ifdef SHMUP_TARGET_ANDROID    
+    if (engine.licenseType == LICENSE_LIMITED)
+    {
+        buttonPos[X] = 160 ; 
+        buttonPos[Y] = (-SS_COO_SYST_HEIGHT + 370);
+        buttonDim[WIDTH] = (159 * 2);
+        buttonDim[HEIGHT] = 64 * 2;
+        MENU_CreateButton(currentMenu, "Full Version", 3, Action_GoBuyFullVersion,NULL, buttonPos, buttonDim); 
+    }
+#endif		
 	
 	
 	buttonPos[X] = 160 ; 

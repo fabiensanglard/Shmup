@@ -3,7 +3,9 @@ package net.fabiensanglard.shmup;
 import java.io.IOException;
 
 import android.app.NativeActivity;
+import android.content.Intent;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -20,6 +22,11 @@ public class Launcher extends NativeActivity {
 		System.out.println("Post native code call.");
 	}
 
+	public void goToWebsite(String url){
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setData(Uri.parse(url));
+		startActivity(intent);
+	}
 
 }
 

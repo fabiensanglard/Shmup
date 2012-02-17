@@ -20,13 +20,20 @@
  *
  *  A very annoying thing with Eclipse NDK is that we compile with ndk-build which is outside Eclipse. In order to have Eclipse detect
  *  that the .so lib has been recompiled I had to check Preferences -> General -> Workspace - > "refresh using native hooks or polling"
+ *  Even with that it is still not perfect: Eclipse misses the lib recompilation.
  *
  *  Just fixed a bug on Android. It was the consequence of a char wraparound. The wrap around was not an issue on signed char (windowd,ios and macosx).
  *  ...but it was a real problem on Android (crashing the game).
  *
  *
+ *  Labels:
+ *  X Done
+ *    Pending
+ *  / Will not fix
+ *
+ *
  *  TODO: X Fix the main loop and make it runs at 60Hz
- *  TODO: - Add OpenAL support.
+ *  TODO: / Add OpenAL support.
  *  TODO: X Add music playback support
  *
  *  Super crap, the OpenES 1.1 implementation does not support an SL_DATALOCATOR_ADDRESS data locator with an SL_DATALOCATOR_OUTPUTMIX mixer:
@@ -75,6 +82,7 @@
 #include "../../../src/io_interface.h"
 #include "../../../src/menu.h"
 #include "../../../src/timer.h"
+#include "../../../src/native_URL.h"
 
 #include "android_display.h"
 #include "android_filesystem.h"
@@ -102,7 +110,7 @@ void AND_SHMUP_Finish(){
 
 
 #include "android/asset_manager.h"
-#include "android/native_activity.h"
+
 void ListDirectory(AAssetManager*      assetManager, const char* dirName){
 	int fileCount=0;
 	//Make sure the directory where we will be writing (logs, replays) exists.
@@ -266,7 +274,12 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
     }
 }
 
-
+JNIEnv* env = NULL;
+jobject*  activityObject;
+void registerEnvironmentAndActivity(ANativeActivity* activity){
+	env = activity->env;
+	activityObject = activity->clazz;
+}
 
 
 
@@ -281,6 +294,8 @@ void android_main(struct android_app* state) {
 
 	state->onAppCmd = engine_handle_cmd;
 	state->onInputEvent = engine_handle_input;
+
+	registerEnvironmentAndActivity(state->activity);
 
 	SND_Android_Init(state->activity->assetManager);
 
