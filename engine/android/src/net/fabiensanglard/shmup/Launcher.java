@@ -1,4 +1,4 @@
-package net.fabiensanglard.shmuplite;
+package net.fabiensanglard.shmup;
 
 import java.io.IOException;
 
@@ -8,17 +8,18 @@ import android.os.Bundle;
 import android.util.Log;
 
 
-public class ShmupLiteActivity extends NativeActivity {
- 
+public class Launcher extends NativeActivity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-		System.out.println("Pre native code call.");   
+		System.out.println("Pre native code call.");
 
 		super.onCreate(savedInstanceState);  
 
-		System.out.println("Post native code call."); 
+		System.out.println("Post native code call.");
 	}
 
 
 }
+
