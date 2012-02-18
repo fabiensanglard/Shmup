@@ -20,14 +20,6 @@ void goToURL(char* url){
 
 
 	(*env)->CallStaticObjectMethod(env,activityClass,goToWebsite,jstr);
-	//exit(0);
 
-
-
-
-	//jclass clazz = (*env)->GetObjectClass(env,activityClass);
-	//jmethodID goToWebsite = (*env)->GetMethodID(env,clazz, "goToWebsite", "(Ljava/lang/String;)V");
-
-	//jmethodID goToWebsite = (*env)->GetStaticMethodID(env, activityClass, "goToWebsite", "(Ljava/lang/String;)V");
 
 }

@@ -48,7 +48,7 @@
  *
  *  TODO: X Build sound system with OpenSL EL
  *  TODO: X Change package to have net.fabiensanglard.shmup.
- *  TODO:   Fix inputs, the ship is not moving fast enough on Android
+ *  TODO: X Fix inputs, the ship is not moving fast enough on Android
  *  TODO:   On Android, add a link to the full version.
  *  TODO:   Fix bug when demo is requested and it starts a new game.
  *  TODO:   Fix score bug.
@@ -64,7 +64,7 @@
  *  Fixed issues: Rely on historicalEvent in order to trace move gesture is really really a BAD IDEA. I am tracing movement myself now.
  *  TODO: X Fix user input (I though I was missing events but actually I was using the wrong API method to trace mouvments.
  *  TODO:   Lower sound effects or Increase music sound volume
- *  TODO:   Build Shmup Lite
+ *  TODO: X Build Shmup Lite
  *
  *
  *
@@ -81,7 +81,8 @@
  *http://blog.tewdew.com/post/6852907694/using-jni-from-a-native-activity
  *
  *
- *  TODO: The music system is unable to start at a determined time within the music. Need to a SEEK interface in the OpenES implementation otherwise music in level2 is the same as level 1.
+ *  TODO: X The music system is unable to start at a determined time within the music. Need to a SEEK interface in the OpenES implementation otherwise music in level2 is the same as level 1.
+ *  TODO: Fix thibault bug.
  *
 */
 #include <stdio.h>
@@ -106,8 +107,10 @@
 
 // ANDROID_LOG_TAG must be defined via a compiler flag in Android.mk. This is done so
 // Shmup and ShmupLite can use the same codebase.
-#ifndef ANDROID_LOG_TAG
-	#define ANDROID_LOG_TAG "ANDROID_LOG_TAG was undefined."
+#ifdef SHMUP_VERSION_LIMITED
+	#define ANDROID_LOG_TAG "net.fabiensanglard.shmupLite"
+#else
+	#define ANDROID_LOG_TAG "net.fabiensanglard.shmup"
 #endif
 
 #define  LOG_TAG    		ANDROID_LOG_TAG
@@ -292,7 +295,11 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
 }
 
 JNIEnv* env = NULL;
-char* className = "net.fabiensanglard.shmup.Launcher" ;
+#ifdef SHMUP_VERSION_LIMITED
+	char* className = "net.fabiensanglard.shmuplite.ShmupLiteActivity" ;
+#else
+	char* className = "net.fabiensanglard.shmup.Launcher" ;
+#endif
 //char* className = "java/lang/Object" ;
 //char* className = "	android/app/NativeActivity";
 char* methodName = "goToWebsite";
@@ -300,48 +307,6 @@ jobject  activityClass ;
 jmethodID goToWebsite ;
 void registerEnvironmentAndActivity(ANativeActivity* activity){
 
-	/*
-	jint res ;
-
-	//Since this thread was not created by the VM (and we will be making JNI calls from this thread, we need to attach this thread to the VM).
-	JavaVM* vm = activity->vm;
-	//JNIInvokeInterface* jniInterface = *vm;
-
-	//It seems we cannot use activity->vm (otherwise we get a "Unable to attach current thread to VM." error).
-	res = (**vm).AttachCurrentThread ( activity->vm , &env , NULL ) ;
-	if (!res)
-	{
-		jint version = (*env)->GetVersion(env) ;
-	}
-	else{
-		LOGE("Unable to attach current thread to VM.\n");
-		return;
-	}
-
-
-	// Cannot do the following :( ! It seems the clazz object is tied to the JNIEnv object...
-	// activityClass = activity->clazz;
-
-
-	activityClass = (*env)->FindClass(env,className);
-	//activityObject = activity->clazz;
-	if (!activityClass){
-		LOGE("Unable to find class %s.\n",className);
-		return;
-	}
-	else
-		LOGE("Activity object in the VM is %X.\n",activityClass);
-
-
-	goToWebsite = (*env)->GetStaticMethodID(env, activityClass, methodName, "(Ljava/lang/String;)V");
-
-	if (!goToWebsite){
-		LOGE("Unable to find method %d in class %s.\n",methodName,className);
-		return;
-	}
-	else
-		LOGE("Found method %s: ready to call it.\n",methodName);
-*/
 	JavaVM* vm = activity->vm;
 	JNIEnv *jni;
 
