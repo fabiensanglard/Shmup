@@ -56,6 +56,11 @@
 
 engine_info_t engine;
 
+#ifdef SHMUP_TARGET_ANDROID
+    #define CONFIG_PATH "data/configAndroid.cfg"
+#else
+    #define CONFIG_PATH "data/config.cfg"
+#endif
 
 
 char* screenShotDirectory = "/Users/fabiensanglard/Pictures/dEngine/";
@@ -68,7 +73,7 @@ void dEngine_ReadConfig(void)
 	
     
     
-	config = FS_OpenFile("data/config.cfg", "rt");
+	config = FS_OpenFile(CONFIG_PATH, "rt");
 	FS_UploadToRAM(config);
 	
 	if (!config)

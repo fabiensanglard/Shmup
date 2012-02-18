@@ -460,7 +460,7 @@ void Action_ConfigureMultiplayer(void* tag)
 #include "native_URL.h"
 void Action_GoBuyFullVersion(void* tag)
 {
-    goToURL("http://google.com");
+    goToURL("market://details?id=net.fabiensanglard.shmup");
 }
 
 void replayLastGame(void){}
@@ -768,12 +768,14 @@ void MENU_Init(void)
 	MENU_CreateButton(currentMenu, "Credits", 3, Action_ShowCreditsMenu,NULL, buttonPos, buttonDim);
 	
 	
+#ifndef SHMUP_TARGET_ANDROID    
 	buttonPos[X] = 160 ; 
 	buttonPos[Y] = (-SS_COO_SYST_HEIGHT + 500);
 	buttonDim[WIDTH] = (159 * 2);
 	buttonDim[HEIGHT] = 64 * 2;
 	MENU_CreateButton(currentMenu, "Network", 3, Action_ConfigureMultiplayer,NULL, buttonPos, buttonDim);
-	
+#endif	
+    
 	if (engine.gameCenterPossible)
     {
         buttonPos[X] = 160 ; 

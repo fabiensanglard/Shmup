@@ -49,7 +49,7 @@
  *  TODO: X Build sound system with OpenSL EL
  *  TODO: X Change package to have net.fabiensanglard.shmup.
  *  TODO: X Fix inputs, the ship is not moving fast enough on Android
- *  TODO:   On Android, add a link to the full version.
+ *  TODO:   On Android Lite, add a link to the full version.
  *  TODO:   Fix bug when demo is requested and it starts a new game.
  *  TODO:   Fix score bug.
  *  TODO:   Increase scores.
@@ -82,7 +82,11 @@
  *
  *
  *  TODO: X The music system is unable to start at a determined time within the music. Need to a SEEK interface in the OpenES implementation otherwise music in level2 is the same as level 1.
- *  TODO: Fix thibault bug.
+ *  TODO:   Fix thibault bug.
+ *
+ *
+ *  TODO: X Create icons for Android Shmup and Android Shmup Lite
+ *
  *
 */
 #include <stdio.h>
@@ -410,6 +414,13 @@ void android_main(struct android_app* state) {
 
 	renderer.materialQuality = MATERIAL_QUALITY_HIGH;
 	renderer.statsEnabled = 0;
+
+#ifdef SHMUP_VERSION_LIMITED
+	engine.licenseType = LICENSE_LIMITED;
+#else
+	engine.licenseType = LICENSE_FULL;
+#endif
+
 
 	dEngine_Init();
 

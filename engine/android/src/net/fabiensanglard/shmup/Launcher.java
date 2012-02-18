@@ -25,7 +25,7 @@ public class Launcher extends NativeActivity {
 				intent.setData(Uri.parse(url));
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				Launcher.context.startActivity(intent);
-				
+				 
 			}});
 	}
 	
