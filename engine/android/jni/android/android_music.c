@@ -176,6 +176,10 @@ void SND_InitSoundTrack(char* filename,unsigned int startAt)
 {
 	 SLresult result;
 
+
+	 if (musicPlayerInterface)
+		 (*musicPlayerInterface)->Destroy(musicPlayerInterface);
+
 	 Log_Printf("[SND_InitSoundTrack]\n");
 
 	 if (filename[0] == '/')
@@ -216,7 +220,11 @@ void SND_InitSoundTrack(char* filename,unsigned int startAt)
 		result = (*musicPlayerInterface)->Realize(musicPlayerInterface, SL_BOOLEAN_FALSE);
 		assert(SL_RESULT_SUCCESS == result);
 
+		SLSeekItf seekItf;
+		result = (*musicPlayerInterface)->GetInterface(musicPlayerInterface, SL_IID_SEEK, (void*)&seekItf);
+		assert(SL_RESULT_SUCCESS == result);
 
+		(*seekItf)->SetPosition(seekItf,startAt*1000,SL_SEEKMODE_FAST);
 
 
 }

@@ -66,6 +66,23 @@
  *  TODO:   Lower sound effects or Increase music sound volume
  *  TODO:   Build Shmup Lite
  *
+ *
+ *
+ * JNI ISSUE :
+ * ===========
+ *  New error now when trying to call Java method from my native code: NDK JNI ERROR: non-VM thread making JNI calls
+ *  http://developer.android.com/guide/practices/design/jni.html is a good ressource.
+ *
+ *  It seems the JNIEnv is not really valid when we receive it in the game thread. We need to attach the thread to the VM (AttachCurrentThread) and create a new JNIEnv
+ *  http://android.wooyd.org/JNIExample/files/JNIExample.pdf
+ *
+ *  SNAAAAP !! Even after attaching and getting a valid JNIEnv it seems we still don't have the right classLoader !!!!!!
+ *
+ *http://blog.tewdew.com/post/6852907694/using-jni-from-a-native-activity
+ *
+ *
+ *  TODO: The music system is unable to start at a determined time within the music. Need to a SEEK interface in the OpenES implementation otherwise music in level2 is the same as level 1.
+ *
 */
 #include <stdio.h>
 #include <jni.h>
@@ -128,7 +145,7 @@ void ListDirectory(AAssetManager*      assetManager, const char* dirName){
 
 			AAssetDir_close(directory);
 
-			printf("Directory \"%s\" has %d entries.\n",dirName,fileCount);
+			LOGI("Directory \"%s\" has %d entries.\n",dirName,fileCount);
 }
 
 
@@ -238,28 +255,28 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
 
     switch (cmd) {
         case APP_CMD_SAVE_STATE:
-        	printf("APP_CMD_SAVE_STATE");
+        	LOGI("APP_CMD_SAVE_STATE");
             break;
         case APP_CMD_INIT_WINDOW:
-        	printf("APP_CMD_INIT_WINDOW");
+        	LOGI("APP_CMD_INIT_WINDOW");
         	window = state->window;
         	engine_init_display();
         	engine_draw_frame();
             break;
         case APP_CMD_TERM_WINDOW:
-        	printf("APP_CMD_TERM_WINDOW");
+        	LOGI("APP_CMD_TERM_WINDOW");
             // The window is being hidden or closed, clean it up.
 
             break;
         case APP_CMD_GAINED_FOCUS:
-        	printf("APP_CMD_GAINED_FOCUS");
+        	LOGI("APP_CMD_GAINED_FOCUS");
             break;
         case APP_CMD_LOST_FOCUS:
         	printf("APP_CMD_LOST_FOCUS");
         	AND_SHMUP_Finish();
             break;
         case APP_CMD_WINDOW_RESIZED:
-        	printf("APP_CMD_WINDOW_RESIZED");
+        	LOGI("APP_CMD_WINDOW_RESIZED");
         	//window = state->window;
         	//engine_term_display();
         	//engine_init_display();
@@ -275,10 +292,126 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
 }
 
 JNIEnv* env = NULL;
-jobject*  activityObject;
+char* className = "net.fabiensanglard.shmup.Launcher" ;
+//char* className = "java/lang/Object" ;
+//char* className = "	android/app/NativeActivity";
+char* methodName = "goToWebsite";
+jobject  activityClass ;
+jmethodID goToWebsite ;
 void registerEnvironmentAndActivity(ANativeActivity* activity){
-	env = activity->env;
-	activityObject = activity->clazz;
+
+	/*
+	jint res ;
+
+	//Since this thread was not created by the VM (and we will be making JNI calls from this thread, we need to attach this thread to the VM).
+	JavaVM* vm = activity->vm;
+	//JNIInvokeInterface* jniInterface = *vm;
+
+	//It seems we cannot use activity->vm (otherwise we get a "Unable to attach current thread to VM." error).
+	res = (**vm).AttachCurrentThread ( activity->vm , &env , NULL ) ;
+	if (!res)
+	{
+		jint version = (*env)->GetVersion(env) ;
+	}
+	else{
+		LOGE("Unable to attach current thread to VM.\n");
+		return;
+	}
+
+
+	// Cannot do the following :( ! It seems the clazz object is tied to the JNIEnv object...
+	// activityClass = activity->clazz;
+
+
+	activityClass = (*env)->FindClass(env,className);
+	//activityObject = activity->clazz;
+	if (!activityClass){
+		LOGE("Unable to find class %s.\n",className);
+		return;
+	}
+	else
+		LOGE("Activity object in the VM is %X.\n",activityClass);
+
+
+	goToWebsite = (*env)->GetStaticMethodID(env, activityClass, methodName, "(Ljava/lang/String;)V");
+
+	if (!goToWebsite){
+		LOGE("Unable to find method %d in class %s.\n",methodName,className);
+		return;
+	}
+	else
+		LOGE("Found method %s: ready to call it.\n",methodName);
+*/
+	JavaVM* vm = activity->vm;
+	JNIEnv *jni;
+
+	(**vm).AttachCurrentThread ( activity->vm , &jni , NULL ) ;
+
+	env = jni ;
+
+	jclass activityClass = (*jni)->FindClass(jni,"android/app/NativeActivity");
+	if (!activityClass){
+		LOGE("Unable to find class 'android/app/NativeActivity'.\n");
+		return;
+	}
+
+	LOGE("Found android/app/NativeActivity class.\n");
+
+	jmethodID getClassLoader = (*jni)->GetMethodID(jni,activityClass,"getClassLoader", "()Ljava/lang/ClassLoader;");
+	if (!getClassLoader){
+			LOGE("Unable to find method getClassLoader from 'android/app/NativeActivity'.\n");
+			return;
+	}
+
+	LOGE("Found getClassLoader method in android/app/NativeActivity class.\n");
+
+	jobject cls = (*jni)->CallObjectMethod(jni,activity->clazz, getClassLoader);
+
+	if (!cls){
+		LOGE("Faild to retrieve the ClassLoader object by calling android.app.NativeActivity.getClassLoader().\n");
+		return;
+	}
+
+	LOGE("We now have a valid classloader object instance (cls) but we cannot call a method on it yet.\n");
+
+
+	jclass classLoader = (*jni)->FindClass(jni,"java/lang/ClassLoader");
+	if (!classLoader){
+		LOGE("Unable to find class 'java/lang/ClassLoader'.\n");
+		return;
+	}
+
+	LOGE("Found java/lang/ClassLoader class.\n");
+
+	jmethodID findClass = (*jni)->GetMethodID(jni,classLoader, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
+
+	if (!findClass){
+		LOGE("Unable to find method loadClass from 'java/lang/ClassLoader'.\n");
+		return;
+	}
+
+	LOGE("Found loadClass method from java/lang/ClassLoader class.\n");
+
+	jstring strClassName = (*jni)->NewStringUTF(jni,className);
+
+
+	activityClass = (jclass)(*jni)->CallObjectMethod(jni,cls, findClass, strClassName);
+	if (!activityClass){
+		LOGE("Unable to find class '%s' using ClassLoader.loadClass(\"%s\").\n",className,className);
+		return;
+	}
+
+	LOGE("Found '%s' class.\n",className);
+
+
+	goToWebsite = (*jni)->GetStaticMethodID(jni, activityClass, methodName, "(Ljava/lang/String;)V");
+	if (!goToWebsite){
+		LOGE("Unable to find method %d in class %s.\n",methodName,className);
+		return;
+	}
+	else
+		LOGE("Found method %s: ready to call it.\n",methodName);
+
 }
 
 
@@ -295,7 +428,9 @@ void android_main(struct android_app* state) {
 	state->onAppCmd = engine_handle_cmd;
 	state->onInputEvent = engine_handle_input;
 
+	LOGE("PRE  registerEnvironmentAndActivity");
 	registerEnvironmentAndActivity(state->activity);
+	LOGE("POST registerEnvironmentAndActivity");
 
 	SND_Android_Init(state->activity->assetManager);
 
@@ -364,4 +499,5 @@ void android_main(struct android_app* state) {
 
 	 }
 }
+
 

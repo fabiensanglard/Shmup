@@ -791,7 +791,7 @@ void MENU_Init(void)
         buttonPos[Y] = (-SS_COO_SYST_HEIGHT + 370);
         buttonDim[WIDTH] = (159 * 2);
         buttonDim[HEIGHT] = 64 * 2;
-        MENU_CreateButton(currentMenu, "Full Version", 3, Action_GoBuyFullVersion,NULL, buttonPos, buttonDim); 
+        MENU_CreateButton(currentMenu, "Full Shmup", 3, Action_GoBuyFullVersion,NULL, buttonPos, buttonDim); 
     }
 #endif		
 	
