@@ -24,7 +24,7 @@
  */
 
 #include "matrix.h"
-#include "stdio.h"
+#include "log.h"
 
 /*
 	Matrices here are colmn major
@@ -125,17 +125,17 @@ void matrix_print(matrix_t m)
 {
 	int i,j;
 	
-	printf("-----------------\n");
+	Log_Printf("-----------------\n");
 	for( i = 0 ; i < 4 ; i++)		//Column dest
 	{
 		for( j = 0 ; j < 4 ; j++)	//Row dest
 		{
 			// m1 j row * m2 i column
-			printf(" %.4f ", m[i+j*4]);
+			Log_Printf(" %.4f ", m[i+j*4]);
 		}
-		printf("\n");
+		Log_Printf("\n");
 	}
-	printf("-----------------\n");
+	Log_Printf("-----------------\n");
 }
 
 
@@ -143,17 +143,17 @@ void matrix_print3x3(matrix3x3_t m)
 {
 	int i,j;
 	
-	printf("-----------------\n");
+	Log_Printf("-----------------\n");
 	for( i = 0 ; i < 3 ; i++)		//Column dest
 	{
 		for( j = 0 ; j < 3 ; j++)	//Row dest
 		{
 			// m1 j row * m2 i column
-			printf(" %.4f ", m[i+j*3]);
+			Log_Printf(" %.4f ", m[i+j*3]);
 		}
-		printf("\n");
+		Log_Printf("\n");
 	}
-	printf("-----------------\n");
+	Log_Printf("-----------------\n");
 }
 
 void matrixLoadIdentity(matrix_t m)

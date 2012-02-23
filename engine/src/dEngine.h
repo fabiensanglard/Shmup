@@ -39,6 +39,7 @@
 #ifndef DE_MAIN
 #define DE_MAIN 1
 
+
 #define DIFFICULTY_EASY 0
 #define DIFFICULTY_NORMAL 1
 #define DIFFICULTY_INSANE 2

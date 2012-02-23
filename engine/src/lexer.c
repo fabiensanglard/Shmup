@@ -24,7 +24,7 @@
  */
 
 #include "lexer.h"
-
+#include "log.h"
 
 #define STACK_SIZE 6
 #define MAX_TOKEN_SIZE 256
@@ -226,7 +226,7 @@ float LE_readReal(void)
 
 char* LE_getCurrentToken()
 {
-	//printf("LE_getCurrentToken = %s.\n",token);
+	//Log_Printf("LE_getCurrentToken = %s.\n",token);
 	return token;
 }
 

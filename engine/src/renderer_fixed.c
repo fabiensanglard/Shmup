@@ -34,14 +34,16 @@
 
 
 #include "target.h"
-#if defined (SHMUP_TARGET_WINDOWS)
+#if defined(SHMUP_TARGET_WINDOWS)
 	#include "GLES/gl.h"
-#elif defined (SHMUP_TARGET_MACOSX)
+#elif defined(SHMUP_TARGET_MACOSX)
     #include "OpenGL/gl.h"
     #define glOrthof glOrtho
     #define glFogx glFogf
-#elif defined (SHMUP_TARGET_IOS)
+#elif defined(SHMUP_TARGET_IOS)
 	#include <OpenGLES/ES1/gl.h>
+#elif defined(ANDROID)
+    #include <GLES/gl.h>
 #endif
 
 
@@ -69,12 +71,12 @@ void SCR_CheckErrors(char* step, char* details)
 {
 	GLenum err = glGetError();
 	switch (err) {
-		case GL_INVALID_ENUM:printf("Error GL_INVALID_ENUM %s, %s\n", step,details); break;
-		case GL_INVALID_VALUE:printf("Error GL_INVALID_VALUE  %s, %s\n", step,details); break;
-		case GL_INVALID_OPERATION:printf("Error GL_INVALID_OPERATION  %s, %s\n", step,details); break;				
-		case GL_OUT_OF_MEMORY:printf("Error GL_OUT_OF_MEMORY  %s, %s\n", step,details); break;			
+		case GL_INVALID_ENUM:Log_Printf("Error GL_INVALID_ENUM %s, %s\n", step,details); break;
+		case GL_INVALID_VALUE:Log_Printf("Error GL_INVALID_VALUE  %s, %s\n", step,details); break;
+		case GL_INVALID_OPERATION:Log_Printf("Error GL_INVALID_OPERATION  %s, %s\n", step,details); break;				
+		case GL_OUT_OF_MEMORY:Log_Printf("Error GL_OUT_OF_MEMORY  %s, %s\n", step,details); break;			
 		case GL_NO_ERROR: break;
-		default : printf("Error UNKNOWN  %s, %s\n", step,details);break;
+		default :Log_Printf("Error UNKNOWN  %s, %s\n", step,details);break;
 	}
 }
 
@@ -86,7 +88,7 @@ void SetupCameraF(void)
 	
 	gluLookAt(camera.position, vLookat, camera.up, modelViewMatrix);
 	
-	//printf("t=%d, up=[%.2f,%.2f,%.2f]\n",simulationTime,camera.up[X],camera.up[Y],camera.up[Z]);
+	//Log_Printf("t=%d, up=[%.2f,%.2f,%.2f]\n",simulationTime,camera.up[X],camera.up[Y],camera.up[Z]);
 	
 	glLoadMatrixf(modelViewMatrix);
 }
@@ -218,13 +220,13 @@ void UpLoadTextureToGPUF(texture_t* texture)
 		glTexParameterf(GL_TEXTURE_2D,GL_GENERATE_MIPMAP, GL_FALSE);
 		
 		glCompressedTexImage2D(GL_TEXTURE_2D, 0, texture->format, texture->width,texture-> height, 0, texture->dataLength[0], texture->data[0]);
-		//printf("Uploading mipmapp %d w=%d, h=%d, size=%d\n",0,texture->width,texture-> height,texture->dataLength[0]);
+		//Log_Printf("Uploading mipmapp %d w=%d, h=%d, size=%d\n",0,texture->width,texture-> height,texture->dataLength[0]);
 		
 		mipMapDiv = 2;
 		for (i=1; i < texture->numMipmaps; i++,mipMapDiv*=2) 
 		{
 			glCompressedTexImage2D(GL_TEXTURE_2D, i, texture->format, texture->width/mipMapDiv,texture-> height/mipMapDiv, 0, texture->dataLength[i], texture->data[i]);
-		//	printf("Uploading mipmapp %d w=%d, h=%d, size=%d\n",i,texture->width/mipMapDiv,texture-> height/mipMapDiv,texture->dataLength[i]);
+		//	Log_Printf("Uploading mipmapp %d w=%d, h=%d, size=%d\n",i,texture->width/mipMapDiv,texture-> height/mipMapDiv,texture->dataLength[i]);
 			free(texture->data[i]);
 			texture->data[i] = 0;
 		}
@@ -463,16 +465,16 @@ void RenderNormalsF(md5_mesh_t* currentMesh)
 static void RenderEntityF(entity_t* entity)
 {
 
-//	printf("RenderEntityF Player1=%p\n",players[0].entity.material);
-//	printf("RenderEntityF Player2=%p\n",players[1].entity.material);		
+//	Log_Printf("RenderEntityF Player1=%p\n",players[0].entity.material);
+//	Log_Printf("RenderEntityF Player2=%p\n",players[1].entity.material);		
 	
 	glPushMatrix();
 	
 	//if (traceRenderEntity)
 	{
 		//entity->matrix[13] = 110;
-	//	printf("[RenderEntityF] entity id=%d\n",entity->uid);
-	//	printf("[RenderEntityF] entity pos=[%.2f,%.2f,%.2f,%.2f]\n",entity->matrix[12],entity->matrix[13],entity->matrix[14],entity->matrix[15]);
+	//	Log_Printf("[RenderEntityF] entity id=%d\n",entity->uid);
+	//	Log_Printf("[RenderEntityF] entity pos=[%.2f,%.2f,%.2f,%.2f]\n",entity->matrix[12],entity->matrix[13],entity->matrix[14],entity->matrix[15]);
 		//matrix_print(entity->matrix);
 		
 	}
@@ -584,7 +586,7 @@ void RenderEntitiesF(void)
 	entity_t* entity;
 	enemy_t* enemy;
 	
-	//printf("Starting rendering frame, t=%d.\n",simulationTime);
+	//Log_Printf("Starting rendering frame, t=%d.\n",simulationTime);
 
 
 	
@@ -649,7 +651,7 @@ void RenderEntitiesF(void)
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	for (i=0 ; i < numPlayers; i++) 
 	{
-		//printf("player[%d].shouldDraw=%d\n",i,players[i].shouldDraw);
+		//Log_Printf("player[%d].shouldDraw=%d\n",i,players[i].shouldDraw);
 		if (players[i].shouldDraw)
 			RenderEntityF(&players[i].entity);
 	}
@@ -704,7 +706,7 @@ void UpLoadEntityToGPUF(entity_t* entity)
 
 	if (entity == NULL || entity->model == NULL)
 	{
-		printf("Entity was NULL: No vertices to upload.\n");
+		Log_Printf("Entity was NULL: No vertices to upload.\n");
 		return;
 	}
 	
@@ -724,7 +726,7 @@ void UpLoadEntityToGPUF(entity_t* entity)
 	free(mesh->vertexArray);
 	mesh->vertexArray = 0;
 #else
-	printf("Warning, not freeing mesh after GPU upload.\n");
+	Log_Printf("Warning, not freeing mesh after GPU upload.\n");
 #endif
 	
 	mesh->memLocation = MD5_MEMLOC_VRAM;
@@ -849,7 +851,7 @@ void RenderFXSpritesF(void)
 		SetTextureF(explosionTexture.textureId);
 		glVertexPointer(  2, GL_SHORT,  sizeof(xf_sprite_t), explosionVertices->pos);
 		glTexCoordPointer(2, GL_SHORT,  sizeof(xf_sprite_t), explosionVertices->text);
-		//printf("REMOVE COLOR INDICES EXPLOSIONS RenderFXSpritesF !!!! \n");
+		//Log_Printf("REMOVE COLOR INDICES EXPLOSIONS RenderFXSpritesF !!!! \n");
 		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(xf_sprite_t), explosionVertices->color);
 		glDrawElements (GL_TRIANGLES, numExplosionIndices, GL_UNSIGNED_SHORT,explosionIndices);
 		STATS_AddTriangles(numExplosionIndices/3);
@@ -863,7 +865,7 @@ void RenderFXSpritesF(void)
 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(xf_sprite_t), enFxLib.ss_vertices[0].color);
 	glDrawElements (GL_TRIANGLES, enFxLib.num_indices, GL_UNSIGNED_SHORT,enFxLib.indices);
 	STATS_AddTriangles(enFxLib.num_indices/3);
-	//printf("enFxLib.num_indices=%d\n",enFxLib.num_indices);
+	//Log_Printf("enFxLib.num_indices=%d\n",enFxLib.num_indices);
 	
 	
 	
@@ -1007,7 +1009,7 @@ void initFixedRenderer(renderer_t* renderer)
 	GLenum err;
 	char *extensionsList ;
     
-	//printf("[initFixedRenderer] has a nnnasty hack");
+	//Log_Printf("[initFixedRenderer] has a nnnasty hack");
 	
 	renderer->type = GL_11_RENDERER ;
 	
@@ -1082,5 +1084,5 @@ void initFixedRenderer(renderer_t* renderer)
     
 	err = glGetError();
 	if (err != GL_NO_ERROR)
-		printf("Error initing 1.1: glError: 0x%04X", err);
+		Log_Printf("Error initing 1.1: glError: 0x%04X", err);
 }

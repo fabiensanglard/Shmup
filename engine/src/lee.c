@@ -183,7 +183,7 @@ void updatePrepareBullet(enemy_t* enemy)
 	if (f >= 1.0f)
 		enemy->state  = STATE_LEE_SHOOT;
 	
-	//printf("f=%.2f\n",f);
+	//Log_Printf("f=%.2f\n",f);
 	
 	// Prepare bullet has X phases:
 	// - Growing white ball. Alpha 0 -> 255
@@ -210,8 +210,8 @@ void updatePrepareBullet(enemy_t* enemy)
 		ss_boundaries[LEFT]  =   enemy->ss_position[X] * SS_W - f *WHITE_PRE_BULLET_SIZE /2 * SS_H;
 		ss_boundaries[RIGHT] =   enemy->ss_position[X] * SS_W + f *WHITE_PRE_BULLET_SIZE /2 * SS_H;
 		
-		//printf("enemy->ss_position[X] = %h , enemy->ss_position[Y] = %h\n",);
-		//printf("U=%d L=%d R=%d D=%d\n",ss_boundaries[UP],ss_boundaries[LEFT],ss_boundaries[RIGHT],ss_boundaries[DOWN]);
+		//Log_Printf("enemy->ss_position[X] = %h , enemy->ss_position[Y] = %h\n",);
+		//Log_Printf("U=%d L=%d R=%d D=%d\n",ss_boundaries[UP],ss_boundaries[LEFT],ss_boundaries[RIGHT],ss_boundaries[DOWN]);
 		
 		//f *= 255;
 		
@@ -412,12 +412,12 @@ void updateLEECircle(enemy_t* enemy)
 	enemy->ss_position[X] = f * cosf(angle+ M_PI+ M_PI/2) * 1.3f* SS_H / SS_W;
 	enemy->ss_position[Y] = f * sinf(angle+ M_PI+ M_PI/2) * 1.3f;
 	
-	//printf("enemy id:%d, angleparam=%.2f\n",enemy->parameters[PARAMETER_LEE_START_ANGLE]);
-	//printf("enemy id:%d, angle=%.2f ss_pos[X]=%.2f,ss_pos[Y]=%.2f\n",enemy->uniqueId,enemy->parameters[PARAMETER_LEE_START_ANGLE]+angle,enemy->ss_position[X],enemy->ss_position[Y]);
+	//Log_Printf("enemy id:%d, angleparam=%.2f\n",enemy->parameters[PARAMETER_LEE_START_ANGLE]);
+	//Log_Printf("enemy id:%d, angle=%.2f ss_pos[X]=%.2f,ss_pos[Y]=%.2f\n",enemy->uniqueId,enemy->parameters[PARAMETER_LEE_START_ANGLE]+angle,enemy->ss_position[X],enemy->ss_position[Y]);
 	//enemy->ss_position[X] = (1-f)*  enemy->spawn_startPosition[X] ;
 	//enemy->ss_position[Y] = (1-f)*  enemy->spawn_startPosition[Y] ;
 	
-	//printf("ene pso = %.2f, %.2f.\n",enemy->ss_position[X],enemy->ss_position[Y]);
+	//Log_Printf("ene pso = %.2f, %.2f.\n",enemy->ss_position[X],enemy->ss_position[Y]);
 	
 	
 	

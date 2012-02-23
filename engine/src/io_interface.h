@@ -6,8 +6,11 @@ typedef enum  {IO_EVENT_BEGAN,IO_EVENT_MOVED,IO_EVENT_ENDED } event_type_e;
 
 typedef struct io_event_s
 {
-	int position[2];
-	int previousPosition[2];
+	// Used to be an array of int (Worked well on windows,macosx and iphone).
+	// but Android return coordinates as float....
+	float position[2];
+	float previousPosition[2];
+
 	 event_type_e type;
 } io_event_s;
 

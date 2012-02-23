@@ -104,15 +104,15 @@ void CAM_Update(void)
 		return;
 	
 	
-	//printf("CAM_Update\n");
-	//printf("camera.currentFrame->next=%d\n",camera.currentFrame->next);
-	//printf("camera.currentFrame->next->time=%d\n",camera.currentFrame->next->time);
-	//printf("simulationTime=%d\n",simulationTime);
+	//Log_Printf("CAM_Update\n");
+	//Log_Printf("camera.currentFrame->next=%d\n",camera.currentFrame->next);
+	//Log_Printf("camera.currentFrame->next->time=%d\n",camera.currentFrame->next->time);
+	//Log_Printf("simulationTime=%d\n",simulationTime);
 
 	while (camera.currentFrame->next != NULL && camera.currentFrame->next->time <= simulationTime)
 	{
 		//Update vis_set if not already done, take into account key frame_update
-		//printf("Jumping into vis_update().\n");
+		//Log_Printf("Jumping into vis_update().\n");
 		VIS_Update();
 		
 		toDelete = camera.currentFrame;
@@ -120,7 +120,7 @@ void CAM_Update(void)
 		CAM_FreeCameraFrame(toDelete);
 	}	
 		
-	//printf("frame t=%d.\n",camera.currentFrame->time);
+	//Log_Printf("frame t=%d.\n",camera.currentFrame->time);
 	
 	if (camera.currentFrame->next == 0)
 		return;
@@ -137,10 +137,10 @@ void CAM_Update(void)
 	Quat_ConvertToMat3x3(interpolatedOrientationMatrix, interpolatedQuaterion);
 		
 	
-	//printf("Camera pos: [%.2f,%.2f,%.2f].\n",camera.position[0],camera.position[1],camera.position[2]);
-	//printf("Camera orientation matrix:\n");
+	//Log_Printf("Camera pos: [%.2f,%.2f,%.2f].\n",camera.position[0],camera.position[1],camera.position[2]);
+	//Log_Printf("Camera orientation matrix:\n");
 	//matrix_print3x3(interpolatedOrientationMatrix);
-	//printf("Camera orientation quaternion: [%.5f,%.5f,%.5f,%.5f]\n",interpolatedQuaterion[0],interpolatedQuaterion[1],interpolatedQuaterion[2],interpolatedQuaterion[3]);
+	//Log_Printf("Camera orientation quaternion: [%.5f,%.5f,%.5f,%.5f]\n",interpolatedQuaterion[0],interpolatedQuaterion[1],interpolatedQuaterion[2],interpolatedQuaterion[3]);
 
 	
 	camera.right[0] = interpolatedOrientationMatrix[0];
@@ -168,7 +168,7 @@ void CAM_StartPlaying()
 
 
 
-camera_frame_t* CAM_ReadFrameCP2Binary(FILE* fileHandle)
+camera_frame_t* CAM_ReadFrameCP2Binary(filehandle_t* fileHandle)
 {
 	camera_frame_t* frame;
 	world_vis_set_update_t* worldVisSet;
@@ -179,47 +179,47 @@ camera_frame_t* CAM_ReadFrameCP2Binary(FILE* fileHandle)
 	
 	cameraVisMemSize += sizeof(camera_frame_t);
 	
-	fread(&frame->time, sizeof(frame->time), 1, fileHandle);
+	FS_Read(&frame->time, sizeof(frame->time), 1, fileHandle);
 	
-	//printf("time = %d:",frame->time);
+	//Log_Printf("time = %d:",frame->time);
 	
-	fread(&frame->position[X], sizeof(float), 1, fileHandle);
-	fread(&frame->position[Y], sizeof(float), 1, fileHandle);
-	fread(&frame->position[Z], sizeof(float), 1, fileHandle);
+	FS_Read(&frame->position[X], sizeof(float), 1, fileHandle);
+	FS_Read(&frame->position[Y], sizeof(float), 1, fileHandle);
+	FS_Read(&frame->position[Z], sizeof(float), 1, fileHandle);
 	
-	fread(&frame->orientation[X], sizeof(float), 1, fileHandle);
-	fread(&frame->orientation[Y], sizeof(float), 1, fileHandle);
-	fread(&frame->orientation[Z], sizeof(float), 1, fileHandle);
-	fread(&frame->orientation[W], sizeof(float), 1, fileHandle);
+	FS_Read(&frame->orientation[X], sizeof(float), 1, fileHandle);
+	FS_Read(&frame->orientation[Y], sizeof(float), 1, fileHandle);
+	FS_Read(&frame->orientation[Z], sizeof(float), 1, fileHandle);
+	FS_Read(&frame->orientation[W], sizeof(float), 1, fileHandle);
 	
 	worldVisSet = &frame->visUpdate ;
 	
-	fread(&worldVisSet->isKey, sizeof(uchar), 1, fileHandle);
+	FS_Read(&worldVisSet->isKey, sizeof(uchar), 1, fileHandle);
 	
-	fread(&worldVisSet->numVisSets, sizeof(ushort), 1, fileHandle);
+	FS_Read(&worldVisSet->numVisSets, sizeof(ushort), 1, fileHandle);
 	
 	worldVisSet->visSets = calloc(worldVisSet->numVisSets, sizeof(entity_visset_t));
 	cameraVisMemSize += worldVisSet->numVisSets * sizeof(entity_visset_t) ;
 	
-//	printf("	Reading visSet: isKey=%2d.\n",worldVisSet->isKey);
+//	Log_Printf("	Reading visSet: isKey=%2d.\n",worldVisSet->isKey);
 	
 	for(j=0 ; j < worldVisSet->numVisSets ; j++)
 	{
 		entityVisSet = &worldVisSet->visSets[j];
 		
-		fread(&entityVisSet->entityId, sizeof(ushort), 1, fileHandle);
+		FS_Read(&entityVisSet->entityId, sizeof(ushort), 1, fileHandle);
 		
 	
 		
 		if (worldVisSet->isKey)
 		{
 		
-			fread(&entityVisSet->numIndices, sizeof(ushort), 1, fileHandle);
+			FS_Read(&entityVisSet->numIndices, sizeof(ushort), 1, fileHandle);
 	
 			entityVisSet->indices = calloc(entityVisSet->numIndices, sizeof(ushort));
 			cameraVisMemSize += entityVisSet->numIndices * sizeof(ushort);
 		
-			fread(entityVisSet->indices, sizeof(ushort), entityVisSet->numIndices, fileHandle);
+			FS_Read(entityVisSet->indices, sizeof(ushort), entityVisSet->numIndices, fileHandle);
 	
 			
 		}
@@ -228,15 +228,15 @@ camera_frame_t* CAM_ReadFrameCP2Binary(FILE* fileHandle)
 			
 			
 			
-			fread(&entityVisSet->numFacesToAdd, sizeof(ushort), 1, fileHandle);
+			FS_Read(&entityVisSet->numFacesToAdd, sizeof(ushort), 1, fileHandle);
 			entityVisSet->facesToAdd = calloc(entityVisSet->numFacesToAdd, sizeof(ushort));
 			cameraVisMemSize += entityVisSet->numFacesToAdd * sizeof(ushort);
-			fread(entityVisSet->facesToAdd, sizeof(ushort), entityVisSet->numFacesToAdd, fileHandle);
+			FS_Read(entityVisSet->facesToAdd, sizeof(ushort), entityVisSet->numFacesToAdd, fileHandle);
 			
-			fread(&entityVisSet->numFacesToRemove, sizeof(ushort), 1, fileHandle);
+			FS_Read(&entityVisSet->numFacesToRemove, sizeof(ushort), 1, fileHandle);
 			entityVisSet->facesToRemove = calloc(entityVisSet->numFacesToRemove, sizeof(ushort));
 			cameraVisMemSize += entityVisSet->numFacesToRemove * sizeof(ushort);
-			fread(entityVisSet->facesToRemove, sizeof(ushort), entityVisSet->numFacesToRemove, fileHandle);
+			FS_Read(entityVisSet->facesToRemove, sizeof(ushort), entityVisSet->numFacesToRemove, fileHandle);
 
 			
 			
@@ -248,58 +248,51 @@ camera_frame_t* CAM_ReadFrameCP2Binary(FILE* fileHandle)
 	return frame ;
 }
 
-camera_frame_t* CAM_ReadFileCP2Binary(char* f,char prependGameDir)
+camera_frame_t* CAM_ReadFileCP2Binary(char* filename,char prependGameDir)
 {
 	char* magicNumber = "CP2B" ;
 	char  magicCheck[5];
-	FILE* fileHandle;
+	filehandle_t* fileHandle;
 	int num_frames= 0 ;
 	int i;
-	char filename[256];
+	
 	
 	camera_frame_t* frame;
 	camera_frame_t firstFrame;
-	
-	memset(filename, 0, sizeof(filename));
-	if (prependGameDir)
-	{
-		strcat(filename, FS_Gamedir());
-		strcat(filename, "/");
-	}
-	
-	strcat(filename, f);
-	
-	fileHandle = fopen(filename, "rb");
+
+
+	//Open the file but don't load it in memory since it may be really huge..
+	fileHandle = FS_OpenFile(filename, "rb");
 	
 	if (!fileHandle)
 	{
-		printf("[CAM_ReadFileCP2Binary] Could not load binary cp2 (%s).\n",filename);
+		Log_Printf("[CAM_ReadFileCP2Binary] Could not load binary cp2 (%s).\n",filename);
 		return 0;
 	}
 	
-	fread(magicCheck, 4, sizeof(char), fileHandle);
+	FS_Read(magicCheck, 4, sizeof(char), fileHandle);
 	magicCheck[4] = '\0';
 	
 	if (strcmp(magicNumber, magicCheck))
 	{
-		printf("[CAM_ReadFileCP2Binary] Found binary cp2 (%s) but magic number check failed.\n",filename);
+		Log_Printf("[CAM_ReadFileCP2Binary] Found binary cp2 (%s) but magic number check failed.\n",filename);
 		return 0;
 	}
 	
-	fread(&num_frames, sizeof(num_frames), 1, fileHandle);
+	FS_Read(&num_frames, sizeof(num_frames), 1, fileHandle);
 	
-	printf("[CAM_ReadFileCP2Binary] Found %d frames.\n",num_frames);
+	Log_Printf("[CAM_ReadFileCP2Binary] Found %d frames.\n",num_frames);
 	
 	frame = &firstFrame ;
 	
 	for(i=0 ; i < num_frames ; i++)
 	{
-		//printf("Reading binary frame %d/%d: t=",i+1,num_frames);
+		//Log_Printf("Reading binary frame %d/%d: t=",i+1,num_frames);
 		frame->next = CAM_ReadFrameCP2Binary(fileHandle);
 		frame= frame->next;
 	}
 	
-	fclose(fileHandle);
+	FS_CloseFile(fileHandle);
 	
 	return firstFrame.next;
 }
@@ -361,7 +354,7 @@ void CAM_LoadPath(void)
 	
 	if (camera.pathFilename[0] == '\0')
 	{
-		printf("[CAM_LoadPath] No camera path loaded. Aborting.");
+		Log_Printf("[CAM_LoadPath] No camera path loaded. Aborting.");
 		exit(0);
 	}
 	
@@ -397,7 +390,7 @@ void CAM_LoadPath(void)
 	
 	if (camera.path == NULL)
 	{
-		printf("[CAM_LoadPath] Could not load camera path properly. Aborting.\n");
+		Log_Printf("[CAM_LoadPath] Could not load camera path properly. Aborting.\n");
 		exit(0);
 	}
 	
@@ -405,8 +398,8 @@ void CAM_LoadPath(void)
 	camera.currentFrame = camera.path;
 	simulationTime = camera.currentFrame->time;
 	
-	printf("[CAM_LoadPath] found and loaded %s.\n",camera.pathFilename);
-//	printf("Camera path is taking %d kb in main memory.\n",cameraVisMemSize/1024);
+	Log_Printf("[CAM_LoadPath] found and loaded %s.\n",camera.pathFilename);
+//	Log_Printf("Camera path is taking %d kb in main memory.\n",cameraVisMemSize/1024);
 	
 }
 

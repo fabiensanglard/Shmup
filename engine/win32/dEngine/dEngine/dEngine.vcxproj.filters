@@ -14,9 +14,6 @@
     <Filter Include="Source Files\entities">
       <UniqueIdentifier>{40292200-19d8-437d-9737-504e42e2f9c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\texture">
-      <UniqueIdentifier>{e3add87a-cfe5-458f-ac33-fa0eaff72486}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\utils">
       <UniqueIdentifier>{f82e7e51-6ebd-43fc-935f-6ea54cdec882}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Source Files\texture">
+      <UniqueIdentifier>{e3add87a-cfe5-458f-ac33-fa0eaff72486}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +199,15 @@
       <Filter>Source Files\audio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\wavfile.c">
+      <Filter>Source Files\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\log.c">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\unzip.c">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\sound_openAL.c">
       <Filter>Source Files\audio</Filter>
     </ClCompile>
   </ItemGroup>
@@ -334,6 +343,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\native_services.h">
       <Filter>Header Files\native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\log.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\sound_backend.h">
+      <Filter>Header Files\audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

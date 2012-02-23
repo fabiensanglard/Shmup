@@ -91,7 +91,7 @@ void THA_FireBullet(float ssPosX, float ssPosY,enemy_t* enemy)
 	bullet->text[1][U] = THA_TEXT_BULLET_U + THA_TEXT_BULLET_WIDTH;
 	bullet->text[1][V] = (enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE ]*THA_TEXT_BULLET_HEIGHT);
 	
-	//printf("%d\n",bullet->text[1][V]);
+	//Log_Printf("%d\n",bullet->text[1][V]);
 	
 	bullet->text[0][U] = THA_TEXT_BULLET_U + THA_TEXT_BULLET_WIDTH ;
 	bullet->text[0][V] = bullet->text[1][V] + THA_TEXT_BULLET_HEIGHT;
@@ -107,13 +107,13 @@ void THA_FireBullet(float ssPosX, float ssPosY,enemy_t* enemy)
 	bullet->posDiff[X] = 0;
 	bullet->posDiff[Y] = 2*SS_H*enemy->parameters[PARAMETER_THA_FIRING_DIRECTION];
 	
-	//printf("enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]=%.2f\n",enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]);
-	//printf("(int)enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]=%d\n",   (int)enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]     );
-	//printf("(int)enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]+1=%d\n",((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1));
-	//printf("((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1) & 3=%d\n",((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1) & 3);
-	//printf("(float)(((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1) & 3)=%.2f\n",(float)(((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1) & 3));
+	//Log_Printf("enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]=%.2f\n",enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]);
+	//Log_Printf("(int)enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]=%d\n",   (int)enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]     );
+	//Log_Printf("(int)enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]+1=%d\n",((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1));
+	//Log_Printf("((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1) & 3=%d\n",((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1) & 3);
+	//Log_Printf("(float)(((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1) & 3)=%.2f\n",(float)(((int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE])+1) & 3));
 	enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE] = (int)(enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]+1) & 3;
-	//printf("POST enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]=%.2f\n",enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]);
+	//Log_Printf("POST enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]=%.2f\n",enemy->parameters[PARAMETER_THA_LAST_BULLET_TYPE]);
 	
 	
 	

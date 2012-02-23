@@ -23,34 +23,29 @@
  *
  */
 
+
 #include "sounds.h"
 #include <limits.h>
 #include "dEngine.h"
 #include "timer.h"
+#include "sound_backend.h"
 
-#ifdef WIN32
-	#include "al.h"
-	#include "alc.h"
-#else
-	#include "OpenAL/al.h"
-	#include "OpenAL/alc.h"
-#endif
 
 sound_t sounds[8];
 
-#define NUM_SOURCES 8
-ALuint sources[NUM_SOURCES];
 
-ALCcontext* context;
-ALCdevice* device;
 
-void SND_Load(char* filename,sound_t* sound)
+
+
+void SND_Load(char* filename,int soundID)
 {
+    
+    sound_t* sound = &sounds[soundID] ;
 	
 	if (!LoadWavInfo(filename, &sound->data, &sound->metaData ))
-			printf("[SND_Load] Unable to load sound: '%s'.\n",filename);
+			Log_Printf("[SND_Load] Unable to load sound: '%s'.\n",filename);
 	
-	printf("[SND_Load] Loaded sound: %s sample_rate=%ld ",filename,sound->metaData.sample_rate);
+	Log_Printf("[SND_Load] Loaded sound: %s sample_rate=%ld ",filename,sound->metaData.sample_rate);
 	
 	// Calculate buffer size
 	sound->size = sound->metaData.samples * sound->metaData.sample_size * sound->metaData.channels;
@@ -59,151 +54,67 @@ void SND_Load(char* filename,sound_t* sound)
 	{
 		if( sound->metaData.channels == 2 )
 		{
-			sound->format = AL_FORMAT_STEREO16;
-			printf("format=AL_FORMAT_STEREO16.\n");
+			sound->format = SND_FORMAT_STEREO16;
+			Log_Printf("format=AL_FORMAT_STEREO16.\n");
 		}
 		else
 		{
-			sound->format = AL_FORMAT_MONO16;
-			printf("format=AL_FORMAT_MONO16.\n");			
+			sound->format = SND_FORMAT_MONO16;
+			Log_Printf("format=AL_FORMAT_MONO16.\n");			
 		}
 	}
 	else if( sound->metaData.sample_size == 1 )
 	{
 		if( sound->metaData.channels == 2 )
 		{
-			sound->format = AL_FORMAT_STEREO8;
-			printf("format=AL_FORMAT_STEREO8.\n");			
+			sound->format = SND_FORMAT_STEREO8;
+			Log_Printf("format=AL_FORMAT_STEREO8.\n");			
 		}
 		else
 		{
-			sound->format = AL_FORMAT_MONO8;
-			printf("format=AL_FORMAT_MONO8.\n");
+			sound->format = SND_FORMAT_MONO8;
+			Log_Printf("format=AL_FORMAT_MONO8.\n");
 		}
 	}
 	//else
-	//	printf("format=UNKNOWN.\n");
+	//	Log_Printf("format=UNKNOWN.\n");
 	sound->lastTimePlayed = INT_MIN;
 	
+	SND_BACKEND_Upload(sound,soundID);
 	
-	alGenBuffers(1, &sound->alBuffer);
-	alBufferData(sound->alBuffer, sound->format, sound->data, sound->size, sound->metaData.sample_rate );
 	
 #ifndef GENERATE_VIDEO
 	free(sound->data);
 	sound->data=0;
 #else
-	printf("Warning, not freeing WAV after openAL upload.\n");
+	Log_Printf("Warning, not freeing WAV after openAL upload.\n");
 #endif
+    
+    Log_Printf("Sound %s has been loaded (%d bytes).\n",filename,sound->size);
 }
 
 
-void SND_GenerateChannels(void )
-{
-	int i;
-	
-	for (i=0; i < NUM_SOURCES; i++) 
-	{
-		alGenSources(1, &sources[i]);
-	}
-}
+
 
 void SND_LoadsSoundLibrary(void )
 {
-	SND_Load("data/sfx/plasma.wav", &sounds[SND_PLASMA]);
-	SND_Load("data/sfx/explosionShort.wav", &sounds[SND_EXPLOSION]);
-	SND_Load("data/sfx/ghostLauch.wav", &sounds[SND_GHOST_LAUNCH]);
-	SND_Load("data/sfx/enemy_shot.wav", &sounds[SND_ENEMY_SHOT]);
+	SND_Load("data/sfx/plasma.wav", SND_PLASMA);
+	SND_Load("data/sfx/explosionShort.wav", SND_EXPLOSION);
+	SND_Load("data/sfx/ghostLauch.wav", SND_GHOST_LAUNCH);
+	SND_Load("data/sfx/enemy_shot.wav", SND_ENEMY_SHOT);
 }
 
 
-char *deviceList;
-char *sound_devices[ 12 ];
-ushort numSoundDevices, numDefaultSoundDevice;
-void SND_GetDeviceList( void )
-{
-	char deviceName[ 256 ];
-	
-	//my_strlcpy( deviceName, s_device->string, sizeof( deviceName ) );
-	if( alcIsExtensionPresent( NULL,"ALC_ENUMERATION_EXT") == AL_TRUE ) 
-	{	
-		// try out enumeration extension
-		deviceList = (char *)alcGetString( NULL, ALC_DEVICE_SPECIFIER );
-		
-		for( numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices ) 
-		{
-			sound_devices[ numSoundDevices ] = NULL;
-		}
-		
-		for( numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices )
-		{
-			sound_devices[ numSoundDevices ] = deviceList;
-			if( strcmp( sound_devices[ numSoundDevices ], deviceName ) == 0 )
-			{
-				numDefaultSoundDevice = numSoundDevices;
-			}
-			deviceList += strlen( deviceList );
-			if( deviceList[ 0 ] == 0 )
-			{
-				if( deviceList[ 1 ] == 0 )
-				{
-					break;
-				} 
-				else 
-				{
-					deviceList += 1;
-				}
-			}
-			
-			
-		} // End for numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices
-	}
-	
-}
+
 
 int SND_Init(void)
 {
 	
-	printf("[SND_Init] Initalizing sound system...\n");
-	SND_GetDeviceList();
+	Log_Printf("[SND_Init] Initalizing sound system...\n");
 	
-	device = alcOpenDevice( NULL  );
-	if( device == NULL )
-	{
-		printf( "Failed to Initialize OpenAL\n" );
-		alcDestroyContext( context );
-		context = 0;
-		return 0;
-	}
-	
-	// Create context(s)
-	context = alcCreateContext( device, NULL );
-	if( context == NULL )
-	{
-		printf( "Failed to initialize OpenAL\n" );
-		alcDestroyContext( context );
-		context = 0;
-		return 0;
-	}
-	
-	
-	
-	// Set active context
-	alcGetError( device );
-	alcMakeContextCurrent( context );
-	if( alcGetError( device ) != ALC_NO_ERROR )
-	{
-		printf( "Failed to Make Context Current\n" );
-		alcDestroyContext( context );
-		context = 0;
-		return 0;
-	}
-	
-	
-	printf( "[OpenAL] Context succesfully initialized.\n" );
 		
 
-	SND_GenerateChannels();
+	SND_BACKEND_Init();
 	
 	SND_LoadsSoundLibrary();
 		
@@ -215,37 +126,14 @@ int SND_Init(void)
 //char currentChannel=0;
 void SND_PlaySound(int sndId)
 {
-	//currentChannel points to the first free channel
-	ALuint source;
-	sound_t* sound;
-	
-	if (!engine.soundEnabled)
-		return;
-	
-	source = sources[sndId];
-	sound = &sounds[sndId];
-	
-	sound->lastTimePlayed = simulationTime;
-	//Uploading sounds to buffer
-	
-	//Trying stop as a bug fix (OpenAL drops sounds after a while for now reason.
-	alSourceStop(source);
-	
-	//printf("Uploading sound %d, sampleRate=%ld\n",sndId,sound->metaData.sample_rate);
-	alSourcef( source, AL_GAIN, 0.6f );
-	alSourcei( source, AL_BUFFER, sound->alBuffer );
-	alSourcei( source, AL_LOOPING, 0 );
-	alSourcei( source, AL_SOURCE_RELATIVE, AL_FALSE );
-	alSourcePlay( source );
-	
-	//printf("playing sound %d on source %ud with soundBuffer %ud\n",sndId,source,sound->alBuffer);
-	//if( alcGetError( device ) != ALC_NO_ERROR )
-	//{
-	//	printf("alcGetError()=%d\n",alcGetError( device ) );
-	//}
-	
-	
-	//currentChannel = (++currentChannel & (NUM_SOURCES-1));
+    sound_t* sound;
+    
+    sound = &sounds[sndId];
+    
+    sound->lastTimePlayed = simulationTime;
+    
+    SND_BACKEND_Play(sndId);
+    
 }
 
 
@@ -282,11 +170,11 @@ void SND_UpdateRecord(void)
 	}
 	//We need to generate the next frames for the amount timediff milliseconds.
 
-	//printf("%ld.\n",sounds[SND_PLASMA].metaData.samples);
+	//Log_Printf("%ld.\n",sounds[SND_PLASMA].metaData.samples);
 
 	/*
 	if (sounds[SND_PLASMA].lastTimePlayed > 0)
-	printf("(simulationTime - sounds[SND_PLASMA].lastTimePlayed) * (22050.0/1000)=%d\n",(simulationTime - sounds[SND_PLASMA].lastTimePlayed) * (22050/1000));
+	Log_Printf("(simulationTime - sounds[SND_PLASMA].lastTimePlayed) * (22050.0/1000)=%d\n",(simulationTime - sounds[SND_PLASMA].lastTimePlayed) * (22050/1000));
 	*/
 	
 	for (i=0; i < numFrameToWrite; i++) 
@@ -298,28 +186,28 @@ void SND_UpdateRecord(void)
 		{
 			sndValue = sounds[SND_PLASMA].data[((simulationTime - sounds[SND_PLASMA].lastTimePlayed)*22050/1000)+i];
 			numActiveChannel++;
-			//printf("Writing plasma [%i]\n",sounds[SND_PLASMA].data[((simulationTime - sounds[SND_PLASMA].lastTimePlayed)*22050/1000)+i);
+			//Log_Printf("Writing plasma [%i]\n",sounds[SND_PLASMA].data[((simulationTime - sounds[SND_PLASMA].lastTimePlayed)*22050/1000)+i);
 		}
 
 		if (((simulationTime - sounds[SND_EXPLOSION].lastTimePlayed) * (22050.0/1000)+i) < sounds[SND_EXPLOSION].metaData.samples)
 		{
 			sndValue += sounds[SND_EXPLOSION].data[((simulationTime - sounds[SND_EXPLOSION].lastTimePlayed)*22050/1000)+i];
 			numActiveChannel++;
-			//printf("Writing plasma [ %d/%ld]\n",((simulationTime - sounds[SND_PLASMA].lastTimePlayed)*22050/1000)+i,sounds[SND_PLASMA].metaData.samples);
+			//Log_Printf("Writing plasma [ %d/%ld]\n",((simulationTime - sounds[SND_PLASMA].lastTimePlayed)*22050/1000)+i,sounds[SND_PLASMA].metaData.samples);
 		}
 		
 		if (((simulationTime - sounds[SND_GHOST_LAUNCH].lastTimePlayed) * (22050.0/1000)+i) < sounds[SND_GHOST_LAUNCH].metaData.samples)
 		{
 			sndValue += sounds[SND_GHOST_LAUNCH].data[((simulationTime - sounds[SND_GHOST_LAUNCH].lastTimePlayed)*22050/1000)+i];
 			numActiveChannel++;
-			//printf("Writing plasma [ %d/%ld]\n",((simulationTime - sounds[SND_PLASMA].lastTimePlayed)*22050/1000)+i,sounds[SND_PLASMA].metaData.samples);
+			//Log_Printf("Writing plasma [ %d/%ld]\n",((simulationTime - sounds[SND_PLASMA].lastTimePlayed)*22050/1000)+i,sounds[SND_PLASMA].metaData.samples);
 		}
 		
 		if (((simulationTime - sounds[SND_ENEMY_SHOT].lastTimePlayed) * (22050.0/1000)+i) < sounds[SND_ENEMY_SHOT].metaData.samples)
 		{
 			sndValue += sounds[SND_ENEMY_SHOT].data[((simulationTime - sounds[SND_ENEMY_SHOT].lastTimePlayed)*22050/1000)+i];
 			numActiveChannel++;
-			//printf("Writing plasma [ %d/%ld]\n",((simulationTime - sounds[SND_PLASMA].lastTimePlayed)*22050/1000)+i,sounds[SND_PLASMA].metaData.samples);
+			//Log_Printf("Writing plasma [ %d/%ld]\n",((simulationTime - sounds[SND_PLASMA].lastTimePlayed)*22050/1000)+i,sounds[SND_PLASMA].metaData.samples);
 		}
 		
 		if (numActiveChannel)
@@ -328,7 +216,7 @@ void SND_UpdateRecord(void)
 			sndValue = 127;
 		}
 
-		//printf("Writing %uc\n",sndValue);
+		//Log_Printf("Writing %uc\n",sndValue);
 		audioTrack[simulationTime * 22050/1000 +i] = sndValue ;
 		
 	}
@@ -383,7 +271,7 @@ void SND_FinalizeRecord(void)
 {
 #ifdef GENERATE_VIDEO	
 	wave_file_t waveFile;
-	FILE* f;
+	filehandle_t* f;
 	
 	
 	
@@ -410,17 +298,17 @@ void SND_FinalizeRecord(void)
 	
 	
 	//Write file on disk
-	f = fopen(SOUND_TRACK_LOCATION, "wb");
+	f = FS_OpenFile(SOUND_TRACK_LOCATION, "wb");
 	
 	if (!f)
 	{
-		printf("Error creating file %s .\n",SOUND_TRACK_LOCATION);
+		Log_Printf("Error creating file %s .\n",SOUND_TRACK_LOCATION);
 	}
 	
-	fwrite(&waveFile, 1, sizeof(wave_file_t), f);
+	FS_Write(&waveFile, 1, sizeof(wave_file_t), f);
 	//fwrite(&waveFile.fmt, 1, sizeof(fmt_chunk_t), f);
-	fwrite(audioTrack, 1, sizeAudioTrack, f);
-	fclose(f);
+	FS_Write(audioTrack, 1, sizeAudioTrack, f);
+	FS_CloseFile(f);
 	
 	//free(audioTrack);
 	//audioTrack=0;

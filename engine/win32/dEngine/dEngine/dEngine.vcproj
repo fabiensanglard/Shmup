@@ -302,6 +302,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\log.c"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\menu.c"
 					>
 				</File>
@@ -377,6 +381,10 @@
 			<Filter
 				Name="audio"
 				>
+				<File
+					RelativePath="..\..\..\src\sound_openAL.c"
+					>
+				</File>
 				<File
 					RelativePath="..\..\..\src\sounds.c"
 					>
@@ -480,6 +488,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\src\log.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\src\menu.h"
 					>
 				</File>
@@ -505,6 +517,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\src\titles.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\src\unzip.h"
 					>
 				</File>
 			</Filter>
@@ -591,6 +607,10 @@
 			<Filter
 				Name="audio"
 				>
+				<File
+					RelativePath="..\..\..\src\sound_backend.h"
+					>
+				</File>
 				<File
 					RelativePath="..\..\..\src\sounds.h"
 					>

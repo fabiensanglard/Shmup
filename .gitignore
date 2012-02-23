@@ -1,3 +1,10 @@
+*.PVS-Studio.cfg
+ipch
+*log.txt
+bin
+gen
+objs
+libs
 *.sdf
 Debug
 Release

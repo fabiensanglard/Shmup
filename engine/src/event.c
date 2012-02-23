@@ -66,7 +66,7 @@ void EV_AttachToCamera(event_t* event)
 	gluLookAt(camera.position, vLookat, camera.up, viewMatrix);
 	matrix_multiply(projectionMatrix, viewMatrix, globalMatrix);
 	
-	printf("[EV_AttachToCamera]\n");
+	Log_Printf("[EV_AttachToCamera]\n");
 	P_AttachToCamera(globalMatrix);
 	ENE_AttachToCamera(globalMatrix);
 	
@@ -112,7 +112,7 @@ void EV_SpawnEnemy(event_t* event)
 	enemy->spawn_Z_AxisRot = eventPayload->zAxisRot;
 	
 	
-	//printf("Angle = %.2f\n",enemy->spawn_angle);
+	//Log_Printf("Angle = %.2f\n",enemy->spawn_angle);
 	
 
 	enemy->entity.xAxisRot = eventPayload->xAxisRot;
@@ -203,7 +203,7 @@ void EV_DisplayStats(event_t* event)
 
 void EV_ShowProlog(event_t* event)
 {
-	//printf("EV_ShowProlog()\n");
+	//Log_Printf("EV_ShowProlog()\n");
 	event_title_payload_t* pl;
 	pl = event->payload;
 	TITLE_Show_prolog(pl->duration);
@@ -211,7 +211,7 @@ void EV_ShowProlog(event_t* event)
 
 void EV_ShowEpilog(event_t* event)
 {
-	//printf("EV_ShowEpilog()\n");
+	//Log_Printf("EV_ShowEpilog()\n");
 	event_title_payload_t* pl;
 	pl = event->payload;
 	TITLE_Show_epilog(pl->duration);
@@ -233,7 +233,7 @@ void EV_RequestScene(event_t* event)
 	
 	dEngine_RequireSceneId(payload->sceneId);
 	
-	printf("[EV_RequestScene] engine.requiredSceneId =%d.\n",engine.requiredSceneId );
+	Log_Printf("[EV_RequestScene] engine.requiredSceneId =%d.\n",engine.requiredSceneId );
 }
 
 void EV_RequestMenu(event_t* event)
@@ -259,7 +259,7 @@ void EV_AutoPilotPls(event_t* event)
 		players[i].autopilot.end_ss_position[X] = (i-0.5)*2*0.3;
 		
 		players[i].autopilot.end_ss_position[Y] = -0.3;
-		//printf("player %d end_ss_position[%.2f,%.2f]\n",players[i].autopilot.end_ss_position[X],players[i].autopilot.end_ss_position[Y]);
+		//Log_Printf("player %d end_ss_position[%.2f,%.2f]\n",players[i].autopilot.end_ss_position[X],players[i].autopilot.end_ss_position[Y]);
 		players[i].autopilot.diff_ss_position[X] = players[i].ss_position[X] - players[i].autopilot.end_ss_position[X];
 		players[i].autopilot.diff_ss_position[Y] = players[i].ss_position[Y] - players[i].autopilot.end_ss_position[Y];
 		
@@ -365,7 +365,7 @@ void EV_LimitedEdition_Action(event_t* event)
 	{			
 		while (event->next != NULL && event->next->type == EV_SPAWN_ENEMY)
 		{
-			//printf("[dEngine_JumpInTime] Cleaning EV_SPAWN_ENEMY events t=%d.\n",event->next->time);
+			//Log_Printf("[dEngine_JumpInTime] Cleaning EV_SPAWN_ENEMY events t=%d.\n",event->next->time);
 			
 			toDelete = event->next;
 			event->next = event->next->next;
@@ -416,7 +416,7 @@ void EV_InitForScene(void)
 	
 	nextEvent = &events;
 	
-	printf("EV_InitForScene\n");
+	Log_Printf("EV_InitForScene\n");
 }
 
 event_t*  EV_GetNextEvent(void)
@@ -453,11 +453,11 @@ void EV_Update(void)
 	event_t* toDelete;
 	
 	//if (nextEvent != NULL)
-	//	printf("next event t=%d.\n",nextEvent->time);
+	//	Log_Printf("next event t=%d.\n",nextEvent->time);
 	
 	while (nextEvent != NULL && nextEvent->time < simulationTime) 
 	{
-		//printf("Triggering event t=%d type: %d.\n",nextEvent->time,nextEvent->type);
+		//Log_Printf("Triggering event t=%d type: %d.\n",nextEvent->time,nextEvent->type);
 		eventToFunction[nextEvent->type](nextEvent);
 		
 		toDelete = nextEvent;
@@ -519,7 +519,7 @@ void EV_ReadEnemiesEvents(void)
 		if (!strcmp("settime", LE_getCurrentToken()))
 		{
 			time = LE_readReal();
-			//printf("settime=%d.\n",time);
+			//Log_Printf("settime=%d.\n",time);
 		}
 		else
 		if (!strcmp("addtime", LE_getCurrentToken())) 
@@ -529,13 +529,13 @@ void EV_ReadEnemiesEvents(void)
 		if (!strcmp("setttl", LE_getCurrentToken()))
 		{
 			ttl = LE_readReal();
-			//printf("ttl=%.2f.\n",ttl);
+			//Log_Printf("ttl=%.2f.\n",ttl);
 		}		
 		else if (!strcmp("at", LE_getCurrentToken()))
 		{
 			at = time + LE_readReal();
 		
-			//printf("Fount enemy at %d.\n",at);
+			//Log_Printf("Fount enemy at %d.\n",at);
 		
 			LE_readToken();
 		
@@ -550,12 +550,12 @@ void EV_ReadEnemiesEvents(void)
 					//enemyNum
 					LE_readToken();
 					numEnemies= LE_readReal();
-					//printf("Fount %d enemies.\n",numEnemies);
+					//Log_Printf("Fount %d enemies.\n",numEnemies);
 				
 					//enemyType
 					LE_readToken();
 					enemyType = LE_readReal();
-					//printf("Fount enemyType %d.\n",enemyType);
+					//Log_Printf("Fount enemyType %d.\n",enemyType);
 				
 					//percentageInvulnerable
 					LE_readToken();
@@ -630,7 +630,7 @@ void EV_ReadEnemiesEvents(void)
 						//startAngle 0    fireFrequency 100
 						LE_readToken();
 						eventPayload->parameters[PARAMETER_LEE_START_ANGLE] = 2*M_PI/360 * LE_readReal();
-					//	printf("eventPayload->parameters[PARAMETER_LEE_START_ANGLE]=%.2f\n",eventPayload->parameters[PARAMETER_LEE_START_ANGLE]);
+					//	Log_Printf("eventPayload->parameters[PARAMETER_LEE_START_ANGLE]=%.2f\n",eventPayload->parameters[PARAMETER_LEE_START_ANGLE]);
 						LE_readToken();
 						eventPayload->parameters[PARAMETER_LEE_FIRE_FREQUENCY] = LE_readReal();
 						
@@ -718,7 +718,7 @@ void EV_ReadEnemiesEvents(void)
 				
 				EV_AddEvent(event);
 			}
-			//printf("t=%d enemyType=%d\n",event->time,eventPayload->type);
+			//Log_Printf("t=%d enemyType=%d\n",event->time,eventPayload->type);
 		}
 		LE_readToken(); 
 	}
@@ -772,7 +772,7 @@ void EV_ReadTextsEvents(void)
 			
 			
 			//Acquired event
-		//	printf("[EV_ReadTextsEvents] at %d: %s\n",event->time,payload->text);
+		//	Log_Printf("[EV_ReadTextsEvents] at %d: %s\n",event->time,payload->text);
 			EV_AddEvent(event);
 		}
 		else

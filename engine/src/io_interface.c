@@ -15,7 +15,7 @@ void IO_Init(void){
 	commScale[Y] = SS_H/ (float)renderer.viewPortDimensions[VP_HEIGHT];
 }
 
-void IO_PushEvent(io_event_s* event){
+void IO_PushEvent(io_event_s* event_in){
 	
 
 
@@ -33,7 +33,8 @@ void IO_PushEvent(io_event_s* event){
 	int numButton;
 	touch_t* currentTouchSet;
 
-
+	//Perform a defensive copy
+	io_event_s event = *event_in;
 
 
 
@@ -54,8 +55,8 @@ void IO_PushEvent(io_event_s* event){
        // CGPoint touchLocation = [myTouch locationInView:nil];
 		
 		//Transforming from whatever screen resolution we have to the original iPHone 320*480
-		event->position[X] = ( event->position[X] - renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
-		event->position[Y] = ( event->position[Y] - renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
+		event.position[X] = ( event.position[X] - renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
+		event.position[Y] = ( event.position[Y] - renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
 
 
 		// find which one it is closest to
@@ -63,7 +64,7 @@ void IO_PushEvent(io_event_s* event){
 		for (i  = 0 ; i < numButton ; i++ ) 
 		{
 			
-			dist = SQUARE( t2->iphone_coo_SysPos[X] - event->position[X] )  + SQUARE( t2->iphone_coo_SysPos[Y] - event->position[Y] ) ;
+			dist = SQUARE( t2->iphone_coo_SysPos[X] - event.position[X] )  + SQUARE( t2->iphone_coo_SysPos[Y] - event.position[Y] ) ;
 			
 			
 			if ( dist < minDist ) {
@@ -78,19 +79,20 @@ void IO_PushEvent(io_event_s* event){
 		if ( minIndex != -1 ) 
 		{
 			//printf("HIT ! %d.\n",minIndex);
-			if (event->type == IO_EVENT_ENDED) 
+			if (event.type == IO_EVENT_ENDED) 
 			{
-				touch->down = 0;
+				//touch->down = 0;
 				//printf("%d UP\n",minIndex);
+                touch->down = 1;
+				touch->dist[X] = MIN(1,(event.position[X] - touches[minIndex].iphone_coo_SysPos[X])/touches[minIndex].iphone_size);
+				touch->dist[Y] = MIN(1,(touches[minIndex].iphone_coo_SysPos[Y] - event.position[Y])/touches[minIndex].iphone_size);
 			}
 			else 
 			{
-				if (event->type == IO_EVENT_BEGAN) 
+				if (event.type == IO_EVENT_BEGAN) 
 				{
-				}
-				touch->down = 1;
-				touch->dist[X] = MIN(1,(event->position[X] - touches[minIndex].iphone_coo_SysPos[X])/touches[minIndex].iphone_size);
-				touch->dist[Y] = MIN(1,(touches[minIndex].iphone_coo_SysPos[Y] - event->position[Y])/touches[minIndex].iphone_size);
+				
+                }
 			}
 		}
 	
@@ -104,17 +106,13 @@ void IO_PushEvent(io_event_s* event){
 			//CGPoint prevTouchLocation = [myTouch previousLocationInView:nil];
 			
 			//Transforming from whatever screen resolution we have to the original iPHone 320*480
-			event->position[X] = ( event->position[X]- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
-			event->position[Y] = ( event->position[Y]- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
-			
-			event->previousPosition[X] = ( event->previousPosition[X]- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
-			event->previousPosition[Y] = ( event->previousPosition[Y]- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
+			event.position[X] = ( event.position[X]- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
+			event.position[Y] = ( event.position[Y]- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
 			
 			
 			
 			
-			
-			if (event->type == IO_EVENT_ENDED) 
+			if (event.type == IO_EVENT_ENDED) 
 			{
 				//if (touchCount == 1) //Last finger ended
 					touches[BUTTON_FIRE].down = 0;
@@ -124,15 +122,21 @@ void IO_PushEvent(io_event_s* event){
 			 
 				
 			
-				if (event->type == IO_EVENT_MOVED) 
+				if (event.type == IO_EVENT_MOVED) 
 				{
+                    
+                    event.previousPosition[X] = ( event.previousPosition[X]- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
+                    event.previousPosition[Y] = ( event.previousPosition[Y]- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
+                    
+                    
 					//printf("m\n");
 					touches[BUTTON_MOVE].down = 1;
-					touches[BUTTON_MOVE].dist[X] = (event->position[X] - event->previousPosition[X])*40/(float)320;
-					touches[BUTTON_MOVE].dist[Y] = (event->position[Y] - event->previousPosition[Y])*-40/(float)480;
+                    //Used to be +80 for X and -80 for Y
+					touches[BUTTON_MOVE].dist[X] = (event.position[X] - event.previousPosition[X])*80/(float)320;
+					touches[BUTTON_MOVE].dist[Y] = (event.position[Y] - event.previousPosition[Y])*-80/(float)480;
 					
 				}
-				if (event->type == IO_EVENT_BEGAN)
+				if (event.type == IO_EVENT_BEGAN)
 				{
 					int currTime = E_Sys_Milliseconds();
 					if (currTime-lastTouchBegan < 200)
