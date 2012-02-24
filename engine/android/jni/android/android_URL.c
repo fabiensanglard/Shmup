@@ -5,7 +5,7 @@
 //#include "stdlib.h"
 
 extern JNIEnv* env;
-extern jobject  activityClass;
+extern jobject  activityInstance;
 extern jmethodID goToWebsite;
 void goToURL(char* url){
 
@@ -19,7 +19,7 @@ void goToURL(char* url){
 
 
 
-	(*env)->CallStaticObjectMethod(env,activityClass,goToWebsite,jstr);
+	(*env)->CallVoidMethod(env,activityInstance,goToWebsite,jstr);
 
 
 }

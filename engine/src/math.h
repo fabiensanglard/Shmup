@@ -45,9 +45,9 @@ typedef short vec2short_t[2];
 #if defined(SHMUP_TARGET_MACOSX) || defined(SHMUP_TARGET_WINDOWS)
   typedef  struct vertex_t {
       vec3_t pos;
-      vec3short_t normal;  short macoxPadding;
+      vec3short_t normal;  short macosxPadding;
       vec2short_t text;
-      vec3short_t tangent; short macoxPadding2;
+      vec3short_t tangent; short macosxPadding2;
   } vertex_t;
 
 #else

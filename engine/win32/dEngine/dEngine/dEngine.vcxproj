@@ -60,7 +60,7 @@
     <Link>
       <AdditionalDependencies>Winmm.lib;libgles_cm.lib;DevIL.lib;ILU.lib;ILUT.lib;OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\..\..\ShmupDebug.exe</OutputFile>
-      <AdditionalLibraryDirectories>C:\opt\cygwin\home\SanglardFa\devIL\lib\;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\WindowsX86\Lib;C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\libs\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\opt\cygwin\home\SanglardFa\devIL\lib\;C:\opt\cygwin\home\SanglardFa\OGLES_WINDOWS_X86EMULATION_2.09.29.0649\Builds\OGLES\WindowsX86\Lib;"C:\opt\cygwin\home\SanglardFa\OpenAL 1.1 SDK\libs\Win32";%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>

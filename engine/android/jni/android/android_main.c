@@ -299,15 +299,10 @@ static void engine_handle_cmd(struct android_app* state, int32_t cmd) {
 }
 
 JNIEnv* env = NULL;
-#ifdef SHMUP_VERSION_LIMITED
-	char* className = "net.fabiensanglard.shmuplite.ShmupLiteActivity" ;
-#else
-	char* className = "net.fabiensanglard.shmup.Launcher" ;
-#endif
 //char* className = "java/lang/Object" ;
 //char* className = "	android/app/NativeActivity";
 char* methodName = "goToWebsite";
-jobject  activityClass ;
+jobject  activityInstance ;
 jmethodID goToWebsite ;
 void registerEnvironmentAndActivity(ANativeActivity* activity){
 
@@ -318,64 +313,19 @@ void registerEnvironmentAndActivity(ANativeActivity* activity){
 
 	env = jni ;
 
-	jclass activityClass = (*jni)->FindClass(jni,"android/app/NativeActivity");
+	jclass activityClass = (*jni)->GetObjectClass(jni,activity->clazz);
 	if (!activityClass){
-		LOGE("Unable to find class 'android/app/NativeActivity'.\n");
+		LOGE("Unable to get class of main activity.\n");
 		return;
 	}
 
 	LOGE("Found android/app/NativeActivity class.\n");
 
-	jmethodID getClassLoader = (*jni)->GetMethodID(jni,activityClass,"getClassLoader", "()Ljava/lang/ClassLoader;");
-	if (!getClassLoader){
-			LOGE("Unable to find method getClassLoader from 'android/app/NativeActivity'.\n");
-			return;
-	}
+	activityInstance = activity->clazz;
 
-	LOGE("Found getClassLoader method in android/app/NativeActivity class.\n");
-
-	jobject cls = (*jni)->CallObjectMethod(jni,activity->clazz, getClassLoader);
-
-	if (!cls){
-		LOGE("Faild to retrieve the ClassLoader object by calling android.app.NativeActivity.getClassLoader().\n");
-		return;
-	}
-
-	LOGE("We now have a valid classloader object instance (cls) but we cannot call a method on it yet.\n");
-
-
-	jclass classLoader = (*jni)->FindClass(jni,"java/lang/ClassLoader");
-	if (!classLoader){
-		LOGE("Unable to find class 'java/lang/ClassLoader'.\n");
-		return;
-	}
-
-	LOGE("Found java/lang/ClassLoader class.\n");
-
-	jmethodID findClass = (*jni)->GetMethodID(jni,classLoader, "loadClass", "(Ljava/lang/String;)Ljava/lang/Class;");
-
-	if (!findClass){
-		LOGE("Unable to find method loadClass from 'java/lang/ClassLoader'.\n");
-		return;
-	}
-
-	LOGE("Found loadClass method from java/lang/ClassLoader class.\n");
-
-	jstring strClassName = (*jni)->NewStringUTF(jni,className);
-
-
-	activityClass = (jclass)(*jni)->CallObjectMethod(jni,cls, findClass, strClassName);
-	if (!activityClass){
-		LOGE("Unable to find class '%s' using ClassLoader.loadClass(\"%s\").\n",className,className);
-		return;
-	}
-
-	LOGE("Found '%s' class.\n",className);
-
-
-	goToWebsite = (*jni)->GetStaticMethodID(jni, activityClass, methodName, "(Ljava/lang/String;)V");
+	goToWebsite = (*jni)->GetMethodID(jni, activityClass, methodName, "(Ljava/lang/String;)V");
 	if (!goToWebsite){
-		LOGE("Unable to find method %d in class %s.\n",methodName,className);
+		LOGE("Unable to find method %d in class.\n",methodName);
 		return;
 	}
 	else
