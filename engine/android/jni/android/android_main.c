@@ -459,19 +459,17 @@ void android_main(struct android_app* state) {
 		int frameEnd = E_Sys_Milliseconds();
 	//	LOGE("[android_main] FRAME\n");
 
-		useconds_t timeToSleep = timediff - (frameEnd-frameStart);
+		unsigned int timeToSleep = timediff - (frameEnd-frameStart);
 
 		//LOGE("[android_main] tts=%u\n",timeToSleep);
 
+		// In the event engine_draw_frame took more time than timediff we end up with a
+		// very high number. Set it to the maximum time instead.
+		if (timeToSleep > 17)
+			timeToSleep = 17;
+
 		timeToSleep *= 1000;
-
-
-
-		if( timeToSleep > 0 ) {
-			//printf("Sleeping for %d.\n",sleep_time);
-			usleep( timeToSleep );
-		}
-
+		usleep( timeToSleep );
 
 	 }
 }
