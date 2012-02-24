@@ -45,12 +45,13 @@
 #include "menu.h"
 #include "netchannel.h"
 #include "globals.h"
+#include "io_interface.h"
 
 EAGLView *eaglview;
 
 #import "AQ.h"
 AQ* audiocontroller;
-vec2_t commScale;
+
 
 
 // A class extension to declare private methods
@@ -230,19 +231,7 @@ vec2_t commScale;
 		
 		dEngine_Init();
 
-		/*
-		if(thisDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
-		{
-			NSLog(@"NASTY NASTY HACK !!!");
-			NSLog(@"city_white is replaced with data/texturesPVR/act1/cityBlue_4bbp.pvr");
-			material_t* city_white = MATLIB_Get("city_white");
-			free(city_white->textures[TEXTURE_DIFFUSE].path);
-			city_white->textures[TEXTURE_DIFFUSE].path=0;
-			city_white->textures[TEXTURE_DIFFUSE].path=calloc(sizeof(char), strlen("data/texturesPVR/act1/cityBlue_4bbp.pvr")+1);
-			strcpy(city_white->textures[TEXTURE_DIFFUSE].path,"data/texturesPVR/act1/cityBlue_4bbp.pvr");
-			NSLog(@"NASTY NASTY HACK !!!");
-		}
-		*/
+		
 		if (!fixedDesired)
 			context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 		
@@ -275,9 +264,7 @@ vec2_t commScale;
 		if(thisDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
 		{
 			// iPad
-			commScale[X] = SS_W/ (float)renderer.viewPortDimensions[VP_WIDTH];
-			commScale[Y] = SS_H/ (float)renderer.viewPortDimensions[VP_HEIGHT];
-            
+			 
             //Disable fog only on iPad1 machines, iPad2 have enough fillarate
             size_t size;
 			sysctlbyname("hw.machine", NULL, &size, NULL, 0);
@@ -289,12 +276,7 @@ vec2_t commScale;
 				renderer.props &= ~PROP_FOG ;
 			
 		}
-		else
-		{
-			// iPhone
-			commScale[X] = 1;
-			commScale[Y] = 1;
-		}
+		
 		
 	//	printf("renderer.resolution =%.2f\n",renderer.resolution );
 				
@@ -336,16 +318,7 @@ vec2_t commScale;
         
 			
 		
-//		printf("renderer.viewPortDimensions[VP_X]=%d\n",renderer.viewPortDimensions[VP_X]);
-//		printf("renderer.viewPortDimensions[VP_Y]=%d\n",renderer.viewPortDimensions[VP_Y]);
-//		printf("renderer.viewPortDimensions[VP_WIDTH]=%d\n",renderer.viewPortDimensions[VP_WIDTH]);
-//		printf("renderer.viewPortDimensions[VP_HEIGHT]=%d\n",renderer.viewPortDimensions[VP_HEIGHT]);
-//		printf("renderer.glBuffersDimensions[WIDTH]=%d\n",renderer.glBuffersDimensions[WIDTH]);
-//		printf("renderer.glBuffersDimensions[HEIGHT]=%d\n",renderer.glBuffersDimensions[HEIGHT]);
-		
-//		printf("commScale[X]=%.2f\n",commScale[X]);
-//		printf("commScale[Y]=%.2f\n",commScale[Y]);
-      //  displayLinkSupported = FALSE;
+        IO_Init();
 		 
 		
     }
@@ -623,144 +596,41 @@ void loadNativePNG(texture_t* tmpTex)
     [super dealloc];
 }
 
-int lastTouchBegan = 0;
-#define SQUARE(X) ((X)*(X))
 - (void) handleTouches:(UIEvent*)event 
 {
-	//int	touchThisSequence[NUM_BUTTONS];
-	int touchCount = 0;
-	static int previousTouchCount;
-	int numButton;
-	touch_t* touch;
-	touch_t* currentTouchSet;
-	
-	
-	
-	if (engine.menuVisible)
-	{
-		numButton = MENU_GetNumButtonsTouches();
-		currentTouchSet = MENU_GetCurrentButtonTouches();
-		
-	}
-	else 
-	{
-		numButton = NUM_BUTTONS;
-		currentTouchSet = touches;
-	}
-	
-	//printf("There is currently %d buttons.\n",numButton);
 
-	//memset( touchThisSequence, 0, sizeof( touchThisSequence ) );
-	if (engine.menuVisible || engine.controlMode == CONTROL_MODE_VIRT_PAD)
-	{
-	NSSet *iPhonetouches = [event allTouches];
-	
-	for (UITouch *myTouch in iPhonetouches)
+    int touchCount ;
+    io_event_s shmupEvent;
+    static int previousTouchCount;
+    
+    
+    NSSet *iPhonetouches = [event allTouches];
+    for (UITouch *myTouch in iPhonetouches)
     {
+        touchCount++;
         CGPoint touchLocation = [myTouch locationInView:nil];
-		
-		//Transforming from whatever screen resolution we have to the original iPHone 320*480
-		touchLocation.x = ( touchLocation.x- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
-		touchLocation.y = ( touchLocation.y- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
-
-		touchCount++;
-
-		// find which one it is closest to
-		int		minDist = 64 * 64  ;	// allow up to 64 unit moves to be drags
-		int		minIndex = -1;
-		int dist;
-		touch_t	*t2 = currentTouchSet;
-		for ( int i = 0 ; i < numButton ; i++ ) 
-		{
-			
-			dist = SQUARE( t2->iphone_coo_SysPos[X] - touchLocation.x )  + SQUARE( t2->iphone_coo_SysPos[Y] - touchLocation.y ) ;
-			
-			
-			if ( dist < minDist ) {
-				minDist = dist;
-				minIndex = i;
-				touch = t2;
-			}
-		//	printf("button:%d x=%hd, y =%.hd. dist=%.2f, minDist=%.2f\n",i,t2->iphone_coo_SysPos[X],t2->iphone_coo_SysPos[Y],(float)dist,(float)minDist);
-			t2++;
-		}
-		
-		if ( minIndex != -1 ) 
-		{
-			//printf("HIT ! %d.\n",minIndex);
-			if (myTouch.phase == UITouchPhaseEnded) 
-			{
-				touch->down = 0;
-				//printf("%d UP\n",minIndex);
-			}
-			else 
-			{
-				if (myTouch.phase == UITouchPhaseBegan) 
-				{
-				}
-				touch->down = 1;
-				touch->dist[X] = MIN(1,(touchLocation.x - touches[minIndex].iphone_coo_SysPos[X])/touches[minIndex].iphone_size);
-				touch->dist[Y] = MIN(1,(touches[minIndex].iphone_coo_SysPos[Y] - touchLocation.y)/touches[minIndex].iphone_size);
-			}
-		}
-	}
-	}
-	else
-	{
-		NSSet *iPhonetouches = [event allTouches];
-		
-		for (UITouch *myTouch in iPhonetouches)
-		{
-			CGPoint touchLocation = [myTouch locationInView:nil];
-			CGPoint prevTouchLocation = [myTouch previousLocationInView:nil];
-			
-			//Transforming from whatever screen resolution we have to the original iPHone 320*480
-			touchLocation.x = ( touchLocation.x- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
-			touchLocation.y = ( touchLocation.y- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
-			
-			prevTouchLocation.x = ( prevTouchLocation.x- renderer.viewPortDimensions[VP_X] ) * commScale[X] ;//* renderer.resolution ;
-			prevTouchLocation.y = ( prevTouchLocation.y- renderer.viewPortDimensions[VP_Y] ) * commScale[Y] ;//* renderer.resolution;
-			
-			
-			touchCount++;
-			
-			
-			
-			if (myTouch.phase == UITouchPhaseEnded) 
-			{
-				if (touchCount == 1) //Last finger ended
-					touches[BUTTON_FIRE].down = 0;
-			}
-			else 
-			{
-			 
-				
-			
-				if (myTouch.phase == UITouchPhaseMoved) 
-				{
-					//printf("m\n");
-					touches[BUTTON_MOVE].down = 1;
-					touches[BUTTON_MOVE].dist[X] = (touchLocation.x - prevTouchLocation.x)*40/(float)320;
-					touches[BUTTON_MOVE].dist[Y] = (touchLocation.y - prevTouchLocation.y)*-40/(float)480;
-					
-				}
-				if (myTouch.phase == UITouchPhaseBegan)
-				{
-					int currTime = E_Sys_Milliseconds();
-					if (currTime-lastTouchBegan < 200)
-						touches[BUTTON_GHOST].down = 1;
-					
-					lastTouchBegan = currTime ;
-					
-					touches[BUTTON_FIRE].down = 1;
-				}
-				
-				
-			}
-			
-		}
-	}
-	
+        CGPoint prevTouchLocation = [myTouch previousLocationInView:nil];
+        
+        shmupEvent.position[X] = touchLocation.x;
+        shmupEvent.position[Y] = touchLocation.y;
+        
+        if (myTouch.phase == UITouchPhaseEnded){
+            shmupEvent.type = IO_EVENT_ENDED;
+            IO_PushEvent(&shmupEvent);
+        }
+        else
+        if (myTouch.phase == UITouchPhaseMoved){
+            shmupEvent.type = IO_EVENT_MOVED;
+            shmupEvent.previousPosition[X] = prevTouchLocation.x;
+            shmupEvent.previousPosition[Y] = prevTouchLocation.y;
+            IO_PushEvent(&shmupEvent);    
+        }
+        else
+        if (myTouch.phase == UITouchPhaseBegan){
+            shmupEvent.type = IO_EVENT_BEGAN;
+            IO_PushEvent(&shmupEvent);
+        }
+    }
 	
 	
 	if ( touchCount == 5 && previousTouchCount != 5 ) 
@@ -811,7 +681,7 @@ void SND_StartSoundTrack(void)
 		printf("[SND_StartSoundTrack] cancelled.\n");
 		return;
 	}
-	printf("[SND_StartSoundTrack] OK.\n");
+	
 	
 	[audiocontroller start];
 }
@@ -823,7 +693,7 @@ void SND_StopSoundTrack(void)
 		printf("[SND_StopSoundTrack] cancelled.\n");
 		return;
 	}
-	printf("[SND_StopSoundTrack] OK.\n");
+	
 	
 	[audiocontroller end];
 }
@@ -835,7 +705,7 @@ void SND_PauseSoundTrack(void)
 		printf("[SND_PauseSoundTrack] cancelled.\n");
 		return;
 	}
-	printf("[SND_PauseSoundTrack] OK.\n");
+	
 	
 	[audiocontroller pause];
 }
@@ -847,7 +717,7 @@ void SND_ResumeSoundTrack(void)
 		printf("[SND_ResumeSoundTrack] cancelled.\n");
 		return;
 	}
-	printf("[SND_ResumeSoundTrack] OK.\n");
+	
 	
 	[audiocontroller resume];
 }
