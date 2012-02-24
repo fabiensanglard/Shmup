@@ -457,11 +457,13 @@ void Action_ConfigureMultiplayer(void* tag)
 	engine.difficultyLevel = DIFFICULTY_NORMAL;
 }
 
+#ifdef SHMUP_TARGET_ANDROID  
 #include "native_URL.h"
 void Action_GoBuyFullVersion(void* tag)
 {
     goToURL("market://details?id=net.fabiensanglard.shmup");
 }
+#endif
 
 void replayLastGame(void){}
 void doNothing(void){}
