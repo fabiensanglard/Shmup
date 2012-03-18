@@ -82,7 +82,15 @@
  *
  *
  *  TODO: X The music system is unable to start at a determined time within the music. Need to a SEEK interface in the OpenES implementation otherwise music in level2 is the same as level 1.
- *  TODO:   Fix thibault bug.
+ *  TODO:   Fix thibault bug:
+ *
+        A la fin du premier niveau, quand les scores partiels sont affichés, tu mets les 5 doigts sur l'écran.
+        1/ Soit le programme reboute directement  au début du tableau 1 sans réinitialiser les scores
+        2/ soit il reboute directement sur le tutorial
+        3/ soit il affiche le menu "tutorial, new game," mais avec en arrière plan la feuille de score figée. 
+           La il suffit d'attendre 10 secondes sans toucher , et il reboute sur  le début du premier tableau 
+           sans réinitialiser les scores.
+ *
  *
  *
  *  TODO: X Create icons for Android Shmup and Android Shmup Lite

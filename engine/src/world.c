@@ -489,10 +489,21 @@ void World_OpenScene(char* filename)
 							event->type = EV_SAVE_SCORE;	
 						event->payload = 0;
 					}
+					else
+                    if (!strcmp("clearTitle", LE_getCurrentToken()))
+                    {
+                        event->type = EV_CLEAR_TITLE;	
+                        event->payload = 0;
+                    }
 					
-					
-					
-					EV_AddEvent(event);
+                    /*
+                    if(event->type == 0)
+                    {
+                        free(event);
+                    }
+					else
+                    */
+                        EV_AddEvent(event);
 				}
 				LE_readToken();
 			}

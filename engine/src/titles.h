@@ -34,6 +34,7 @@ void TITLE_Show_prolog(int dr);
 void TITLE_Show_epilog(int dr);
 void TITLE_Render(void);
 void TITLE_Update(void);
+void TITLE_Clear(void);
 
 extern texture_t titleTexture;
 #define MODE_PROLOG 0

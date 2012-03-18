@@ -386,6 +386,7 @@ void Action_PlayDemo(void* tag)
 	
 	dEngine_RequireSceneId(*actId);
 	MENU_Set(MENU_NONE);
+    
 }
 
 void Action_GoToAct(void* tag)

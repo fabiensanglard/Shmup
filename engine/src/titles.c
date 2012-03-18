@@ -176,6 +176,11 @@ void TITLE_Update(void)
 	
 }
 
+void TITLE_Clear(void){
+    timeRemaining = 0;
+    title_mode = MODE_UNKNOWN;
+}
+
 void TITLE_Show_prolog(int tr)
 {
 	timeRemaining =  tr;

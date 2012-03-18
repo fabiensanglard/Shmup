@@ -456,6 +456,15 @@ void dEngine_LoadScene(int sceneId)
 		ev->type = EV_LIMITED_EVENT;
 		EV_AddEvent(ev);
 	}
+    
+    //We are back to main menu, init a few things
+    if (sceneId == 0)
+    {
+        numPlayers = 1;
+        PL_ResetPlayersScore();
+    }
+    
+    
 }
 
 void dEngine_FreeSceneRessources(void)

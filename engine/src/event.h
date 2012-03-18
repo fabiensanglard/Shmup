@@ -45,6 +45,7 @@
 #define EV_AUTOPILOT_PL		0xC
 #define EV_SAVE_SCORE		0xD
 #define EV_LIMITED_EVENT	0xE
+#define EV_CLEAR_TITLE      0xF
 
 typedef struct event_t
 {

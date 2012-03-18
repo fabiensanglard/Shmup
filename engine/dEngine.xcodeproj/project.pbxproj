@@ -559,30 +559,30 @@
 		2DF3679110389A7800020D05 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				2D689667103107EF00308FF1 /* filesystem.c */,
+				2D689666103107EF00308FF1 /* filesystem.h */,
 				2DE1627114F8026900F58933 /* io_interface.c */,
 				2DE1627214F8026900F58933 /* io_interface.h */,
+				2DEFC015106C4D250037EC3E /* lexer.c */,
+				2DEFC014106C4D250037EC3E /* lexer.h */,
 				2DEE50CC14EA49DC0049D078 /* log.c */,
 				2DEE50CD14EA49DC0049D078 /* log.h */,
-				2D000D8B14D8D1C80021DC8D /* target.h */,
-				2D26C1CC11CC850500CBCFB4 /* menu.h */,
 				2D26C1CD11CC850500CBCFB4 /* menu.c */,
-				2DF367781038996B00020D05 /* stats.h */,
-				2DF367791038996B00020D05 /* stats.c */,
-				2D689666103107EF00308FF1 /* filesystem.h */,
-				2D689667103107EF00308FF1 /* filesystem.c */,
-				2D7C782710378FBC00EAF594 /* timer.h */,
-				2D7C782810378FBC00EAF594 /* timer.c */,
-				2DEFC014106C4D250037EC3E /* lexer.h */,
-				2DEFC015106C4D250037EC3E /* lexer.c */,
-				2D5EBB2F112B19F100E0DED0 /* preproc.h */,
-				2D5EBB30112B19F100E0DED0 /* preproc.c */,
-				2DE34DFC11C2E8F0004F1658 /* netchannel.h */,
-				2DE34DFD11C2E8F0004F1658 /* netchannel.c */,
-				2D4BCF811206517D0059C3EC /* trackmem.h */,
-				2D4BCF821206517D0059C3EC /* trackmem.c */,
-				2D796F1E1215EACF0061ACE8 /* titles.h */,
-				2D796F1F1215EACF0061ACE8 /* titles.c */,
+				2D26C1CC11CC850500CBCFB4 /* menu.h */,
 				2D8E65CF125F639A003813D5 /* native_services.h */,
+				2DE34DFD11C2E8F0004F1658 /* netchannel.c */,
+				2DE34DFC11C2E8F0004F1658 /* netchannel.h */,
+				2D5EBB30112B19F100E0DED0 /* preproc.c */,
+				2D5EBB2F112B19F100E0DED0 /* preproc.h */,
+				2DF367791038996B00020D05 /* stats.c */,
+				2DF367781038996B00020D05 /* stats.h */,
+				2D000D8B14D8D1C80021DC8D /* target.h */,
+				2D7C782810378FBC00EAF594 /* timer.c */,
+				2D7C782710378FBC00EAF594 /* timer.h */,
+				2D796F1F1215EACF0061ACE8 /* titles.c */,
+				2D796F1E1215EACF0061ACE8 /* titles.h */,
+				2D4BCF821206517D0059C3EC /* trackmem.c */,
+				2D4BCF811206517D0059C3EC /* trackmem.h */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -1040,6 +1040,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

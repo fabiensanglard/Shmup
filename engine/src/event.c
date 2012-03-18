@@ -244,6 +244,8 @@ void EV_RequestMenu(event_t* event)
 	payload = event->payload;
 	
 	MENU_Set(payload->menuId);
+    
+   
 }
 
 void EV_AutoPilotPls(event_t* event)
@@ -380,6 +382,10 @@ void EV_LimitedEdition_Action(event_t* event)
 	 
 }
 
+void EV_ClearTitle(event_t* event){
+    TITLE_Clear();
+}
+
 typedef void (*eventProcessor_ft)(event_t*) ;
 
 
@@ -402,7 +408,8 @@ eventProcessor_ft eventToFunction[32] =
 	EV_RequestMenu,
 	EV_AutoPilotPls,
 	EV_SaveScore,
-	EV_LimitedEdition_Action
+	EV_LimitedEdition_Action,
+    EV_ClearTitle
 };
 
 

@@ -413,7 +413,9 @@ texts_events
 events
 {
 	at 142000 finishAct nextAct 0
+    
 	at 142000 setMenu 0
+    at 142000 clearTitle
 }
 
 
