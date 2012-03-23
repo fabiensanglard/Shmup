@@ -458,7 +458,7 @@ void dEngine_LoadScene(int sceneId)
 	}
     
     //We are back to main menu, init a few things
-    if (sceneId == 0)
+    if (sceneId == 0 )
     {
         numPlayers = 1;
         PL_ResetPlayersScore();

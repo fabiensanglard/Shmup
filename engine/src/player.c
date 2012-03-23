@@ -476,7 +476,7 @@ void P_Update(void)
 		if (entitiesAttachedToCamera) 
 		{
 			players[i].showPointer -= timediff;
-			players[i].score += timediff >> 1 << engine.difficultyLevel;
+			players[i].score += (timediff >> 1 << engine.difficultyLevel) * 2;
 			
 			if (player->autopilot.enabled)
 			{
