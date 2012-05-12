@@ -1,19 +1,52 @@
-#include "globals.h"
-
-
-
-int  Native_RetrieveListOf(char replayList[10][256]){return 0;}
-void Native_UploadFileTo(char path[256]){}
-void Action_ShowGameCenter(void* tag){}
-void Native_UploadScore(uint score){}
-void Native_LoginGameCenter(void){}
-
-#include "texture.h"
+#include "SDL_mixer.h"
 #include "libpng/png.h"
 
-void SND_InitSoundTrack(char* filename,unsigned int startAt) {}
-void SND_StartSoundTrack(void) {}
-void SND_StopSoundTrack(void) {}
+#include "globals.h"
+#include "music.h"
+#include "native_services.h"
+#include "texture.h"
+
+int  Native_RetrieveListOf(char replayList[10][256]) { return 0; }
+void Native_UploadFileTo(char path[256]) {}
+void Action_ShowGameCenter(void* tag) {}
+void Native_UploadScore(uint score) {}
+void Native_LoginGameCenter(void) {}
+
+Mix_Music *music = NULL;
+void SND_InitSoundTrack(char* filename, unsigned int startAt)
+{
+	int audio_rate = 22050;
+	int audio_channels = 2;
+	Uint16 audio_format = AUDIO_S16;
+
+	(void)startAt; /* Unused */
+
+	if (music)
+		Mix_FreeMusic(music);
+
+	Log_Printf("[SND_InitSoundTrack] start '%s'.\n", filename);
+
+	Mix_OpenAudio(audio_rate, audio_format, audio_channels, 4096);
+	Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
+
+	music = Mix_LoadMUS(filename);
+}
+
+void SND_StartSoundTrack(void)
+{
+	if (music == NULL)
+		return;
+
+	Mix_PlayMusic(music, 0);
+}
+
+void SND_StopSoundTrack(void)
+{
+	if (music == NULL)
+		return;
+
+	Mix_HaltMusic();
+}
 
 void loadNativePNG(texture_t* tmpTex)
 {

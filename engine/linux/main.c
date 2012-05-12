@@ -29,10 +29,6 @@ static void SetupMouse(void)
 
 static void ReadInput(void)
 {
-	int buttonIsPressed = 0;
-	static int buttonWasPressed = 0;
-
-	SDL_GrabMode current;
 	SDL_Event sdlevent;
 	io_event_s event;
 
@@ -50,6 +46,10 @@ static void ReadInput(void)
 							MENU_Set(MENU_HOME);
 							engine.requiredSceneId = 0;
 						}
+						break;
+
+					default:
+						/* Ignore other events */
 						break;
 				}
 				break;
@@ -78,6 +78,7 @@ static void ReadInput(void)
 				quit = 1;
 				break;
 			default:
+				/* Ignore other events */
 				break;
 		}
 
@@ -86,7 +87,7 @@ static void ReadInput(void)
 
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
 	int old_time;
 	int new_time;
@@ -95,8 +96,13 @@ int main(int argc, char *argv[])
 	SDL_Surface *screen;
 	uchar engineParameters = 0;
 
-	setenv("RD","../..", 1);
-	setenv("WD","../..", 1);
+#ifndef RELEASE
+	setenv("RD", "../..", 1);
+	setenv("WD", "../..", 1);
+#else
+	setenv("RD", ".", 1);
+	setenv("WD", ".", 1);
+#endif
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -104,6 +110,8 @@ int main(int argc, char *argv[])
 
 	SDL_WM_GrabInput(SDL_GRAB_OFF);
 	SDL_ShowCursor(SDL_ENABLE);
+
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16, SDL_OPENGL);
 
