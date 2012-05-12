@@ -19,3 +19,5 @@ xcuserdata
 build
 *.ncb
 .DS_Store
+*.o
+.*.swp
