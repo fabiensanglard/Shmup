@@ -15,37 +15,37 @@ void Native_LoginGameCenter(void) {}
 Mix_Music *music = NULL;
 void SND_InitSoundTrack(char* filename, unsigned int startAt)
 {
-	int audio_rate = 22050;
-	int audio_channels = 2;
-	Uint16 audio_format = AUDIO_S16;
+    int audio_rate = 22050;
+    int audio_channels = 2;
+    Uint16 audio_format = AUDIO_S16;
 
-	(void)startAt; /* Unused */
+    (void)startAt; /* Unused */
 
-	if (music)
-		Mix_FreeMusic(music);
+    if (music)
+        Mix_FreeMusic(music);
 
-	Log_Printf("[SND_InitSoundTrack] start '%s'.\n", filename);
+    Log_Printf("[SND_InitSoundTrack] start '%s'.\n", filename);
 
-	Mix_OpenAudio(audio_rate, audio_format, audio_channels, 4096);
-	Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
+    Mix_OpenAudio(audio_rate, audio_format, audio_channels, 4096);
+    Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
 
-	music = Mix_LoadMUS(filename);
+    music = Mix_LoadMUS(filename);
 }
 
 void SND_StartSoundTrack(void)
 {
-	if (music == NULL)
-		return;
+    if (music == NULL)
+        return;
 
-	Mix_PlayMusic(music, 0);
+    Mix_PlayMusic(music, 0);
 }
 
 void SND_StopSoundTrack(void)
 {
-	if (music == NULL)
-		return;
+    if (music == NULL)
+        return;
 
-	Mix_HaltMusic();
+    Mix_HaltMusic();
 }
 
 void loadNativePNG(texture_t* tmpTex)
@@ -60,29 +60,29 @@ void loadNativePNG(texture_t* tmpTex)
     int             color_type ;
     png_size_t      rowbytes;
     png_bytep       *row_pointers;
-	char* file_name = tmpTex->path;
+    char* file_name = tmpTex->path;
     uchar header[8];
     
     int             number_of_passes;
     int             interlace_type;
     
-	char realPath[1024];
-	FILE *fp = NULL ;
+    char realPath[1024];
+    FILE *fp = NULL ;
     
-	memset(realPath,0,1024);	
-	strcat(realPath,FS_Gamedir());
-	strcat(realPath,"/");
-	strcat(realPath,tmpTex->path);
+    memset(realPath,0,1024);    
+    strcat(realPath,FS_Gamedir());
+    strcat(realPath,"/");
+    strcat(realPath,tmpTex->path);
     
-	tmpTex->format = TEXTURE_TYPE_UNKNOWN ;
+    tmpTex->format = TEXTURE_TYPE_UNKNOWN ;
     
-	fp = fopen(realPath,"rb");
+    fp = fopen(realPath,"rb");
     
     if ( !fp  )
-		return;
+        return;
     
     
-	// Check signature (it should be Hex: 89 50 4E 47 0D 0A 1A 0A)
+    // Check signature (it should be Hex: 89 50 4E 47 0D 0A 1A 0A)
     //                               Dec:137 80 78 71 13 10 26 10
     fread(header, 1, 8, fp);
     if (png_sig_cmp(header, 0, 8) != 0 )
@@ -112,13 +112,13 @@ void loadNativePNG(texture_t* tmpTex)
         return;
     }
     
-	// FCS: By the way, that is probably where it was crashing: On first read.
+    // FCS: By the way, that is probably where it was crashing: On first read.
     png_init_io(png_ptr, fp);
     png_set_sig_bytes(png_ptr, 8);
     
     png_read_info(png_ptr, info_ptr);
     
-	//Retrieve metadata and tranfert to structure bean tmpTex
+    //Retrieve metadata and tranfert to structure bean tmpTex
     png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type, &interlace_type, NULL, NULL);
     
     
@@ -128,7 +128,7 @@ void loadNativePNG(texture_t* tmpTex)
     
     tmpTex->width = width; 
     tmpTex->height =  height;
-	
+    
 
     
     
@@ -156,7 +156,7 @@ void loadNativePNG(texture_t* tmpTex)
     /* Rowsize in bytes. */
     rowbytes = png_get_rowbytes(png_ptr, info_ptr);
     
-	tmpTex->bpp = rowbytes / width;
+    tmpTex->bpp = rowbytes / width;
     if (tmpTex->bpp == 4)
         tmpTex->format = TEXTURE_GL_RGBA;
     else if (tmpTex->bpp == 3)
@@ -168,30 +168,30 @@ void loadNativePNG(texture_t* tmpTex)
     
     
     /* Allocate a buffer to hold all the mip-maps */
-	//Since PNG can only store one image there is only one mipmap, allocated an array of one
-	tmpTex->numMipmaps = 1;
-	tmpTex->data = malloc(sizeof(uchar*));
+    //Since PNG can only store one image there is only one mipmap, allocated an array of one
+    tmpTex->numMipmaps = 1;
+    tmpTex->data = malloc(sizeof(uchar*));
     if ((tmpTex->data[0] = (uchar*)malloc(rowbytes * height))==NULL) 
-	{
-		//Oops texture won't be able to hold the result :(, cleanup LIBPNG internal state and return;
-		free(tmpTex->data);
+    {
+        //Oops texture won't be able to hold the result :(, cleanup LIBPNG internal state and return;
+        free(tmpTex->data);
         png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-		return;
+        return;
     }
     
-	//Next we need to send to libpng an array of pointer, let's point to tmpTex->data[0]
+    //Next we need to send to libpng an array of pointer, let's point to tmpTex->data[0]
     if ((row_pointers = (png_bytepp)malloc(height*sizeof(png_bytep))) == NULL) 
-	{
-		// Oops looks like we won't have enough RAM to allocate an array of pointer (are 
-		// you running this on a Motorola Razor ?!? 
+    {
+        // Oops looks like we won't have enough RAM to allocate an array of pointer (are 
+        // you running this on a Motorola Razor ?!? 
         png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
         free(tmpTex->data );
         tmpTex->data  = NULL;
-		return;
+        return;
     }
-	//FCS: Hm, it looks like we are flipping the image vertically.
-	//     Since iOS did not do it, we may have to not to that. If result is 
-	//     messed up, just swap to:   row_pointers[             i] = ....
+    //FCS: Hm, it looks like we are flipping the image vertically.
+    //     Since iOS did not do it, we may have to not to that. If result is 
+    //     messed up, just swap to:   row_pointers[             i] = ....
     for (i = 0;  i < height;  ++i)
     //    row_pointers[height - 1 - i] = tmpTex->data[0]  + i*rowbytes;
           row_pointers[             i] = tmpTex->data[0]  + i*rowbytes;
@@ -199,13 +199,13 @@ void loadNativePNG(texture_t* tmpTex)
     
     
     
-	//Decompressing PNG to RAW where row_pointers are pointing (tmpTex->data[0])
+    //Decompressing PNG to RAW where row_pointers are pointing (tmpTex->data[0])
     png_read_image(png_ptr, row_pointers);
     
-	//Last but not least:
+    //Last but not least:
     
-	//Free the decompression buffer
-	free(row_pointers);
+    //Free the decompression buffer
+    free(row_pointers);
     
     // Free LIBPNG internal state.
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
