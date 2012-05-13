@@ -32,6 +32,10 @@ static void ReadInput(void)
     SDL_Event sdlevent;
     io_event_s event;
 
+    event.type = IO_EVENT_ENDED;
+    event.position[X] = 0;
+    event.position[Y] = 0;
+
     while (SDL_PollEvent(&sdlevent))
     {
         switch (sdlevent.type)
@@ -58,12 +62,16 @@ static void ReadInput(void)
                 event.type = IO_EVENT_BEGAN;
                 event.position[X] = sdlevent.button.x;
                 event.position[Y] = sdlevent.button.y;
+
+                IO_PushEvent(&event);
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 event.type = IO_EVENT_ENDED;
                 event.position[X] = sdlevent.button.x;
                 event.position[Y] = sdlevent.button.y;
+
+                IO_PushEvent(&event);
                 break;
 
             case SDL_MOUSEMOTION:
@@ -72,6 +80,8 @@ static void ReadInput(void)
                 event.position[Y] = sdlevent.motion.y;
                 event.previousPosition[X] = sdlevent.motion.x - sdlevent.motion.xrel;
                 event.previousPosition[Y] = sdlevent.motion.y - sdlevent.motion.yrel;
+
+                IO_PushEvent(&event);
                 break;
 
             case SDL_QUIT:
@@ -81,8 +91,6 @@ static void ReadInput(void)
                 /* Ignore other events */
                 break;
         }
-
-        IO_PushEvent(&event);
     }
 
 }
