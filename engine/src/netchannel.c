@@ -26,7 +26,7 @@
 #include "netchannel.h"
 
 // The network version was designed on iOS with Unix socket. This part still needs to be ported using winsock32.
-#if defined(WIN32) || defined(ANDROID)
+#if defined(WIN32) || defined(ANDROID) || defined(LINUX)
 	int NET_Init(void){return 1;}
 	void NET_Setup(void){}
 	void NET_Receive(void){}

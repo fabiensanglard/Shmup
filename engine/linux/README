@@ -1,0 +1,38 @@
+Build requirements:
+===================
+
+This code was written and tested using the following libraries and
+versions:
+
+* GCC - 4.4.5
+* SDL - 1.2.14
+* SDL_mixer - 1.2.8
+* OpenAL - 1.12
+
+The packages in Debian is called:
+
+* libsdl1.2debian
+* libsdl1.2-dev
+* libsdl-mixer1.2
+* libsdl-mixer1.2-dev
+* libopenal1
+* libopenal-dev
+
+Install these in Debian Squeeze using:
+
+$ sudo apt-get install libsdl1.2debian libsdl1.2-dev libsdl-mixer1.2 libsdl-mixer1.2-dev libopenal1 libopenal-dev
+
+
+Build instructions:
+===================
+
+You may need to make changes in the Makefile.
+
+Build a debug binary using (default):
+
+$ make debug
+
+Build a release binary using:
+
+$ make release
+

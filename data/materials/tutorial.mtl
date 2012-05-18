@@ -4,7 +4,7 @@ hasAlpha 0
 illum 10
 
 newmtl city_white
-#map_Kd data/textures/object/city_white.png
-map_Kd data/texturesPVR/act1/cityBlue_4bbp.pvr
+map_Kd data/textures/act1/cityBlue.png
+#map_Kd data/texturesPVR/act1/cityBlue_4bbp.pvr
 hasAlpha 0
 illum 10
