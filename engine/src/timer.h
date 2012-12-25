@@ -41,5 +41,4 @@ int E_Sys_Milliseconds( void );
 extern int fps;
 extern  int simulationTime;
 extern int timediff;
-
 #endif

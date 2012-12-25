@@ -74,13 +74,20 @@ void dEngine_ReadConfig(void)
     
     
 	config = FS_OpenFile(CONFIG_PATH, "rt");
-	FS_UploadToRAM(config);
-	
-	if (!config)
-	{
+    
+    if (config == NULL){
+       
+        exit(0);
+        
+    }
+     //No configuration is a non recoverable error.
+	if (config == NULL)
+    {
 		Log_Printf("Configuration file: data/config.cfg not found");
 		exit(0);
 	}
+	
+	FS_UploadToRAM(config);
 	
 	//renderer.resolution = 1;
 
@@ -582,6 +589,15 @@ void dEngine_CheckState(void)
 
 void dEngine_HostFrame(void)
 {
+    
+
+    int timeOfFrame = E_Sys_Milliseconds();
+    
+    // Advance the game simulation by 6ms increment until the simulation time is one increment
+    // away from the realtime.
+    while (simulationTime < timeOfFrame) {
+      
+    
 	// Load a new scene/menu if needed
 	dEngine_CheckState();
 	
@@ -595,7 +611,6 @@ void dEngine_HostFrame(void)
 #ifdef GENERATE_VIDEO	
 	if (MENU_Get() == 0 && simulationTime > 57000 && !MENU_GetCurrentButtonTouches()[0].down)
 		MENU_GetCurrentButtonTouches()[0].down = 1 ;
-	
 	SND_UpdateRecord();
 #endif	
 	
@@ -627,19 +642,14 @@ void dEngine_HostFrame(void)
     World_Update();
 	P_Update();
 	ENE_Update();
-	ENPAR_Update();
-	FX_UpdateExplosions();
-	FX_UpdateParticules();
-	FX_UpdateSmoke();
-
+        ENPAR_Update();
+        FX_UpdateExplosions();
+        FX_UpdateParticules();
+        FX_UpdateSmoke();
+    }
 	
 
 	//Rendition
-	P_PrepareBulletSprites();
-	P_PrepareGhostSprites();
-	FX_PrepareSmokeSprites();
-	P_PreparePointerSprites();
-	
 	SCR_RenderFrame();
 	
 	

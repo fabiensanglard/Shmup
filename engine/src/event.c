@@ -739,7 +739,7 @@ void EV_ReadTextsEvents(void)
 {
 	event_t* event;
 	event_text_payload_t* payload;
-	int currentTime=0;
+	int timeOffset=0;
 	
 	LE_readToken() ; //{
 	
@@ -749,7 +749,7 @@ void EV_ReadTextsEvents(void)
 		if (!strcmp("at", LE_getCurrentToken()))
 		{
 			event = (event_t*)calloc(1, sizeof(event_t));
-			event->time = currentTime + LE_readReal();
+			event->time = timeOffset + LE_readReal();
 			event->type = EV_SPAWN_TEXT;
 			payload = (event_text_payload_t*)calloc(1, sizeof(event_text_payload_t));
 			event->payload = payload;
@@ -784,7 +784,7 @@ void EV_ReadTextsEvents(void)
 		}
 		else
 		if (!strcmp("settime",LE_getCurrentToken())){
-			currentTime = LE_readReal();
+			timeOffset = LE_readReal();
 		}
 
 		LE_readToken(); 

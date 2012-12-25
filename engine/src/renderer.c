@@ -205,7 +205,13 @@ void SCR_RenderFrame(void)
 		return;
 	
 	STATS_Begin();
-		
+	
+	
+    P_PrepareBulletSprites();
+	P_PrepareGhostSprites();
+	FX_PrepareSmokeSprites();
+	P_PreparePointerSprites();
+    
 	renderer.Set3D();
 	
 	renderer.RenderEntities();

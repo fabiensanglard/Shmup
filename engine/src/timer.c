@@ -85,8 +85,8 @@ void Timer_Resume(void)
 }
 
 
+//The game is simulated at 1000/16 Hz.
 int frameCounter=0;
-float extraPrecision=0;
 void Timer_tick(void)
 {
 	//Log_Printf("t=%d\n",simulationTime);
@@ -94,41 +94,10 @@ void Timer_tick(void)
 	if (paused)
 		return;
 	
-	
-	
-	
 	lastTime = currentTime;
 	currentTime = E_Sys_Milliseconds();
 	
-	/*
-	if (forcedTimeIncrement)
-	{
-		timediff = forcedTimeIncrement;
-	}
-	else
-	{
-		timediff = currentTime - lastTime; 
-	}	
-	*/
-	
-	
-	/*
-	timediff = 16;
-	simulationTime += timediff;
-	*/
-	if (engine.mode == DE_MODE_SINGLEPLAYER)
-	{
-		extraPrecision += 0.6666667f;
-		timediff =16+(int)extraPrecision;
-		extraPrecision -= timediff-16;
-	}
-	else 
-	{
-		timediff = currentTime - lastTime;
-	}
-
-	//timediff = currentTime - lastTime;
-		
+    timediff =16;
 	simulationTime += timediff;
 	
 	//Log_Printf("%d\n",timediff);
@@ -152,7 +121,6 @@ void Timer_resetTime(void)
 	//lastTime = E_Sys_Milliseconds();
 	Timer_tick();
 	simulationTime = 0;
-	extraPrecision=0;
 	timediff=0;
 	Log_Printf("[Timer] simulationTime = %d.\n",simulationTime);
 }
