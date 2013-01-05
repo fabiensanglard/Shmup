@@ -41,6 +41,7 @@
 		2D55CBD8102FDECF00F3DC3F /* math.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D55CBD7102FDECF00F3DC3F /* math.c */; };
 		2D55CC01102FE43100F3DC3F /* quaternion.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D55CC00102FE43100F3DC3F /* quaternion.c */; };
 		2D55CC37102FEA8B00F3DC3F /* renderer.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D55CC36102FEA8B00F3DC3F /* renderer.c */; };
+		2D5A3B5D169587F900329E80 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D5A3B5C169587F900329E80 /* Default-568h@2x.png */; };
 		2D5EBB31112B19F100E0DED0 /* preproc.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D5EBB30112B19F100E0DED0 /* preproc.c */; };
 		2D62C82C10801FA6002411C3 /* commands.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D62C82B10801FA6002411C3 /* commands.c */; };
 		2D689668103107EF00308FF1 /* filesystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D689667103107EF00308FF1 /* filesystem.c */; };
@@ -211,6 +212,7 @@
 		2D55CC00102FE43100F3DC3F /* quaternion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quaternion.c; sourceTree = "<group>"; };
 		2D55CC35102FEA8B00F3DC3F /* renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = renderer.h; sourceTree = "<group>"; };
 		2D55CC36102FEA8B00F3DC3F /* renderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = renderer.c; sourceTree = "<group>"; };
+		2D5A3B5C169587F900329E80 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2D5EBB2F112B19F100E0DED0 /* preproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = preproc.h; sourceTree = "<group>"; };
 		2D5EBB30112B19F100E0DED0 /* preproc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = preproc.c; sourceTree = "<group>"; };
 		2D62C82A10801FA6002411C3 /* commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commands.h; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				2D5A3B5C169587F900329E80 /* Default-568h@2x.png */,
 				2DCB41EA12CE536300B89301 /* blackWhiteIconiPadLite.png */,
 				2DCB41EB12CE536300B89301 /* blackWhiteIconiPhoneLite.png */,
 				2DCB41D312CE39E300B89301 /* blackWhiteIconiPad.png */,
@@ -667,6 +670,7 @@
 				2DCB41D512CE39E300B89301 /* blackWhiteIconiPad.png in Resources */,
 				2DCB41D612CE39E300B89301 /* blackWhiteIconiPhone.png in Resources */,
 				2DF5075314D0E249000A6C0D /* data in Resources */,
+				2D5A3B5D169587F900329E80 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

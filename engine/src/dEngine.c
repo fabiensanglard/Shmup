@@ -592,65 +592,70 @@ void dEngine_HostFrame(void)
     
 
     int timeOfFrame = E_Sys_Milliseconds();
+    int simulationCount = 0 ;
     
     // Advance the game simulation by 6ms increment until the simulation time is one increment
     // away from the realtime.
     while (simulationTime < timeOfFrame) {
       
-    
-	// Load a new scene/menu if needed
-	dEngine_CheckState();
+        simulationCount++;
+        
+        // Load a new scene/menu if needed
+        dEngine_CheckState();
 	
 	
-	Timer_tick();
+        Timer_tick();
 	
 	
-	diverSpriteLib.numVertices=0;
-	diverSpriteLib.numIndices=0;
+        diverSpriteLib.numVertices=0;
+        diverSpriteLib.numIndices=0;
 	
-#ifdef GENERATE_VIDEO	
-	if (MENU_Get() == 0 && simulationTime > 57000 && !MENU_GetCurrentButtonTouches()[0].down)
-		MENU_GetCurrentButtonTouches()[0].down = 1 ;
-	SND_UpdateRecord();
-#endif	
+        #ifdef GENERATE_VIDEO	
+            if (MENU_Get() == 0 && simulationTime > 57000 && !MENU_GetCurrentButtonTouches()[0].down)
+                MENU_GetCurrentButtonTouches()[0].down = 1 ;
+            SND_UpdateRecord();
+        #endif	
 	
-	NET_Setup();
+        NET_Setup();
 	
-	NET_Receive();
-	COM_Update();
-	NET_Send();
-	
-	
+        NET_Receive();
+        COM_Update();
+        NET_Send();
 	
 	
-	//Init the enemy FX system 
-	ENPAR_StartEnemyFX();
+	
+	
+        //Init the enemy FX system 
+        ENPAR_StartEnemyFX();
 	
 
 	
-	EV_Update();
-	TITLE_Update();
-	CAM_Update();
-	DYN_TEXT_Update();
-	//NET_Update();
+        EV_Update();
+        TITLE_Update();
+        CAM_Update();
+        DYN_TEXT_Update();
+        //NET_Update();
 	
-	//Check collisions.
-    COLL_CheckEnemies();
-    COLL_CheckPlayers();
+        //Check collisions.
+        COLL_CheckEnemies();
+        COLL_CheckPlayers();
 	
-	//Update world
-    World_Update();
-	P_Update();
-	ENE_Update();
+        //Update world
+        World_Update();
+        P_Update();
+        ENE_Update();
         ENPAR_Update();
         FX_UpdateExplosions();
         FX_UpdateParticules();
         FX_UpdateSmoke();
+        
     }
+    //End of world simulation loop
 	
 
-	//Rendition
-	SCR_RenderFrame();
+	//Rendition (but only if the world has been modified)
+    if (simulationCount != 0)
+        SCR_RenderFrame();
 	
 	
 	
