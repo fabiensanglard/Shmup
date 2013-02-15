@@ -13,7 +13,7 @@
 #ifdef WIN32
 #include "al.h"
 #include "alc.h"
-#elif defined (SHMUP_TARGET_ANDROID)
+#elif defined (SHMUP_TARGET_ANDROID) || defined (SHMUP_TARGET_LINUX)
 #include "AL/al.h"
 #include "AL/alc.h"
 #else

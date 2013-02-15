@@ -27,7 +27,7 @@
 #include "renderer_progr.h"
 
 #include "target.h"
-#if defined (SHMUP_TARGET_WINDOWS) || defined (SHMUP_TARGET_MACOSX)
+#if defined (SHMUP_TARGET_WINDOWS) || defined (SHMUP_TARGET_MACOSX) || defined (SHMUP_TARGET_LINUX)
 void initProgrRenderer(renderer_t* renderer){ Log_Printf("Shader renderer is not implemented.\n");exit(0);}
 #else
 

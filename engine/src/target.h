@@ -59,6 +59,10 @@
     #define SHMUP_TARGET_ANDROID
 #endif
 
+#ifdef LINUX
+    #define SHMUP_TARGET_LINUX
+#endif
+
 //macosx_target_h
 #endif
 

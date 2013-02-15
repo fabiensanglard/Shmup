@@ -44,6 +44,10 @@
 	#include <OpenGLES/ES1/gl.h>
 #elif defined(ANDROID)
     #include <GLES/gl.h>
+#elif defined(LINUX)
+    #include <GL/gl.h>
+    #define glOrthof glOrtho
+    #define glFogx glFogf
 #endif
 
 
