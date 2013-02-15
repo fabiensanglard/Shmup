@@ -3,6 +3,7 @@ SHMUP :
 
 This is the source code of "SHMUP" a 3D Shoot 'em up that I wrote in 2009.
 It is very inspired of Treasure Ikaruga, the engine runs on iOS, Android, Windows and MacOS X.
+It has also been ported to Linux by "xevz".
 
 Technical side :
 ================
