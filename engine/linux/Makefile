@@ -29,7 +29,7 @@ release: CFLAGS += -DRELEASE
 release: all
 
 shmup: $(OBJECTS)
-	gcc -o $@ $(LDFLAGS) $^
+	gcc -o $@ $^ $(LDFLAGS)
 
 %.o: %.c
 	gcc -o $@ -c $(CFLAGS) $< 
