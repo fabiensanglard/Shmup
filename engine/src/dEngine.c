@@ -74,14 +74,16 @@ void dEngine_ReadConfig(void)
     
     
 	config = FS_OpenFile(CONFIG_PATH, "rt");
-	FS_UploadToRAM(config);
-	
-	if (!config)
-	{
+    
+    if (!config){
 		Log_Printf("Configuration file: data/config.cfg not found");
 		exit(0);
 	}
+
+    
+	FS_UploadToRAM(config);
 	
+		
 	//renderer.resolution = 1;
 
 	LE_pushLexer();
