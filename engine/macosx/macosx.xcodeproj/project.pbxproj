@@ -68,6 +68,7 @@
 		2DCD835514DF8C5300963799 /* WindowsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DCD835414DF8C5300963799 /* WindowsDelegate.m */; };
 		2DCD835714DF9F9200963799 /* blackWhiteIconiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DCD835614DF9F9200963799 /* blackWhiteIconiPad.png */; };
 		2DEE50E014EC8D8E0049D078 /* sound_openAL.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DEE50DF14EC8D8E0049D078 /* sound_openAL.c */; };
+		9F6A4A7C1C4DE29D00831F4A /* data in Resources */ = {isa = PBXBuildFile; fileRef = 9F6A4A7B1C4DE29D00831F4A /* data */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,6 +201,7 @@
 		2DCD835614DF9F9200963799 /* blackWhiteIconiPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackWhiteIconiPad.png; path = ../blackWhiteIconiPad.png; sourceTree = "<group>"; };
 		2DEE50DE14EC8D8E0049D078 /* sound_backend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sound_backend.h; path = ../src/sound_backend.h; sourceTree = "<group>"; };
 		2DEE50DF14EC8D8E0049D078 /* sound_openAL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sound_openAL.c; path = ../src/sound_openAL.c; sourceTree = "<group>"; };
+		9F6A4A7B1C4DE29D00831F4A /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../../data; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 		2D000CD814D8C14C0021DC8D = {
 			isa = PBXGroup;
 			children = (
+				9F6A4A7B1C4DE29D00831F4A /* data */,
 				2DCD835614DF9F9200963799 /* blackWhiteIconiPad.png */,
 				2D3189BC14DDFA8B00A76D89 /* libz.dylib */,
 				2DB4A9F014DDF187002D6FB9 /* libpng.xcodeproj */,
@@ -471,6 +474,7 @@
 				2D000CF814D8C14C0021DC8D /* Credits.rtf in Resources */,
 				2D000CFE14D8C14C0021DC8D /* MainMenu.xib in Resources */,
 				2DCD835714DF9F9200963799 /* blackWhiteIconiPad.png in Resources */,
+				9F6A4A7C1C4DE29D00831F4A /* data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
