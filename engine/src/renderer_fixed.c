@@ -45,9 +45,13 @@
 #elif defined(ANDROID)
     #include <GLES/gl.h>
 #elif defined(LINUX)
+#if !defined(GLES)
     #include <GL/gl.h>
     #define glOrthof glOrtho
     #define glFogx glFogf
+#else
+      #include <GLES/gl.h>
+#endif
 #endif
 
 
