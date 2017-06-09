@@ -63,7 +63,7 @@ engine_info_t engine;
 #endif
 
 
-char* screenShotDirectory = "/Users/fabiensanglard/Pictures/dEngine/";
+char* screenShotDirectory = "./";//"/Users/fabiensanglard/Pictures/dEngine/";
 
 
 void dEngine_ReadConfig(void)

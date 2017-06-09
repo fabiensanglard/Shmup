@@ -87,7 +87,7 @@ enum {WIDTH, HEIGHT}  ;
 */
 
 
-//#define GENERATE_VIDEO
+#define GENERATE_VIDEO
 
 //Here are the Shmup active surface legacy dimensions.
 #define SS_COO_SYST_WIDTH  320

@@ -199,12 +199,7 @@ AQ* audiocontroller;
 										,
 										kEAGLDrawablePropertyColorFormat, nil];
 	
-		
-		
-		
-		
-
-		
+        
 		NSString *rendererType = [[NSUserDefaults standardUserDefaults] stringForKey:@"RendererType"];
 		bool fixedDesired = [@"0" isEqualToString:rendererType];
 	
@@ -218,45 +213,17 @@ AQ* audiocontroller;
 		renderer.materialQuality = MATERIAL_QUALITY_HIGH;
 		//#endif
 		fixedDesired=1;
-		
-		
-		
+    
 		UIDevice* thisDevice = [UIDevice currentDevice];
-		if(thisDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
-		{
-			
-			renderer.glBuffersDimensions[WIDTH] = 768;
-			renderer.glBuffersDimensions[HEIGHT] = 1024;
-            
-			// iPad
-		}
-		else
-		{	
-			renderer.glBuffersDimensions[WIDTH] = 320;
-			renderer.glBuffersDimensions[HEIGHT] = 480;
-            
-			// iPhone
+        float w = [[UIScreen mainScreen] bounds].size.width;
+        float h = [[UIScreen mainScreen] bounds].size.height;
+        renderer.glBuffersDimensions[WIDTH] = w;
+        renderer.glBuffersDimensions[HEIGHT] = h;
 
-		}
-		
-		//printf("renderer.resolution =%.2f\n",renderer.resolution );
 		
 		[self checkEngineSettings];
 		
-        
-//        AudioSessionInitialize(NULL, NULL, AudioInterruptionListenerCallback, NULL);
-//        
-//        UInt32 session_category = kAudioSessionCategory_MediaPlayback;
-//        AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(session_category), &session_category);
-//        UInt32 allowMixing = true;
-//        AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryMixWithOthers, sizeof(allowMixing), &allowMixing);
-//        AudioSessionSetActive(true);
-//        
-        
-        
-       
-        
-		dEngine_Init();
+        dEngine_Init();
 
 		
 		if (!fixedDesired)
@@ -325,10 +292,7 @@ AQ* audiocontroller;
 			renderer.props |= PROP_SPEC ;		
 		else
 			renderer.props &= ~PROP_SPEC ;
-		
-		
-		//NSLog(@"Engine properties");
-		//MATLIB_printProp(renderer.props);
+
 		
         
 		animating = FALSE;
@@ -361,13 +325,34 @@ AQ* audiocontroller;
 	
 	
 	dEngine_HostFrame();
-	
-	
+
 }
 
 
 - (void)layoutSubviews {
-
+//            float w = [[UIScreen mainScreen] bounds].size.width;
+//            float h = [[UIScreen mainScreen] bounds].size.height;
+//            NSLog(@"window size w=%.2f, h=%.2f",w,h);
+//            float ratio = h/w;
+//            float originalRatio = 480.0f/320.0f;
+//    
+//            // iPad had a different aspect ratio.
+//            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+//            {
+//                originalRatio = 1024.0f/768.0f;
+//            }
+//    
+//            NSLog(@"PRE  window.frame=%@", NSStringFromCGRect(self.window.frame));
+//            if (ratio > originalRatio) {
+//                // This device screen is taller than original ratio
+//                self.window.frame = CGRectMake(0, (h - w * originalRatio)/2 , w, w * originalRatio);
+//            } else {
+//                self.window.frame = CGRectMake((w - h * 1.0f/originalRatio)/2 , 0, h * 1.0f/originalRatio, h);
+//            }
+//            NSLog(@"POST window.frame=%@", NSStringFromCGRect(self.window.frame));
+//    
+//    self.window.frame = [[UIScreen mainScreen] bounds];
+    
     [EAGLContext setCurrentContext:context];
     [self destroyFramebuffer];
     [self createFramebuffer];
