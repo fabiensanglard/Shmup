@@ -224,7 +224,8 @@ OSStatus AQPlayer::StopQueue()
 	if (result) printf("ERROR STOPPING QUEUE!\n");
 	else
 	{
-		result = AudioSessionSetActive(false);
+        // ADDED BY FAB: Never stop the audio session otherwise OpenAL won't work anymore.
+		//result = AudioSessionSetActive(false);
 		if (result) printf("ERROR SETTING AUDIO SESSION INACTIVE!\n");
 	}
 	return result;

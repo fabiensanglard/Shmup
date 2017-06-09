@@ -29,7 +29,6 @@
 		2D24189D1275E5A200103BD3 /* lofb.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D24189C1275E5A200103BD3 /* lofb.c */; };
 		2D245EAC11BC5EAB005B2AB3 /* wavfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D245EAB11BC5EAB005B2AB3 /* wavfile.c */; };
 		2D245EC411BC6D05005B2AB3 /* sounds.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D245EC311BC6D05005B2AB3 /* sounds.c */; };
-		2D245ED411BC6F97005B2AB3 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D245ED311BC6F97005B2AB3 /* OpenAL.framework */; };
 		2D26C1CE11CC850500CBCFB4 /* menu.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D26C1CD11CC850500CBCFB4 /* menu.c */; };
 		2D2D554C10435D2100BEDC6E /* world.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D2D554B10435D2100BEDC6E /* world.c */; };
 		2D3E47041232FA540030D4BD /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D3E47031232FA540030D4BD /* MainWindow-iPad.xib */; };
@@ -41,6 +40,13 @@
 		2D55CBD8102FDECF00F3DC3F /* math.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D55CBD7102FDECF00F3DC3F /* math.c */; };
 		2D55CC01102FE43100F3DC3F /* quaternion.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D55CC00102FE43100F3DC3F /* quaternion.c */; };
 		2D55CC37102FEA8B00F3DC3F /* renderer.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D55CC36102FEA8B00F3DC3F /* renderer.c */; };
+		2D5821AE1EE6249700C5ECBA /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5821AD1EE6249700C5ECBA /* OpenAL.framework */; };
+		2D5821AF1EE624A100C5ECBA /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5821AD1EE6249700C5ECBA /* OpenAL.framework */; };
+		2D5821B11EE6295700C5ECBA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5821B01EE6295700C5ECBA /* AVFoundation.framework */; };
+		2D5821B21EE6296000C5ECBA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5821B01EE6295700C5ECBA /* AVFoundation.framework */; };
+		2D5821B51EE68A6E00C5ECBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D858BBA1EE3E6A900BEEA04 /* Images.xcassets */; };
+		2D5821B61EE68A7700C5ECBA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D858BBA1EE3E6A900BEEA04 /* Images.xcassets */; };
+		2D58B6221EE383B100E5DEE6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D58B6211EE383B100E5DEE6 /* Default-568h@2x.png */; };
 		2D5EBB31112B19F100E0DED0 /* preproc.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D5EBB30112B19F100E0DED0 /* preproc.c */; };
 		2D62C82C10801FA6002411C3 /* commands.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D62C82B10801FA6002411C3 /* commands.c */; };
 		2D689668103107EF00308FF1 /* filesystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D689667103107EF00308FF1 /* filesystem.c */; };
@@ -108,8 +114,6 @@
 		2D7A384C129F38BF00AD251B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF363441037D70500020D05 /* CoreGraphics.framework */; };
 		2D7A384D129F38BF00AD251B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D18F9D911225EE00090DD9E /* CoreAudio.framework */; };
 		2D7A384E129F38BF00AD251B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D18F9E511225F150090DD9E /* AudioToolbox.framework */; };
-		2D7A384F129F38BF00AD251B /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D245ED311BC6F97005B2AB3 /* OpenAL.framework */; };
-		2D7A3850129F38BF00AD251B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DEABEA81278BB4A00BC446A /* AudioToolbox.framework */; };
 		2D7C75021037705600EAF594 /* camera.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C75011037705600EAF594 /* camera.c */; };
 		2D7C782910378FBC00EAF594 /* timer.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D7C782810378FBC00EAF594 /* timer.c */; };
 		2D838723125CEE0F00662A2E /* text.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D838722125CEE0F00662A2E /* text.c */; };
@@ -122,16 +126,11 @@
 		2DBC744E105A084F00104164 /* entities.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DBC744D105A084F00104164 /* entities.c */; };
 		2DBFEEA9109FD3BE0025DF20 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DBFEEA8109FD3BE0025DF20 /* md5.c */; };
 		2DC5131A125A7764004C049D /* enemy_particules.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DC51319125A7764004C049D /* enemy_particules.c */; };
-		2DCB41D512CE39E300B89301 /* blackWhiteIconiPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DCB41D312CE39E300B89301 /* blackWhiteIconiPad.png */; };
-		2DCB41D612CE39E300B89301 /* blackWhiteIconiPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DCB41D412CE39E300B89301 /* blackWhiteIconiPhone.png */; };
-		2DCB41EC12CE536300B89301 /* blackWhiteIconiPadLite.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DCB41EA12CE536300B89301 /* blackWhiteIconiPadLite.png */; };
-		2DCB41ED12CE536300B89301 /* blackWhiteIconiPhoneLite.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DCB41EB12CE536300B89301 /* blackWhiteIconiPhoneLite.png */; };
 		2DD7D0BA112470410009BD26 /* event.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DD7D0B9112470410009BD26 /* event.c */; };
 		2DDE772B10B093EA00A4DCA8 /* collisions.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DDE772A10B093EA00A4DCA8 /* collisions.c */; };
 		2DE1627314F8026900F58933 /* io_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DE1627114F8026900F58933 /* io_interface.c */; };
 		2DE1627414F8044D00F58933 /* io_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DE1627114F8026900F58933 /* io_interface.c */; };
 		2DE34DFE11C2E8F0004F1658 /* netchannel.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DE34DFD11C2E8F0004F1658 /* netchannel.c */; };
-		2DEABEA91278BB4A00BC446A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DEABEA81278BB4A00BC446A /* AudioToolbox.framework */; };
 		2DEE50C914EA42C60049D078 /* sound_openAL.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DEE50C814EA42C60049D078 /* sound_openAL.c */; };
 		2DEE50CA14EA42C60049D078 /* sound_openAL.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DEE50C814EA42C60049D078 /* sound_openAL.c */; };
 		2DEE50CE14EA49DC0049D078 /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DEE50CC14EA49DC0049D078 /* log.c */; };
@@ -191,7 +190,6 @@
 		2D245EAB11BC5EAB005B2AB3 /* wavfile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wavfile.c; sourceTree = "<group>"; };
 		2D245EC211BC6D05005B2AB3 /* sounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sounds.h; sourceTree = "<group>"; };
 		2D245EC311BC6D05005B2AB3 /* sounds.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sounds.c; sourceTree = "<group>"; };
-		2D245ED311BC6F97005B2AB3 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		2D26C1CC11CC850500CBCFB4 /* menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu.h; sourceTree = "<group>"; };
 		2D26C1CD11CC850500CBCFB4 /* menu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = menu.c; sourceTree = "<group>"; };
 		2D2D554A10435D2100BEDC6E /* world.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = world.h; sourceTree = "<group>"; };
@@ -211,6 +209,9 @@
 		2D55CC00102FE43100F3DC3F /* quaternion.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quaternion.c; sourceTree = "<group>"; };
 		2D55CC35102FEA8B00F3DC3F /* renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = renderer.h; sourceTree = "<group>"; };
 		2D55CC36102FEA8B00F3DC3F /* renderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = renderer.c; sourceTree = "<group>"; };
+		2D5821AD1EE6249700C5ECBA /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		2D5821B01EE6295700C5ECBA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2D58B6211EE383B100E5DEE6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2D5EBB2F112B19F100E0DED0 /* preproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = preproc.h; sourceTree = "<group>"; };
 		2D5EBB30112B19F100E0DED0 /* preproc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = preproc.c; sourceTree = "<group>"; };
 		2D62C82A10801FA6002411C3 /* commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commands.h; sourceTree = "<group>"; };
@@ -228,6 +229,7 @@
 		2D7C782810378FBC00EAF594 /* timer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = timer.c; sourceTree = "<group>"; };
 		2D838721125CEE0F00662A2E /* text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		2D838722125CEE0F00662A2E /* text.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = text.c; sourceTree = "<group>"; };
+		2D858BBA1EE3E6A900BEEA04 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Shmup/Images.xcassets; sourceTree = "<group>"; };
 		2D8E65CF125F639A003813D5 /* native_services.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = native_services.h; sourceTree = "<group>"; };
 		2D9651F310AC91AC00F5AD05 /* vis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vis.h; sourceTree = "<group>"; };
 		2D9651F410AC91AC00F5AD05 /* vis.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vis.c; sourceTree = "<group>"; };
@@ -245,10 +247,6 @@
 		2DBFEEA8109FD3BE0025DF20 /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
 		2DC51318125A7764004C049D /* enemy_particules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enemy_particules.h; sourceTree = "<group>"; };
 		2DC51319125A7764004C049D /* enemy_particules.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = enemy_particules.c; sourceTree = "<group>"; };
-		2DCB41D312CE39E300B89301 /* blackWhiteIconiPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackWhiteIconiPad.png; sourceTree = "<group>"; };
-		2DCB41D412CE39E300B89301 /* blackWhiteIconiPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackWhiteIconiPhone.png; sourceTree = "<group>"; };
-		2DCB41EA12CE536300B89301 /* blackWhiteIconiPadLite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackWhiteIconiPadLite.png; sourceTree = "<group>"; };
-		2DCB41EB12CE536300B89301 /* blackWhiteIconiPhoneLite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackWhiteIconiPhoneLite.png; sourceTree = "<group>"; };
 		2DD7D0B8112470410009BD26 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
 		2DD7D0B9112470410009BD26 /* event.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = event.c; sourceTree = "<group>"; };
 		2DDE772910B093EA00A4DCA8 /* collisions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = collisions.h; sourceTree = "<group>"; };
@@ -293,6 +291,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D5821B21EE6296000C5ECBA /* AVFoundation.framework in Frameworks */,
+				2D5821AE1EE6249700C5ECBA /* OpenAL.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */,
@@ -300,8 +300,6 @@
 				2DF363451037D70500020D05 /* CoreGraphics.framework in Frameworks */,
 				2D18F9DA11225EE00090DD9E /* CoreAudio.framework in Frameworks */,
 				2D18F9E611225F150090DD9E /* AudioToolbox.framework in Frameworks */,
-				2D245ED411BC6F97005B2AB3 /* OpenAL.framework in Frameworks */,
-				2DEABEA91278BB4A00BC446A /* AudioToolbox.framework in Frameworks */,
 				2DEE8C1C12A3094D0029B4DB /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,6 +308,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D5821B11EE6295700C5ECBA /* AVFoundation.framework in Frameworks */,
+				2D5821AF1EE624A100C5ECBA /* OpenAL.framework in Frameworks */,
 				2D7A3848129F38BF00AD251B /* Foundation.framework in Frameworks */,
 				2D7A3849129F38BF00AD251B /* UIKit.framework in Frameworks */,
 				2D7A384A129F38BF00AD251B /* OpenGLES.framework in Frameworks */,
@@ -317,8 +317,6 @@
 				2D7A384C129F38BF00AD251B /* CoreGraphics.framework in Frameworks */,
 				2D7A384D129F38BF00AD251B /* CoreAudio.framework in Frameworks */,
 				2D7A384E129F38BF00AD251B /* AudioToolbox.framework in Frameworks */,
-				2D7A384F129F38BF00AD251B /* OpenAL.framework in Frameworks */,
-				2D7A3850129F38BF00AD251B /* AudioToolbox.framework in Frameworks */,
 				2D4FCC2212A6ED7B006E7A70 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,10 +354,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				2DCB41EA12CE536300B89301 /* blackWhiteIconiPadLite.png */,
-				2DCB41EB12CE536300B89301 /* blackWhiteIconiPhoneLite.png */,
-				2DCB41D312CE39E300B89301 /* blackWhiteIconiPad.png */,
-				2DCB41D412CE39E300B89301 /* blackWhiteIconiPhone.png */,
+				2D58B6211EE383B100E5DEE6 /* Default-568h@2x.png */,
 				2DB35B72126BFA90001700DF /* Default-Portrait.png */,
 				2DF0890B1263E8EE00836147 /* Default.png */,
 				2DF347D2102F5F9C0052FFFF /* src */,
@@ -386,6 +381,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2D858BBA1EE3E6A900BEEA04 /* Images.xcassets */,
 				2DF5075214D0E249000A6C0D /* data */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				2D73EF64107AAF44007A8E4B /* Entitlements.plist */,
@@ -396,12 +392,13 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D5821B01EE6295700C5ECBA /* AVFoundation.framework */,
+				2D5821AD1EE6249700C5ECBA /* OpenAL.framework */,
 				2DF363441037D70500020D05 /* CoreGraphics.framework */,
 				28FD15070DC6FC5B0079059D /* QuartzCore.framework */,
 				28FD14FF0DC6FC520079059D /* OpenGLES.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
-				2D245ED311BC6F97005B2AB3 /* OpenAL.framework */,
 				2DEABEA81278BB4A00BC446A /* AudioToolbox.framework */,
 				2DEE8C1B12A3094D0029B4DB /* GameKit.framework */,
 			);
@@ -633,6 +630,17 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = 72PBG658P7;
+					};
+					2D7A3808129F38BF00AD251B = {
+						DevelopmentTeam = 72PBG658P7;
+					};
+				};
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "dEngine" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -658,14 +666,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D5821B61EE68A7700C5ECBA /* Images.xcassets in Resources */,
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2DAF72F210795BEA00FDD8CA /* Settings.bundle in Resources */,
 				2D73EF65107AAF44007A8E4B /* Entitlements.plist in Resources */,
+				2D58B6221EE383B100E5DEE6 /* Default-568h@2x.png in Resources */,
 				2D3E47041232FA540030D4BD /* MainWindow-iPad.xib in Resources */,
 				2DF0890C1263E8EE00836147 /* Default.png in Resources */,
 				2DB35B73126BFA90001700DF /* Default-Portrait.png in Resources */,
-				2DCB41D512CE39E300B89301 /* blackWhiteIconiPad.png in Resources */,
-				2DCB41D612CE39E300B89301 /* blackWhiteIconiPhone.png in Resources */,
 				2DF5075314D0E249000A6C0D /* data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -675,13 +683,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D7A380A129F38BF00AD251B /* MainWindow.xib in Resources */,
+				2D5821B51EE68A6E00C5ECBA /* Images.xcassets in Resources */,
 				2D7A380B129F38BF00AD251B /* Settings.bundle in Resources */,
 				2D7A380C129F38BF00AD251B /* Entitlements.plist in Resources */,
 				2D7A380E129F38BF00AD251B /* MainWindow-iPad.xib in Resources */,
 				2D7A3811129F38BF00AD251B /* Default.png in Resources */,
 				2D7A3812129F38BF00AD251B /* Default-Portrait.png in Resources */,
-				2DCB41EC12CE536300B89301 /* blackWhiteIconiPadLite.png in Resources */,
-				2DCB41ED12CE536300B89301 /* blackWhiteIconiPhoneLite.png in Resources */,
 				2DF5075414D0E249000A6C0D /* data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -873,12 +880,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Shmup";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Shmup";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 72PBG658P7;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -888,7 +894,8 @@
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = shmup.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.fabiensanglard.dEngineBeta;
 				PRODUCT_NAME = Shmup;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -900,20 +907,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Shmup";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Shmup";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 72PBG658P7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = shmup.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
+				PRODUCT_BUNDLE_IDENTIFIER = net.fabiensanglard.dEngineBeta;
 				PRODUCT_NAME = Shmup;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -925,12 +932,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-ShmupLite";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Shmup";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 72PBG658P7;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -940,7 +947,8 @@
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = shmupLite.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = net.fabiensanglard.dEngineLite;
 				PRODUCT_NAME = ShmupLite;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -952,20 +960,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-ShmupLite";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Shmup";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 72PBG658P7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = shmupLite.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
+				PRODUCT_BUNDLE_IDENTIFIER = net.fabiensanglard.dEngineLite;
 				PRODUCT_NAME = ShmupLite;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -977,23 +986,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
-				CODE_SIGN_IDENTITY = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-ShmupLite";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Shmup";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 72PBG658P7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = shmupLite.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-fsingle-precision-constant";
+				PRODUCT_BUNDLE_IDENTIFIER = net.fabiensanglard.dEngineLite;
 				PRODUCT_NAME = ShmupLite;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1005,20 +1014,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-ShmupLite";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Shmup";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 72PBG658P7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = shmupLite.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
+				PRODUCT_BUNDLE_IDENTIFIER = net.fabiensanglard.dEngineLite;
 				PRODUCT_NAME = ShmupLite;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1029,18 +1038,33 @@
 		2D8E68331260F892003813D5 /* AppStore */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COMPRESS_PNG_FILES = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"-fasm-blocks",
@@ -1049,7 +1073,7 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = AppStore;
@@ -1058,23 +1082,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Shmup";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Shmup";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 72PBG658P7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = shmup.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-fsingle-precision-constant";
+				PRODUCT_BUNDLE_IDENTIFIER = net.fabiensanglard.dEngineBeta;
 				PRODUCT_NAME = Shmup;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1085,20 +1109,35 @@
 		2DB6742C113635AB00E29AAC /* ad hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "ad hoc";
@@ -1107,20 +1146,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Shmup";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Shmup";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 72PBG658P7;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dEngine_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = shmup.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				IPHONE_OPTIMIZE_OPTIONS = "-skip-PNGs";
+				PRODUCT_BUNDLE_IDENTIFIER = net.fabiensanglard.dEngineBeta;
 				PRODUCT_NAME = Shmup;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -1131,22 +1170,38 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = DDEBUG;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
-				ONLY_ACTIVE_ARCH = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fsingle-precision-constant";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1154,21 +1209,36 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-fsingle-precision-constant";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

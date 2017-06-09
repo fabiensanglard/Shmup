@@ -254,7 +254,7 @@ explosion_t nullExplosion;
 explosion_t* FX_GetExplosion(vec2_t ss_position, uchar type,float sizeFactor, float mouvementY)
 {
 	explosion_t* explosion;
-	
+    
 	if (numFreeExplosions == 0)
 		return &nullExplosion;
 	
@@ -788,7 +788,6 @@ smoke_t* FX_GetSmoke(vec2_t ss_position,float ss_sizeX, float ss_sizeY)
 	
 	if (numFreeSmokes == 0)
 		return &nullSmoke;
-	
 	
 	numFreeSmokes--;
 	smoke = freeSmokes[numFreeSmokes];

@@ -47,8 +47,14 @@ ALenum formatEquivalent[] = {AL_FORMAT_STEREO16 ,
 void SND_BACKEND_Upload(sound_t* sound, int soundID)
 {
     alGenBuffers(1, &(alMetadatas[soundID].alBuffer));
-	alBufferData(alMetadatas[soundID].alBuffer, formatEquivalent[sound->format], sound->data, sound->size, sound->metaData.sample_rate );
     
+	alBufferData(alMetadatas[soundID].alBuffer, formatEquivalent[sound->format], sound->data, sound->size, sound->metaData.sample_rate );
+    if( alcGetError( device ) != ALC_NO_ERROR )
+    {
+        Log_Printf( "Failed to upload sound\n" );
+    } else {
+        Log_Printf("[OpenAL] buffer for SOUNDID%d ID=%d\n",soundID,alMetadatas[soundID].alBuffer);    
+    }
 }
 
 
@@ -61,6 +67,7 @@ void SND_BACKEND_OPENAL_GenerateChannels(void )
 	for (i=0; i < NUM_SOURCES; i++) 
 	{
 		alGenSources(1, &sources[i]);
+        Log_Printf("[OpenAL] channel %d ID=%d\n",i,sources[i]);
 	}
 }
 
@@ -78,7 +85,7 @@ void SND_BACKEND_OPENAL_GetDeviceList( void )
 		// try out enumeration extension
 		deviceList = (char *)alcGetString( NULL, ALC_DEVICE_SPECIFIER );
 		
-        Log_Printf("OpenAL SND_GetDeviceList.\n",deviceList);
+        Log_Printf("OpenAL SND_GetDeviceList %s.\n",deviceList);
         
 		for( numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices ) 
 		{
@@ -107,8 +114,7 @@ void SND_BACKEND_OPENAL_GetDeviceList( void )
 			
 			
 		} // End for numSoundDevices = 0 ; numSoundDevices < 12 ; ++numSoundDevices
-	}
-	
+    }
 }
 
 
@@ -140,8 +146,11 @@ void SND_BACKEND_Init(void )
 	
 	
 	// Set active context
-	alcGetError( device );
-	alcMakeContextCurrent( context );
+    if (!alcMakeContextCurrent(context))
+    {
+        Log_Printf( "Failed to Make Context Current\n" );
+    }
+    
 	if( alcGetError( device ) != ALC_NO_ERROR )
 	{
 		Log_Printf( "Failed to Make Context Current\n" );
@@ -161,6 +170,8 @@ void SND_BACKEND_Init(void )
 
 void SND_BACKEND_Play(int sndId){
     
+    //Log_Printf( "[OpenAL] Playing sound %d.\n", sndId);
+    
     //currentChannel points to the first free channel
 	ALuint source;
 	ALint alBuffer ;
@@ -177,20 +188,22 @@ void SND_BACKEND_Play(int sndId){
 	//Uploading sounds to buffer
 	
 	//Trying stop as a bug fix (OpenAL drops sounds after a while for now reason.
-	alSourceStop(source);
+	//alSourceStop(source);
 	
 	//Log_Printf("Uploading sound %d, sampleRate=%ld\n",sndId,sound->metaData.sample_rate);
-	alSourcef( source, AL_GAIN, 0.6f );
+	alSourcef( source, AL_GAIN, 0.5f );
+    alSourcef( source, AL_PITCH, 1.0f );
 	alSourcei( source, AL_BUFFER, alBuffer );
-	alSourcei( source, AL_LOOPING, 0 );
-	alSourcei( source, AL_SOURCE_RELATIVE, AL_FALSE );
+	alSourcei( source, AL_LOOPING, AL_FALSE );
+	//alSourcei( source, AL_SOURCE_RELATIVE, AL_FALSE );
+    alcMakeContextCurrent(context);
 	alSourcePlay( source );
 	
 	//Log_Printf("playing sound %d on source %ud with soundBuffer %ud\n",sndId,source,sound->alBuffer);
-	//if( alcGetError( device ) != ALC_NO_ERROR )
-	//{
-	//	Log_Printf("alcGetError()=%d\n",alcGetError( device ) );
-	//}
+	if( alcGetError( device ) != ALC_NO_ERROR )
+	{
+		Log_Printf("alcGetError()=%d\n",alcGetError( device ) );
+	}
 	
 	
 	//currentChannel = (++currentChannel & (NUM_SOURCES-1));

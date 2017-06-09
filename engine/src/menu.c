@@ -778,15 +778,15 @@ void MENU_Init(void)
 	buttonDim[HEIGHT] = 64 * 2;
 	MENU_CreateButton(currentMenu, "Network", 3, Action_ConfigureMultiplayer,NULL, buttonPos, buttonDim);
 #endif	
-    
-	if (engine.gameCenterPossible)
-    {
-        buttonPos[X] = 160 ; 
-        buttonPos[Y] = (-SS_COO_SYST_HEIGHT + 370);
-        buttonDim[WIDTH] = (159 * 2);
-        buttonDim[HEIGHT] = 64 * 2;
-        MENU_CreateButton(currentMenu, "GameCenter", 3, Action_PreGoToGameCenter,NULL, buttonPos, buttonDim);
-    }
+//
+//	if (engine.gameCenterPossible)
+//    {
+//        buttonPos[X] = 160 ; 
+//        buttonPos[Y] = (-SS_COO_SYST_HEIGHT + 370);
+//        buttonDim[WIDTH] = (159 * 2);
+//        buttonDim[HEIGHT] = 64 * 2;
+//        MENU_CreateButton(currentMenu, "GameCenter", 3, Action_PreGoToGameCenter,NULL, buttonPos, buttonDim);
+//    }
     
 //On Android and limited edition we have a button to help go to the game.    
 #ifdef SHMUP_TARGET_ANDROID    

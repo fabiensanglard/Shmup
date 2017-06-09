@@ -37,6 +37,9 @@
 #import <GameKit/GKLocalPlayer.h>
 #import <GameKit/GKScore.h>
 
+#import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioToolbox.h>
+
 dEngineAppDelegate* this=nil;
 UIViewController* vc=nil;
 
@@ -81,7 +84,7 @@ NSString *nope = @"No Thanks.";
     [alertView release];
 }
 
-
+extern char*	FS_GameWritableDir(void);
 - (void) sendInputsToServer:(NSString*)path
 {
 		
@@ -195,6 +198,22 @@ void Native_UploadScore(uint score)
 	NSLog(@"applicationDidFinishLaunching");
 	[[UIApplication sharedApplication] setStatusBarHidden:YES];
 	[UIApplication sharedApplication].idleTimerDisabled = YES;
+    
+    NSError *error = nil;
+    BOOL success = NO;
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    
+    success = [session setCategory:AVAudioSessionCategoryPlayback error:&error];
+    if (!success) {
+        NSLog(@"%@ Error setting category: %@", NSStringFromSelector(_cmd), [error localizedDescription]);
+        
+        
+    }
+    
+    success = [session setActive:YES error:&error];
+    if (!success) {
+        NSLog(@"Error activating session: %@", [error localizedDescription]);
+    }
 }
 
 - (void) applicationWillResignActive:(UIApplication *)application
@@ -267,7 +286,7 @@ void Native_LoginGameCenter(void)
 		
 	}
 	vc.view = [this glView];
-	
+	[self.window setRootViewController:vc];
 	
 	[glView checkEngineSettings];
 	

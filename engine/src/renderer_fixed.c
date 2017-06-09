@@ -61,9 +61,10 @@
 #include "commands.h"
 #include "enemy_particules.h"
 
-matrix_t projectionMatrix;
-matrix_t modelViewMatrix;
-matrix_t textureMatrix = { 1.0f/32767,0,0,0,0,1.0f/32767,0,0,0,0,1,0,0,0,0,1};	//Unpacking matrix since texture coordinates are normalized in a short instead of a float.
+static matrix_t projectionMatrix;
+static matrix_t modelViewMatrix;
+matrix_t textureMatrix = { 1.0f/32767,       0,0,0,
+                           0,          1.0f/32767,0,0,0,0,1,0,0,0,0,1};	//Unpacking matrix since texture coordinates are normalized in a short instead of a float.
 unsigned int lastTextureId;
 
 

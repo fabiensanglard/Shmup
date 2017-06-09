@@ -52,6 +52,9 @@ EAGLView *eaglview;
 #import "AQ.h"
 AQ* audiocontroller;
 
+#import <AudioToolBox/AudioSession.h>
+#import <OpenAL/alc.h>
+
 
 
 // A class extension to declare private methods
@@ -112,15 +115,15 @@ AQ* audiocontroller;
 	NSLog(@"engine.musicEnabled=%d",engine.musicEnabled);
 	
 	
-	
-	NSLog(@"GameCenterEnabled='%@'",[[NSUserDefaults standardUserDefaults] stringForKey:@"GameCenterEnabled"]);
-	if ([[NSUserDefaults standardUserDefaults] stringForKey:@"GameCenterEnabled"] == nil)
-		engine.gameCenterEnabled = 0;
-	else 
-	{
-		engine.gameCenterEnabled = [[[NSUserDefaults standardUserDefaults] stringForKey:@"GameCenterEnabled"] intValue] ;
-	}
-	NSLog(@"gameCenterEnabled=%d",engine.gameCenterEnabled);
+	engine.gameCenterEnabled = 0;
+//	NSLog(@"GameCenterEnabled='%@'",[[NSUserDefaults standardUserDefaults] stringForKey:@"GameCenterEnabled"]);
+//	if ([[NSUserDefaults standardUserDefaults] stringForKey:@"GameCenterEnabled"] == nil)
+//		engine.gameCenterEnabled = 0;
+//	else 
+//	{
+//		engine.gameCenterEnabled = [[[NSUserDefaults standardUserDefaults] stringForKey:@"GameCenterEnabled"] intValue] ;
+//	}
+//	NSLog(@"gameCenterEnabled=%d",engine.gameCenterEnabled);
 	
 	NSLog(@"controlType='%@'",[[NSUserDefaults standardUserDefaults] stringForKey:@"controlType"]);
 	if ([[NSUserDefaults standardUserDefaults] stringForKey:@"controlType"] == nil)
@@ -155,6 +158,18 @@ AQ* audiocontroller;
 	
 }
 
+//void AudioInterruptionListenerCallback(void* user_data, UInt32 interruption_state)
+//{
+//    if (kAudioSessionBeginInterruption == interruption_state)
+//    {
+//        alcMakeContextCurrent(NULL);
+//    }
+//    else if (kAudioSessionEndInterruption == interruption_state)
+//    {
+//        AudioSessionSetActive(true);
+//        //alcMakeContextCurrent(openALContext);
+//    }
+//}
 
 //The GL view is stored in the nib file. When it's unarchived it's sent -initWithCoder:
 - (id)initWithCoder:(NSCoder*)coder {
@@ -184,8 +199,7 @@ AQ* audiocontroller;
 										,
 										kEAGLDrawablePropertyColorFormat, nil];
 	
-		audiocontroller = [[AQ alloc] init];
-		[audiocontroller initAudio];
+		
 		
 		
 		
@@ -198,11 +212,11 @@ AQ* audiocontroller;
 		//Set the texture quality
 		renderer.materialQuality = [[[NSUserDefaults standardUserDefaults] stringForKey:@"MaterialQuality"] intValue];
 		
-		#ifndef GENERATE_VIDEO
+		//#ifndef GENERATE_VIDEO
 		renderer.materialQuality = MATERIAL_QUALITY_LOW;
-		#else
+		//#else
 		renderer.materialQuality = MATERIAL_QUALITY_HIGH;
-		#endif
+		//#endif
 		fixedDesired=1;
 		
 		
@@ -229,6 +243,19 @@ AQ* audiocontroller;
 		
 		[self checkEngineSettings];
 		
+        
+//        AudioSessionInitialize(NULL, NULL, AudioInterruptionListenerCallback, NULL);
+//        
+//        UInt32 session_category = kAudioSessionCategory_MediaPlayback;
+//        AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(session_category), &session_category);
+//        UInt32 allowMixing = true;
+//        AudioSessionSetProperty(kAudioSessionProperty_OverrideCategoryMixWithOthers, sizeof(allowMixing), &allowMixing);
+//        AudioSessionSetActive(true);
+//        
+        
+        
+       
+        
 		dEngine_Init();
 
 		
@@ -670,12 +697,15 @@ void SND_InitSoundTrack(char* filename,unsigned int startAt)
 		return;
 	
 	NSString* name = [[NSString alloc] initWithCString:filename];
+    audiocontroller = [[AQ alloc] init];
+    [audiocontroller initAudio];
 	[audiocontroller loadSoundTrack:name startAt:startAt];
 	[name release];
 }
 
 void SND_StartSoundTrack(void)
 {
+    
 	if (!engine.musicEnabled)
 	{
 		printf("[SND_StartSoundTrack] cancelled.\n");
@@ -722,7 +752,7 @@ void SND_ResumeSoundTrack(void)
 	[audiocontroller resume];
 }
 
-
+extern char*	FS_GameWritableDir(void);
 int Native_RetrieveListOf(char replayList[10][256])
 {
 	NSFileManager* fileManager = [NSFileManager defaultManager];
