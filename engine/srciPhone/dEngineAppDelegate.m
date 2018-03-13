@@ -198,6 +198,13 @@ void Native_UploadScore(uint score)
 	NSLog(@"applicationDidFinishLaunching");
 	[[UIApplication sharedApplication] setStatusBarHidden:YES];
 	[UIApplication sharedApplication].idleTimerDisabled = YES;
+    
+    if (vc == nil)
+    {
+        vc = [UIViewController new];
+        
+    }
+    [self.window setRootViewController:vc];
 }
 
 - (void) applicationWillResignActive:(UIApplication *)application
@@ -264,14 +271,8 @@ void Native_LoginGameCenter(void)
 	NSLog(@"applicationDidBecomeActive");
 	engineDelegate = self;
 	this = self;
-	if (vc == nil)
-	{
-		vc = [UIViewController new];
-		
-	}
 	vc.view = [this glView];
-	[self.window setRootViewController:vc];
-	
+    
 	[glView checkEngineSettings];
 	
 	
