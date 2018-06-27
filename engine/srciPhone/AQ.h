@@ -3,7 +3,7 @@
 //  Dodge
 //
 //  Created by fabien sanglard on 22/06/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Memset software Inc 2009. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
