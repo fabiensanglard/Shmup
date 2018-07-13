@@ -37,17 +37,15 @@ along with SHMUP.  If not, see <https://www.gnu.org/licenses/>.
     
     
     //Distributioin value
-    /*
-    NSString *myPath = [[NSBundle mainBundle] bundlePath];
+    NSString *myPath = [[NSBundle mainBundle] resourcePath];
 
     //setenv( "RD", [myPath cString], 1 );
 	 setenv( "RD",".", 1 );
 
     setenv( "RD", [myPath cString], 1 );
-	*/
     
     // XCode dev value
-    setenv( "RD",".", 1 );
+//    setenv( "RD",".", 1 );
 
     
 	setenv( "WD",".", 1 );
