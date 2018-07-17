@@ -27,7 +27,7 @@
 #include "renderer_progr.h"
 
 #include "target.h"
-#if defined (SHMUP_TARGET_WINDOWS) || defined (SHMUP_TARGET_MACOSX) || defined (SHMUP_TARGET_LINUX)
+#if defined (SHMUP_TARGET_WINDOWS) || defined (SHMUP_TARGET_MACOSX) || defined (SHMUP_TARGET_LINUX) && !defined(GLES2)
 void initProgrRenderer(renderer_t* renderer){ Log_Printf("Shader renderer is not implemented.\n");exit(0);}
 #else
 
@@ -41,7 +41,7 @@ void initProgrRenderer(renderer_t* renderer){ Log_Printf("Shader renderer is not
 #include "player.h"
 #include "enemy.h"
 
-#if defined(ANDROID)
+#if defined(ANDROID) || defined(GLES2)
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>	
 #else

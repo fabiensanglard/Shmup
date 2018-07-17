@@ -1,0 +1,38 @@
+Build requirements:
+===================
+
+This code was written and tested using the following libraries and
+versions:
+
+* GCC - 4.4.5
+* SDL - 2.0
+* SDL_mixer - 2.0
+* OpenAL - 1.12
+
+The packages in Debian is called:
+
+* libsdl2-2.0-0
+* libsdl2-dev
+* libsdl2-mixer-2.0-0
+* libsdl2-mixer-dev
+* libopenal1
+* libopenal-dev
+
+Install these in Debian Jessie using:
+
+$ sudo apt-get install libsdl2-2.0 libsdl2-dev libsdl2-mixer-2.0-0 libsdl2-mixer-dev libopenal1 libopenal-dev
+
+
+Build instructions:
+===================
+
+You may need to make changes in the Makefile.
+
+Build a debug binary using (default):
+
+$ make -f Makefile.gles debug
+
+Build a release binary using:
+
+$ make -f Makefile.gles release
+
