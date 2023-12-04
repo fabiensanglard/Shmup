@@ -541,7 +541,7 @@ void MENU_Init(void)
 	if (menuCreated)
 		return;
 	
-	Log_Printf("[Menu System] Initialized.\n");
+	Log_Printf("[Menu System] Initializing...\n");
 	
 	memset(menuScreens,0,sizeof(menuScreens));
 	
@@ -789,16 +789,7 @@ void MENU_Init(void)
 //    }
     
 //On Android and limited edition we have a button to help go to the game.    
-#ifdef SHMUP_TARGET_ANDROID    
-    if (engine.licenseType == LICENSE_LIMITED)
-    {
-        buttonPos[X] = 160 ; 
-        buttonPos[Y] = (-SS_COO_SYST_HEIGHT + 370);
-        buttonDim[WIDTH] = (159 * 2);
-        buttonDim[HEIGHT] = 64 * 2;
-        MENU_CreateButton(currentMenu, "Full Shmup", 3, Action_GoBuyFullVersion,NULL, buttonPos, buttonDim); 
-    }
-#endif		
+
 	
 	
 	buttonPos[X] = 160 ; 
@@ -857,6 +848,8 @@ void MENU_Init(void)
 	
 	menuCreated = 1;
 	currentMenuId = -1;
+
+	Log_Printf("[Menu System] Initialized.\n");
 }
 
 

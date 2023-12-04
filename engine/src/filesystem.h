@@ -26,7 +26,7 @@
 #ifndef FS_FILESYSTEM
 #define FS_FILESYSTEM
 #include "globals.h"
-
+#include "stdbool.h"
 
 
 #define	MAX_GAMEPATH	256	// max length of a game pathname
@@ -77,7 +77,7 @@ typedef struct
 
 
 
-void	FS_InitFilesystem(void);
+bool	FS_InitFilesystem(void);
 
 char*	FS_Gamedir(void);
 

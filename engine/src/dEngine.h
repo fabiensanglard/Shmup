@@ -130,7 +130,7 @@ extern engine_info_t engine;
 
 
 
-void dEngine_Init(void);
+bool dEngine_Init(void);
 void dEngine_InitDisplaySystem(uchar rendererType);
 void dEngine_RequireSceneId(int sceneId);
 void dEngine_HostFrame(void);

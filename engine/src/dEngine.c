@@ -66,7 +66,7 @@ engine_info_t engine;
 char* screenShotDirectory = "./";//"/Users/fabiensanglard/Pictures/dEngine/";
 
 
-void dEngine_ReadConfig(void)
+bool dEngine_ReadConfig(void)
 {
 	filehandle_t* config;
 	int currentSceneId=0;
@@ -77,7 +77,7 @@ void dEngine_ReadConfig(void)
     
     if (!config){
 		Log_Printf("Configuration file: data/config.cfg not found");
-		exit(0);
+		return false;
 	}
 
     
@@ -249,7 +249,7 @@ void dEngine_ReadConfig(void)
 	
 	LE_popLexer();
 	FS_CloseFile(config);
-	
+	return true;
 	
 }
 
@@ -318,7 +318,7 @@ void dEngine_WriteScreenshot(char* directory)
 	
 }
 
-void dEngine_Init(void) 
+bool dEngine_Init(void)
 {
 	FS_InitFilesystem();
     Log_Printf("dEngine Initialization...\n");
@@ -348,7 +348,9 @@ void dEngine_Init(void)
 	
 	
 
-	dEngine_ReadConfig();
+	if (!dEngine_ReadConfig()) {
+		return false;
+	}
 
 	SCR_Init();
 	
@@ -369,7 +371,7 @@ void dEngine_Init(void)
 	
 	MENU_Init();
 	
-	
+	return true;
 }
 
 void dEngine_InitDisplaySystem(uchar rendererType)
