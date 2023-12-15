@@ -344,9 +344,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.4.1"
+#define PNG_LIBPNG_VER_STRING "1.6.7"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.4.1 - February 25, 2010\n"
+   " libpng version 1.6.7 - February 25, 2020\n"
 
 #define PNG_LIBPNG_VER_SONUM   14
 #define PNG_LIBPNG_VER_DLLNUM  14

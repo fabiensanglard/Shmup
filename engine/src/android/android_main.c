@@ -416,7 +416,7 @@ void android_main(struct android_app* state) {
 		int frameStart = E_Sys_Milliseconds();
 		engine_draw_frame();
 		int frameEnd = E_Sys_Milliseconds();
-		
+
 
 		unsigned int timeToSleep = timediff - (frameEnd-frameStart);
 
