@@ -22,7 +22,6 @@ add_library( # Sets the name of the library.
         # Sets the library as a shared library.
         SHARED
 
-        # Provides a relative path to your source file(s).
         ${BASE}/libpng/png.c
         ${BASE}/libpng/pngerror.c
         ${BASE}/libpng/pngget.c
@@ -33,7 +32,6 @@ add_library( # Sets the name of the library.
         ${BASE}/libpng/pngrtran.c
         ${BASE}/libpng/pngrutil.c
         ${BASE}/libpng/pngset.c
-        ${BASE}/libpng/pngtest.c
         ${BASE}/libpng/pngtrans.c
         ${BASE}/libpng/pngwio.c
         ${BASE}/libpng/pngwrite.c
@@ -43,7 +41,6 @@ add_library( # Sets the name of the library.
         ${BASE}/libpng/arm/filter_neon.S
         ${BASE}/libpng/arm/filter_neon_intrinsics.c
         ${BASE}/libpng/arm/palette_neon_intrinsics.c
-
         ${SOURCES}
         ${ANDROID_BACKENDS}
         )
