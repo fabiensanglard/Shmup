@@ -20,7 +20,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-format-security -DANDROID -DNATIVE_ACTI
 
 file(GLOB SOURCES ../../../../../src/*.h ../../../../../src/*.c)
 file(GLOB ANDROID_BACKENDS ../../../../../src/android/*.h ../../../../../src/android/*.c)
-file(GLOB LIBPNG ../../../../../src/libnpg/*.h ../../../../../src/libpng/*.c)
+#file(GLOB LIBPNG ../../../../../src/libpng/*.h ../../../../../src/libpng/*.c)
 
 add_library( # Sets the name of the library.
         shmup
@@ -29,9 +29,30 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
+        ../../../../../src/libpng/png.c
+        ../../../../../src/libpng/pngerror.c
+        ../../../../../src/libpng/pngget.c
+        ../../../../../src/libpng/pngmem.c
+        ../../../../../src/libpng/pngpread.c
+        ../../../../../src/libpng/pngread.c
+        ../../../../../src/libpng/pngrio.c
+        ../../../../../src/libpng/pngrtran.c
+        ../../../../../src/libpng/pngrutil.c
+        ../../../../../src/libpng/pngset.c
+        ../../../../../src/libpng/pngtest.c
+        ../../../../../src/libpng/pngtrans.c
+        ../../../../../src/libpng/pngwio.c
+        ../../../../../src/libpng/pngwrite.c
+        ../../../../../src/libpng/pngwtran.c
+        ../../../../../src/libpng/pngwutil.c
+        ../../../../../src/libpng/arm/arm_init.c
+        ../../../../../src/libpng/arm/filter_neon.S
+        ../../../../../src/libpng/arm/filter_neon_intrinsics.c
+        ../../../../../src/libpng/arm/palette_neon_intrinsics.c
+
         ${SOURCES}
         ${ANDROID_BACKENDS}
-        ${LIBPNG}
+#        ${LIBPNG}
         )
 
 # Searches for a specified prebuilt library and stores the path as a
