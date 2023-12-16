@@ -10,17 +10,11 @@ cmake_minimum_required(VERSION 3.22.1)
 project("shmup")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-format-security -DANDROID -DNATIVE_ACTIVITY")
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -llog -landroid -lEGL")
 
 
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds them for you.
-# Gradle automatically packages shared libraries with your APK.
-
-file(GLOB SOURCES ../../../../../src/*.h ../../../../../src/*.c)
-file(GLOB ANDROID_BACKENDS ../../../../../src/android/*.h ../../../../../src/android/*.c)
-#file(GLOB LIBPNG ../../../../../src/libpng/*.h ../../../../../src/libpng/*.c)
+set(BASE "../../../../../src")
+file(GLOB SOURCES ${BASE}/*.h ${BASE}/*.c)
+file(GLOB ANDROID_BACKENDS ${BASE}/android/*.h ${BASE}/android/*.c)
 
 add_library( # Sets the name of the library.
         shmup
@@ -29,30 +23,29 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        ../../../../../src/libpng/png.c
-        ../../../../../src/libpng/pngerror.c
-        ../../../../../src/libpng/pngget.c
-        ../../../../../src/libpng/pngmem.c
-        ../../../../../src/libpng/pngpread.c
-        ../../../../../src/libpng/pngread.c
-        ../../../../../src/libpng/pngrio.c
-        ../../../../../src/libpng/pngrtran.c
-        ../../../../../src/libpng/pngrutil.c
-        ../../../../../src/libpng/pngset.c
-        ../../../../../src/libpng/pngtest.c
-        ../../../../../src/libpng/pngtrans.c
-        ../../../../../src/libpng/pngwio.c
-        ../../../../../src/libpng/pngwrite.c
-        ../../../../../src/libpng/pngwtran.c
-        ../../../../../src/libpng/pngwutil.c
-        ../../../../../src/libpng/arm/arm_init.c
-        ../../../../../src/libpng/arm/filter_neon.S
-        ../../../../../src/libpng/arm/filter_neon_intrinsics.c
-        ../../../../../src/libpng/arm/palette_neon_intrinsics.c
+        ${BASE}/libpng/png.c
+        ${BASE}/libpng/pngerror.c
+        ${BASE}/libpng/pngget.c
+        ${BASE}/libpng/pngmem.c
+        ${BASE}/libpng/pngpread.c
+        ${BASE}/libpng/pngread.c
+        ${BASE}/libpng/pngrio.c
+        ${BASE}/libpng/pngrtran.c
+        ${BASE}/libpng/pngrutil.c
+        ${BASE}/libpng/pngset.c
+        ${BASE}/libpng/pngtest.c
+        ${BASE}/libpng/pngtrans.c
+        ${BASE}/libpng/pngwio.c
+        ${BASE}/libpng/pngwrite.c
+        ${BASE}/libpng/pngwtran.c
+        ${BASE}/libpng/pngwutil.c
+        ${BASE}/libpng/arm/arm_init.c
+        ${BASE}/libpng/arm/filter_neon.S
+        ${BASE}/libpng/arm/filter_neon_intrinsics.c
+        ${BASE}/libpng/arm/palette_neon_intrinsics.c
 
         ${SOURCES}
         ${ANDROID_BACKENDS}
-#        ${LIBPNG}
         )
 
 # Searches for a specified prebuilt library and stores the path as a
