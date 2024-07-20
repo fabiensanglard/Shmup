@@ -81,7 +81,6 @@ int engine_init_display(void) {
 	//Finally tie the window with the format we want.
 	ANativeWindow_setBuffersGeometry(window, 0, 0, format);
 
-
 	surface = eglCreateWindowSurface(display, config, window, NULL);
 
 	context = eglCreateContext(display, config, NULL, NULL);
@@ -104,12 +103,6 @@ int engine_init_display(void) {
 
 
 	engineParameters |= GL_11_RENDERER ;
-
-
-	renderer.glBuffersDimensions[WIDTH] = w;
-	renderer.glBuffersDimensions[HEIGHT] = h;
-
-
 
   	dEngine_InitDisplaySystem(engineParameters);
 

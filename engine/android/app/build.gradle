@@ -4,16 +4,14 @@ plugins {
 
 android {
     namespace 'net.fabiensanglard.shmup'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "net.fabiensanglard.shmup"
-        minSdk 33
-        targetSdk 33
-        versionCode 6
-        versionName "6.0"
-
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdk 34
+        targetSdk 34
+        versionCode 7
+        versionName "7.0"
     }
 
     buildTypes {
